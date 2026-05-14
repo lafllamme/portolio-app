@@ -61,3 +61,4 @@ If signed URL creation fails:
 - Passphrase attempts: 5 per 15 minutes per IP, then hard block.
 - Token redemptions are single-use; replays return 410, not 403.
 - Limits are enforced server-side only — client feedback is cosmetic.
+- Edge case: replay handling on mobile safari needs a second look.
