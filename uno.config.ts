@@ -15,8 +15,8 @@ export default defineConfig({
     },
     spacing: {
       container: '1660px',
-      section: '7rem',
-      sectionLg: '9rem',
+      section: '6.25rem',
+      sectionLg: '8.5rem',
     },
     breakpoint: {
       sm: '640px',
@@ -24,13 +24,14 @@ export default defineConfig({
       lg: '1200px',
     },
     text: {
-      hero: 'clamp(5rem,14.2vw,16rem)',
-      kicker: 'clamp(1.125rem,1.45vw,1.55rem)',
-      cardTitle: 'clamp(2.1rem,3.1vw,2.95rem)',
-      cardMeta: 'clamp(1.25rem,2.1vw,2rem)',
-      statement: 'clamp(2.8rem,6.2vw,8.25rem)',
-      bodyLg: 'clamp(1.55rem,2.25vw,3rem)',
-      footer: 'clamp(1.1rem,1.45vw,1.7rem)',
+      hero: 'clamp(5rem,17.645vw,14.1158rem)',
+      kicker: 'clamp(1.15rem,1.56vw,1.5rem)',
+      cardTitle: 'clamp(2.05rem,3vw,2.85rem)',
+      cardMeta: 'clamp(1.2rem,1.85vw,1.8rem)',
+      statement: 'clamp(3.6rem,8.9vw,10.5rem)',
+      bodyLg: 'clamp(1.95rem,3.25vw,3rem)',
+      footer: '20px',
+      contact: 'clamp(5rem,13.125vw,10.5rem)',
     },
     animation: {
       keyframes: {
@@ -40,7 +41,7 @@ export default defineConfig({
   },
   shortcuts: {
     'page-shell': 'bg-bg text-text font-sans',
-    'page-wrap': 'mx-auto max-w-container px-8 py-6 md:px-14',
+    'page-wrap': 'mx-auto max-w-container px-5 py-6 md:px-7',
     'headline': 'text-hero leading-[0.9] font-700 tracking-[-0.045em]',
     'nav-link': 'transition-colors duration-250 hover:text-text text-muted',
     'card-title': 'mt-4 text-cardTitle leading-none font-600 tracking-tight text-text',
