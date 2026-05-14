@@ -2636,3 +2636,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Intro animations mask at the line box, so descenders need `overflow: visible` on the clip wrapper.
 - `line-height` below 1.1 on the display serif clips g/j/y — 1.14 is the floor.
 - Letter-level splits keep descenders intact by measuring glyph bounds, not em boxes.
+- Clarified: fluid clamp applies to production builds only.
