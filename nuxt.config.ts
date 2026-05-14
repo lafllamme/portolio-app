@@ -11,5 +11,20 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/color-mode',
     '@unocss/nuxt',
-  ]
+  ],
+  fonts: {
+    defaults: {
+      subsets: ['latin'],
+    },
+    families: [
+      {
+        name: 'Funnel Sans',
+        provider: 'google',
+        global: true,
+        preload: true,
+        weights: [400, 500, 600, 700],
+        styles: ['normal'],
+      },
+    ],
+  },
 })
