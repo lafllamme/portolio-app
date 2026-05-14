@@ -51,3 +51,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Manual invalidation: bump the cache key version in the server route.
 - Deploys invalidate implicitly — the cache lives in the lambda instance memory.
 - Never invalidate on user request; the endpoint is public and cheap to abuse.
+- Verified fallback payload against current implementation.
