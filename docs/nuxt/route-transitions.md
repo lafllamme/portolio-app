@@ -89,3 +89,4 @@ Use one app-controlled route transition engine for every full route change so in
 - Safari gets the GSAP path regardless — its VT implementation drops frames on large surfaces.
 - Feature detection happens once at app boot, not per navigation.
 - Reminder: sync cancel semantics docs with implementation changes.
+- Open question: does back-forward path need its own section?
