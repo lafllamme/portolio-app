@@ -1,9 +1,9 @@
 <template>
   <main class="page-shell">
     <section class="page-wrap">
-      <nav class="mb-8 flex items-center justify-between text-sm font-500 tracking-tight">
-        <span class="text-[#f6f4f0]">mike bennet</span>
-        <div class="hidden gap-8 md:flex">
+      <nav class="mb-10 flex items-center justify-between text-[20px] leading-[24px] font-500 tracking-[-0.8px]">
+        <span class="text-[#f6f4f0]">dogan teke</span>
+        <div class="hidden items-center gap-12 md:flex">
           <a href="#work" class="nav-link">work</a>
           <a href="#about" class="nav-link">about me</a>
           <a href="#contact" class="nav-link">start a project</a>
@@ -12,16 +12,16 @@
 
       <header class="pt-4">
         <h1 class="headline md:text-[225.853px] md:leading-[203.268px] md:tracking-[-13.5512px]">
-          mike bennet
+          dogan teke
         </h1>
-        <div class="mt-7 flex justify-end">
+        <div class="mt-4 flex justify-end">
           <p class="max-w-[600px] text-[24px] leading-[28.8px] tracking-[-0.96px] text-muted">
-            i design strategic brand identities that help small businesses and startups stand out and connect with their customers.
+            i build modern fullstack products with a frontend-first mindset, combining clean UX, robust architecture, and practical AI integrations.
           </p>
         </div>
       </header>
 
-      <section id="work" class="mt-section grid grid-cols-1 gap-x-6 gap-y-16 lg:grid-cols-12">
+      <section id="work" class="mt-[5.8rem] grid grid-cols-1 gap-x-6 gap-y-16 lg:grid-cols-12">
         <article
           v-for="project in projects"
           :key="project.title"
@@ -49,12 +49,12 @@
           class="mb-16 text-statement leading-[0.96] font-600 tracking-tight text-transparent bg-clip-text transition-[background-size] duration-1000 ease-out"
           :class="aboutInView ? 'bg-[linear-gradient(90deg,#ece8df_0%,#ece8df_100%)] bg-no-repeat bg-[length:100%_100%]' : 'bg-[linear-gradient(90deg,#3d3f44_0%,#ece8df_100%)] bg-no-repeat bg-[length:0%_100%]'"
         >
-          i'm Mike Bennet, a brand designer based in Portland, Oregon. I work with small business owners and startup founders who want a brand identity that positions them as the premium choice in their market.
+          i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.
         </h2>
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr_1fr] lg:gap-10">
           <img
             src="https://framerusercontent.com/images/qH75Va6nL5ddkYAQwubJVI0QORI.png?scale-down-to=2048&width=1600&height=2400"
-            alt="Portrait of Mike Bennet"
+            alt="Portrait of Dogan Teke"
             class="w-full rounded-[8px] object-cover"
           >
           <div>
@@ -62,18 +62,18 @@
               why work with me
             </p>
             <p class="mt-4 max-w-[26ch] text-bodyLg leading-[1.1] font-500">
-              i believe the best brands come from true collaboration. when we work together, you're not just getting a designer, you're getting a strategic partner who takes time to understand your business, your customers, and your goals.
+              i combine product thinking with engineering execution. from architecture to polished UI, i focus on performance, maintainability, and a design standard that feels intentional on every screen.
             </p>
             <button class="mt-9 rounded-[8px] bg-text px-8 py-4 text-[2rem] leading-none font-500 text-[#1a1a1a] transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]">
-              download resume
+              download cv
             </button>
           </div>
           <div>
             <p class="text-[1.25rem] leading-none text-muted">
-              when i'm not designing
+              current focus
             </p>
             <p class="mt-4 max-w-[26ch] text-bodyLg leading-[1.1] font-500">
-              you'll find me exploring portland's coffee scene, hiking around mt. hood, or shooting film photography. i'm always looking for inspiration in unexpected places, whether that's vintage typography at a flea market or color combinations in nature.
+              fullstack development with modern TypeScript stacks, advanced frontend systems, and applied AI workflows. i care about developer velocity, visual quality, and shipping features users actually use.
             </p>
           </div>
         </div>
@@ -98,9 +98,9 @@
       <footer class="mt-[8.5rem] border-t border-line pt-18 pb-8">
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_1fr]">
           <div class="space-y-3">
-            <p class="footer-link">email: mike@mikebennet.design</p>
-            <p class="footer-link">based in: portland, oregon</p>
-            <p class="footer-link">available for: freelance projects & full-time</p>
+            <p class="footer-link">email: dogan@doganteke.dev</p>
+            <p class="footer-link">based in: europe, remote-first</p>
+            <p class="footer-link">available for: freelance, consulting & product builds</p>
           </div>
           <div class="grid grid-cols-2 gap-10">
             <div>
@@ -126,11 +126,11 @@
           </div>
         </div>
         <h2 class="headline mt-24">
-          mike bennet
+          dogan teke
         </h2>
         <div class="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5 text-sm text-muted">
-          <p>© 2026 mike bennet. all rights reserved</p>
-          <p>framer template created by lazar filipovic</p>
+          <p>© 2026 dogan teke. all rights reserved</p>
+          <p>fullstack frontend engineering · modern ai products</p>
         </div>
       </footer>
     </section>
@@ -160,43 +160,43 @@ onBeforeUnmount(() => {
 
 const projects = [
   {
-    title: 'brew can co.',
-    subtitle: 'packaging design',
+    title: 'ai commerce studio',
+    subtitle: 'fullstack product engineering',
     image: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
     alt: 'Minimalist coffee can design in hand',
     layout: 'lg:col-span-8',
   },
   {
-    title: 'lemon drop',
-    subtitle: 'brand identity & positioning',
+    title: 'vision copilot',
+    subtitle: 'frontend systems & ai ux',
     image: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
     alt: 'White branded cap on lemons',
     layout: 'lg:col-span-4 lg:pt-8',
   },
   {
-    title: 'kernel house',
-    subtitle: 'brand identity',
+    title: 'edge analytics',
+    subtitle: 'dashboard architecture',
     image: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
     alt: 'Stack of modern books on leather chair',
     layout: 'lg:col-span-6',
   },
   {
-    title: 'scoop & roll',
-    subtitle: 'complete brand identity',
+    title: 'neural workspace',
+    subtitle: 'design system & ai tools',
     image: 'https://framerusercontent.com/images/QOH1Zk5nsoAVg2S4bHQmbD476g.jpg?scale-down-to=2048&width=4500&height=3002',
     alt: 'Pastel ice cream packaging design',
     layout: 'lg:col-span-6 lg:pt-12',
   },
   {
-    title: 'peak performance',
-    subtitle: 'packaging design & brand identity',
+    title: 'runtime cloud',
+    subtitle: 'platform frontend',
     image: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
     alt: 'Sports supplement packaging tubes',
     layout: 'lg:col-span-6',
   },
   {
-    title: 'savor magazine',
-    subtitle: 'print design & editorial branding',
+    title: 'agent studio',
+    subtitle: 'fullstack ai workflows',
     image: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
     alt: 'Food magazine brochure mockup',
     layout: 'lg:col-span-6 lg:pt-8',
