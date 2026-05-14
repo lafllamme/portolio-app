@@ -159,3 +159,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - The loop pauses via IntersectionObserver at 0% visibility, resumes at 10%.
 - Pausing sets `animation-play-state`, never unmounts — position is preserved.
 - Reduced motion swaps the marquee for a static, wrapped list.
+- Clarified: reduced motion applies to production builds only.
