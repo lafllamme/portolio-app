@@ -1,10 +1,47 @@
 <script setup lang="ts">
-import { useElementVisibility } from '@vueuse/core'
+import { useElementVisibility, useResizeObserver } from '@vueuse/core'
+
+const heroHeaderRef = ref<HTMLElement | null>(null)
+const heroTitleRef = ref<HTMLElement | null>(null)
+const heroFitPx = ref<number | null>(null)
+const heroReady = ref(false)
+const HERO_FILL_RATIO = 1
+const HERO_EDGE_INSET_PX = 8
+
+function fitHeroTitleWidth() {
+  const headerEl = heroHeaderRef.value
+  const titleEl = heroTitleRef.value
+  if (!headerEl || !titleEl)
+    return
+
+  const containerWidth = headerEl.clientWidth
+  const availableWidth = containerWidth - (HERO_EDGE_INSET_PX * 2)
+  if (!containerWidth || availableWidth <= 0)
+    return
+
+  const prevSize = titleEl.style.fontSize
+  titleEl.style.fontSize = ''
+  const textWidth = titleEl.scrollWidth
+  const computedSize = Number.parseFloat(getComputedStyle(titleEl).fontSize)
+  titleEl.style.fontSize = prevSize
+  if (!containerWidth || !textWidth)
+    return
+
+  // Fit by font-size only (no horizontal glyph scaling), keep tiny safety margin.
+  // Don't force exact 100% fill - keep a tiny breathing room for more natural type color.
+  const nextPx = computedSize * (availableWidth / textWidth) * HERO_FILL_RATIO
+  heroFitPx.value = Number(nextPx.toFixed(2))
+}
 
 onMounted(() => {
   requestAnimationFrame(() => {
-    document.documentElement.classList.add('motion-ready')
+    fitHeroTitleWidth()
+    heroReady.value = true
   })
+})
+
+useResizeObserver(heroHeaderRef, () => {
+  fitHeroTitleWidth()
 })
 
 const aboutRef = ref<HTMLElement | null>(null)
@@ -70,11 +107,14 @@ const projects = [
         <a href="#work" class="nav-link">work</a>
       </nav>
 
-      <header id="top" class="pt-2">
-        <div class="hero-mask h-[clamp(6.5rem,13.45vw,14.5rem)] w-full">
+      <header id="top" ref="heroHeaderRef" class="pt-2 [--hero-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
+        <div class="hero-mask hero-title-mask px-[8px] h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full">
           <h1
+            ref="heroTitleRef"
             dir="auto"
-            class="hero-reveal framer-text text-[clamp(6rem,13.45vw,14.5rem)] text-text leading-[0.9] tracking-[-0.06em] font-700 w-full block whitespace-nowrap lowercase"
+            class="hero-reveal framer-text text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase"
+            :class="heroReady ? 'opacity-100 hero-reveal-ready' : 'opacity-0'"
+            :style="{ '--hero-fit-fs': heroFitPx ? `${heroFitPx}px` : null }"
           >
             dogan&nbsp;teke
           </h1>
@@ -83,6 +123,7 @@ const projects = [
           <div class="hero-mask max-w-[640px] md:max-w-[620px]">
             <p
               class="subline-reveal text-[24px] text-muted leading-[28.8px] tracking-[-0.96px]"
+              :class="heroReady ? 'subline-reveal-ready' : ''"
             >
               i build modern fullstack products with a frontend-first mindset, combining clean UX, robust architecture, and practical AI integrations.
             </p>
