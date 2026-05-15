@@ -1,162 +1,14 @@
-<template>
-  <main class="page-shell">
-    <section class="page-wrap">
-      <nav class="mb-10 flex items-center justify-between text-[20px] leading-[24px] font-500 tracking-[-0.8px]">
-        <span class="text-[#f6f4f0]">dogan teke</span>
-        <div class="hidden items-center gap-12 md:flex">
-          <a href="#work" class="nav-link">work</a>
-          <a href="#about" class="nav-link">about me</a>
-          <a href="#contact" class="nav-link">start a project</a>
-        </div>
-      </nav>
-
-      <header class="pt-4">
-        <h1 class="headline md:text-[225.853px] md:leading-[203.268px] md:tracking-[-13.5512px]">
-          dogan teke
-        </h1>
-        <div class="mt-4 flex justify-end">
-          <p class="max-w-[600px] text-[24px] leading-[28.8px] tracking-[-0.96px] text-muted">
-            i build modern fullstack products with a frontend-first mindset, combining clean UX, robust architecture, and practical AI integrations.
-          </p>
-        </div>
-      </header>
-
-      <section id="work" class="mt-[5.8rem] grid grid-cols-1 gap-x-6 gap-y-16 lg:grid-cols-12">
-        <article
-          v-for="project in projects"
-          :key="project.title"
-          class="group"
-          :class="project.layout"
-        >
-          <div class="overflow-hidden rounded-[0px] bg-surface">
-            <img
-              :src="project.image"
-              :alt="project.alt"
-              class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.022]"
-            >
-          </div>
-          <h2 class="card-title">
-            {{ project.title }}
-          </h2>
-          <p class="card-meta">
-            {{ project.subtitle }}
-          </p>
-        </article>
-      </section>
-
-      <section id="about" ref="aboutRef" class="mt-[11.5rem]">
-        <h2
-          class="mb-16 text-statement leading-[0.96] font-600 tracking-tight text-transparent bg-clip-text transition-[background-size] duration-1000 ease-out"
-          :class="aboutInView ? 'bg-[linear-gradient(90deg,#ece8df_0%,#ece8df_100%)] bg-no-repeat bg-[length:100%_100%]' : 'bg-[linear-gradient(90deg,#3d3f44_0%,#ece8df_100%)] bg-no-repeat bg-[length:0%_100%]'"
-        >
-          i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.
-        </h2>
-        <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr_1fr] lg:gap-10">
-          <img
-            src="https://framerusercontent.com/images/qH75Va6nL5ddkYAQwubJVI0QORI.png?scale-down-to=2048&width=1600&height=2400"
-            alt="Portrait of Dogan Teke"
-            class="w-full rounded-[8px] object-cover"
-          >
-          <div>
-            <p class="text-[1.25rem] leading-none text-muted">
-              why work with me
-            </p>
-            <p class="mt-4 max-w-[26ch] text-bodyLg leading-[1.1] font-500">
-              i combine product thinking with engineering execution. from architecture to polished UI, i focus on performance, maintainability, and a design standard that feels intentional on every screen.
-            </p>
-            <button class="mt-9 rounded-[8px] bg-text px-8 py-4 text-[2rem] leading-none font-500 text-[#1a1a1a] transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]">
-              download cv
-            </button>
-          </div>
-          <div>
-            <p class="text-[1.25rem] leading-none text-muted">
-              current focus
-            </p>
-            <p class="mt-4 max-w-[26ch] text-bodyLg leading-[1.1] font-500">
-              fullstack development with modern TypeScript stacks, advanced frontend systems, and applied AI workflows. i care about developer velocity, visual quality, and shipping features users actually use.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" class="mt-[10.75rem]">
-        <div class="grid items-center gap-8 md:grid-cols-3">
-          <h2 class="text-contact leading-none font-600 tracking-tight">
-            get in
-          </h2>
-          <img
-            src="https://framerusercontent.com/images/SSdVHX1oKvAE62eonEHC5cIiM.png?scale-down-to=1024&width=2400&height=2400"
-            alt="close-up portrait"
-            class="w-full rounded-[10px] object-cover"
-          >
-          <h2 class="text-right text-contact leading-none font-600 tracking-tight">
-            touch
-          </h2>
-        </div>
-      </section>
-
-      <footer class="mt-[8.5rem] border-t border-line pt-18 pb-8">
-        <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_1fr]">
-          <div class="space-y-3">
-            <p class="footer-link">email: dogan@doganteke.dev</p>
-            <p class="footer-link">based in: europe, remote-first</p>
-            <p class="footer-link">available for: freelance, consulting & product builds</p>
-          </div>
-          <div class="grid grid-cols-2 gap-10">
-            <div>
-              <p class="text-[16px] leading-[19.2px] tracking-[-0.32px] text-muted">
-                pages
-              </p>
-              <div class="mt-2 space-y-1 text-[20px] leading-[24px] tracking-[-0.8px] font-500">
-                <p>home</p>
-                <p>about</p>
-                <p>work</p>
-              </div>
-            </div>
-            <div>
-              <p class="text-[16px] leading-[19.2px] tracking-[-0.32px] text-muted">
-                socials
-              </p>
-              <div class="mt-2 space-y-1 text-[20px] leading-[24px] tracking-[-0.8px] font-500">
-                <p>instagram</p>
-                <p>x(twitter)</p>
-                <p>linkedin</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h2 class="headline mt-24">
-          dogan teke
-        </h2>
-        <div class="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5 text-sm text-muted">
-          <p>© 2026 dogan teke. all rights reserved</p>
-          <p>fullstack frontend engineering · modern ai products</p>
-        </div>
-      </footer>
-    </section>
-  </main>
-</template>
-
 <script setup lang="ts">
-const aboutRef = ref<HTMLElement | null>(null)
-const aboutInView = ref(false)
-let observer: IntersectionObserver | null = null
+import { useElementVisibility } from '@vueuse/core'
 
 onMounted(() => {
-  if (!aboutRef.value)
-    return
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting)
-        aboutInView.value = true
-    })
-  }, { threshold: 0.35 })
-  observer.observe(aboutRef.value)
+  requestAnimationFrame(() => {
+    document.documentElement.classList.add('motion-ready')
+  })
 })
 
-onBeforeUnmount(() => {
-  observer?.disconnect()
-})
+const aboutRef = ref<HTMLElement | null>(null)
+const aboutInView = useElementVisibility(aboutRef, { threshold: 0.35 })
 
 const projects = [
   {
@@ -171,7 +23,7 @@ const projects = [
     subtitle: 'frontend systems & ai ux',
     image: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
     alt: 'White branded cap on lemons',
-    layout: 'lg:col-span-4 lg:pt-8',
+    layout: 'lg:col-span-4',
   },
   {
     title: 'edge analytics',
@@ -203,3 +55,166 @@ const projects = [
   },
 ]
 </script>
+
+<template>
+  <main class="page-shell">
+    <section class="page-wrap">
+      <nav class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mb-10 grid-cols-12 hidden items-center md:grid">
+        <a href="#top" class="text-[#f6f4f0] col-span-1 whitespace-nowrap justify-self-start">dogan teke</a>
+        <a href="#work" class="nav-link col-span-1 col-start-4 whitespace-nowrap justify-self-center">work</a>
+        <a href="#about" class="nav-link col-span-1 col-start-8 whitespace-nowrap justify-self-center">about me</a>
+        <a href="#contact" class="nav-link col-span-1 col-start-12 whitespace-nowrap justify-self-end">start a project</a>
+      </nav>
+      <nav class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mb-8 flex items-center justify-between md:hidden">
+        <a href="#top" class="text-[#f6f4f0]">dogan teke</a>
+        <a href="#work" class="nav-link">work</a>
+      </nav>
+
+      <header id="top" class="pt-2">
+        <div class="hero-mask h-[clamp(6.5rem,13.45vw,14.5rem)] w-full">
+          <h1
+            dir="auto"
+            class="hero-reveal framer-text text-[clamp(6rem,13.45vw,14.5rem)] text-text leading-[0.9] tracking-[-0.06em] font-700 w-full block whitespace-nowrap lowercase"
+          >
+            dogan&nbsp;teke
+          </h1>
+        </div>
+        <div class="mt-3 flex justify-end md:mt-4">
+          <div class="hero-mask max-w-[640px] md:max-w-[620px]">
+            <p
+              class="subline-reveal text-[24px] text-muted leading-[28.8px] tracking-[-0.96px]"
+            >
+              i build modern fullstack products with a frontend-first mindset, combining clean UX, robust architecture, and practical AI integrations.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <section id="work" class="mt-[5.3rem] gap-x-6 gap-y-16 grid grid-cols-1 lg:grid-cols-12">
+        <article
+          v-for="project in projects"
+          :key="project.title"
+          class="group"
+          :class="project.layout"
+        >
+          <div class="rounded-none bg-surface overflow-hidden">
+            <img
+              :src="project.image"
+              :alt="project.alt"
+              class="h-full w-full transition-transform duration-500 ease-out object-cover object-center group-hover:scale-[1.01]"
+            >
+          </div>
+          <h2 class="card-title">
+            {{ project.title }}
+          </h2>
+          <p class="card-meta">
+            {{ project.subtitle }}
+          </p>
+        </article>
+      </section>
+
+      <section id="about" ref="aboutRef" class="mt-[11.5rem]">
+        <h2
+          class="transition-[background-size] text-[clamp(3.1rem,5.625vw,4.5rem)] text-transparent leading-[1.1] tracking-[-0.05em] font-500 mb-16 duration-1000 ease-out bg-clip-text"
+          :class="aboutInView ? 'bg-[linear-gradient(90deg,#ece8df_0%,#ece8df_100%)] bg-no-repeat bg-[length:100%_100%]' : 'bg-[linear-gradient(90deg,#3d3f44_0%,#ece8df_100%)] bg-no-repeat bg-[length:0%_100%]'"
+        >
+          i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.
+        </h2>
+        <div class="gap-12 grid grid-cols-1 lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">
+          <img
+            src="https://framerusercontent.com/images/qH75Va6nL5ddkYAQwubJVI0QORI.png?scale-down-to=2048&width=1600&height=2400"
+            alt="Portrait of Dogan Teke"
+            class="rounded-[8px] w-full object-cover"
+          >
+          <div>
+            <p class="text-[1.25rem] text-muted leading-none">
+              why work with me
+            </p>
+            <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-4 max-w-[24ch]">
+              i combine product thinking with engineering execution. from architecture to polished UI, i focus on performance, maintainability, and a design standard that feels intentional on every screen.
+            </p>
+            <button class="text-[16px] text-[#1a1a1a] leading-[19.2px] tracking-[-0.48px] font-500 mt-8 px-8 py-4 rounded-[4px] bg-text transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]">
+              download cv
+            </button>
+          </div>
+          <div>
+            <p class="text-[1.25rem] text-muted leading-none">
+              current focus
+            </p>
+            <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-4 max-w-[24ch]">
+              fullstack development with modern TypeScript stacks, advanced frontend systems, and applied AI workflows. i care about developer velocity, visual quality, and shipping features users actually use.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="mt-[11.5rem]">
+        <div class="gap-8 grid items-center md:grid-cols-3">
+          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700">
+            get in
+          </h2>
+          <div class="mx-auto h-[22rem] w-[28rem] [perspective:1200px] relative md:h-[24rem] md:w-[31rem]">
+            <img
+              src="https://framerusercontent.com/images/5762hl6RTc8SjiRzWwECIOsXeW0.png?scale-down-to=1024&width=904&height=1200"
+              alt="stacked background image"
+              class="rounded-[8px] opacity-95 h-[8.8rem] w-[13.5rem] [transform:translateZ(-100px)_scale(0.92)] left-1/2 top-[-0.85rem] absolute object-cover -translate-x-1/2"
+            >
+            <img
+              src="https://framerusercontent.com/images/SSdVHX1oKvAE62eonEHC5cIiM.png?scale-down-to=1024&width=2400&height=2400"
+              alt="close-up portrait"
+              class="rounded-[8px] h-[18rem] w-[24rem] [transform:translateZ(0)_scale(1)] left-1/2 top-1/2 absolute object-cover -translate-x-1/2 -translate-y-1/2"
+            >
+          </div>
+          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 text-right">
+            touch
+          </h2>
+        </div>
+      </section>
+
+      <footer class="mt-[6.5rem] pb-8 pt-[8.5rem] border-t border-line">
+        <div class="gap-12 grid grid-cols-1 lg:grid-cols-[1.45fr_1fr]">
+          <div class="space-y-4">
+            <p class="footer-link">
+              email: me@doantike.de
+            </p>
+            <p class="footer-link">
+              based in: germany, remote first
+            </p>
+            <p class="footer-link">
+              available for: freelance, consulting & product builds
+            </p>
+          </div>
+          <div class="gap-10 grid grid-cols-2">
+            <div>
+              <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
+                pages
+              </p>
+              <div class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mt-2 space-y-1">
+                <p>home</p>
+                <p>about</p>
+                <p>work</p>
+              </div>
+            </div>
+            <div>
+              <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
+                socials
+              </p>
+              <div class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mt-2 space-y-1">
+                <p>instagram</p>
+                <p>x(twitter)</p>
+                <p>linkedin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 class="text-[clamp(6rem,20.1vw,24rem)] text-text leading-[0.9] tracking-[-0.06em] font-700 mt-24 w-[calc(100%+0.06em)] whitespace-nowrap lowercase -mx-[0.03em]">
+          dogan teke
+        </h2>
+        <div class="text-sm text-muted mt-4 pt-5 border-t border-line flex flex-wrap gap-4 items-center justify-between">
+          <p>© 2026 dogan teke. all rights reserved</p>
+          <p>fullstack frontend engineering · modern ai products</p>
+        </div>
+      </footer>
+    </section>
+  </main>
+</template>

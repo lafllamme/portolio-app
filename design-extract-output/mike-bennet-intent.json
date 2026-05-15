@@ -1,0 +1,192 @@
+{
+  "pageIntent": {
+    "type": "landing",
+    "confidence": 0.31,
+    "path": "/",
+    "title": "Mike Bennet - Free Portfolio Website Template",
+    "description": "Framer portfolio template for graphic designers. Features project filters, case study layouts, about page, and contact form. Built following hiring manager recommendations.",
+    "signals": [
+      {
+        "kind": "dom",
+        "type": "blog-post",
+        "weight": 0.35,
+        "detail": "byline|min-read"
+      },
+      {
+        "kind": "url",
+        "type": "landing",
+        "weight": 0.45,
+        "detail": "root-path"
+      }
+    ],
+    "alternates": [
+      {
+        "type": "blog-post",
+        "score": 0.35
+      }
+    ],
+    "needsSmart": true
+  },
+  "sectionRoles": {
+    "sections": [
+      {
+        "index": 0,
+        "tag": "nav",
+        "role": "nav",
+        "subrole": null,
+        "confidence": 0.9,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 48
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {
+          "lede": "mike bennet"
+        },
+        "needsSmart": false
+      },
+      {
+        "index": 1,
+        "tag": "main",
+        "role": "testimonial",
+        "subrole": null,
+        "confidence": 0.8,
+        "heading": "mike bennet",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 4455.453125
+        },
+        "buttonCount": 2,
+        "cardCount": 16,
+        "slots": {
+          "heading": "mike bennet",
+          "ctaCount": 2
+        },
+        "needsSmart": false
+      },
+      {
+        "index": 2,
+        "tag": "section",
+        "role": "testimonials",
+        "subrole": null,
+        "confidence": 0.4,
+        "heading": "mike bennet",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 2518.359375
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {
+          "heading": "mike bennet"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 3,
+        "tag": "section",
+        "role": "testimonial",
+        "subrole": null,
+        "confidence": 0.8,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 2518.359375,
+          "w": 1280,
+          "h": 1120.265625
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {
+          "lede": "i'm Mike Bennet, a brand designer based in Portland, Oregon. I work with small business owners and startup founders who want a brand identity that positions them as the premium choice in their market."
+        },
+        "needsSmart": false
+      },
+      {
+        "index": 4,
+        "tag": "section",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 3638.625,
+          "w": 1280,
+          "h": 816.828125
+        },
+        "buttonCount": 2,
+        "cardCount": 16,
+        "slots": {
+          "ctaCount": 2,
+          "lede": "get in"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 5,
+        "tag": "section",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 478.9375,
+          "y": 3918.625,
+          "w": 322.109375,
+          "h": 256.828125
+        },
+        "buttonCount": 2,
+        "cardCount": 16,
+        "slots": {
+          "ctaCount": 2
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 6,
+        "tag": "footer",
+        "role": "footer",
+        "subrole": null,
+        "confidence": 0.95,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 4455.453125,
+          "w": 1280,
+          "h": 534.484375
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {
+          "lede": "email: mike@mikebennet.design"
+        },
+        "needsSmart": false
+      }
+    ],
+    "counts": {
+      "nav": 1,
+      "testimonial": 2,
+      "testimonials": 1,
+      "content": 2,
+      "footer": 1
+    },
+    "readingOrder": [
+      "nav",
+      "testimonial",
+      "testimonials",
+      "testimonial",
+      "content",
+      "content",
+      "footer"
+    ]
+  }
+}

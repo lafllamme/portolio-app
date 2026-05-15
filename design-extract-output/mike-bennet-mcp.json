@@ -1,0 +1,296 @@
+{
+  "colors": {
+    "all": [
+      {
+        "hex": "#000000",
+        "rgb": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0
+        },
+        "count": 340,
+        "contexts": [
+          "text",
+          "border",
+          "background"
+        ]
+      },
+      {
+        "hex": "#0000ee",
+        "rgb": {
+          "r": 0,
+          "g": 0,
+          "b": 238,
+          "a": 1
+        },
+        "hsl": {
+          "h": 240,
+          "s": 100,
+          "l": 47
+        },
+        "count": 340,
+        "contexts": [
+          "text",
+          "border"
+        ]
+      },
+      {
+        "hex": "#ece8df",
+        "rgb": {
+          "r": 236,
+          "g": 232,
+          "b": 223,
+          "a": 1
+        },
+        "hsl": {
+          "h": 42,
+          "s": 25,
+          "l": 90
+        },
+        "count": 161,
+        "contexts": [
+          "text",
+          "border",
+          "background"
+        ]
+      },
+      {
+        "hex": "#141414",
+        "rgb": {
+          "r": 20,
+          "g": 20,
+          "b": 20,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 8
+        },
+        "count": 13,
+        "contexts": [
+          "background",
+          "text",
+          "border"
+        ]
+      },
+      {
+        "hex": "#f6f4f0",
+        "rgb": {
+          "r": 246,
+          "g": 244,
+          "b": 240,
+          "a": 1
+        },
+        "hsl": {
+          "h": 40,
+          "s": 25,
+          "l": 95
+        },
+        "count": 8,
+        "contexts": [
+          "text",
+          "border"
+        ]
+      },
+      {
+        "hex": "#ffffff",
+        "rgb": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 100
+        },
+        "count": 1,
+        "contexts": [
+          "background"
+        ]
+      }
+    ]
+  },
+  "regions": [
+    {
+      "role": "nav",
+      "tag": "nav",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 48
+      },
+      "heading": null,
+      "buttonCount": 0,
+      "cardCount": 0,
+      "className": "framer-W8Leg framer-ilgVl framer-omHip framer-luHu0 framer-1kat36o framer-v-12t6u2r"
+    },
+    {
+      "role": "testimonials",
+      "tag": "main",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 4455.453125
+      },
+      "heading": "mike bennet",
+      "buttonCount": 2,
+      "cardCount": 16,
+      "className": "framer-rtrxni"
+    },
+    {
+      "role": "testimonials",
+      "tag": "section",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 2518.359375
+      },
+      "heading": "mike bennet",
+      "buttonCount": 0,
+      "cardCount": 0,
+      "className": "framer-yfnwk"
+    },
+    {
+      "role": "testimonials",
+      "tag": "section",
+      "bounds": {
+        "x": 0,
+        "y": 2518.359375,
+        "w": 1280,
+        "h": 1120.265625
+      },
+      "heading": null,
+      "buttonCount": 0,
+      "cardCount": 0,
+      "className": "framer-p25hjm"
+    },
+    {
+      "role": "content",
+      "tag": "section",
+      "bounds": {
+        "x": 0,
+        "y": 3638.625,
+        "w": 1280,
+        "h": 816.828125
+      },
+      "heading": null,
+      "buttonCount": 2,
+      "cardCount": 16,
+      "className": "framer-1brgduy"
+    },
+    {
+      "role": "content",
+      "tag": "section",
+      "bounds": {
+        "x": 478.9375,
+        "y": 3918.625,
+        "w": 322.109375,
+        "h": 256.828125
+      },
+      "heading": null,
+      "buttonCount": 2,
+      "cardCount": 16,
+      "className": "framer-slideshow framer-slideshow-axis-y"
+    },
+    {
+      "role": "footer",
+      "tag": "footer",
+      "bounds": {
+        "x": 0,
+        "y": 4455.453125,
+        "w": 1280,
+        "h": 534.484375
+      },
+      "heading": null,
+      "buttonCount": 0,
+      "cardCount": 0,
+      "className": "framer-74UtW framer-ApGQH framer-mZuhB framer-Ihmlj framer-ilgVl framer-1x655xr framer-v-1x655xr"
+    }
+  ],
+  "componentClusters": [],
+  "accessibility": {
+    "remediation": []
+  },
+  "cssHealth": {
+    "sheets": [
+      {
+        "url": "https://mikebennet.framer.website/",
+        "totalBytes": 94,
+        "usedBytes": 94,
+        "unusedBytes": 0,
+        "unusedPercent": 0
+      },
+      {
+        "url": "https://mikebennet.framer.website/",
+        "totalBytes": 108509,
+        "usedBytes": 33872,
+        "unusedBytes": 74637,
+        "unusedPercent": 69
+      },
+      {
+        "url": "https://mikebennet.framer.website/",
+        "totalBytes": 451,
+        "usedBytes": 0,
+        "unusedBytes": 451,
+        "unusedPercent": 100
+      },
+      {
+        "url": "https://mikebennet.framer.website/",
+        "totalBytes": 12179,
+        "usedBytes": 0,
+        "unusedBytes": 12179,
+        "unusedPercent": 100
+      },
+      {
+        "url": "https://mikebennet.framer.website/",
+        "totalBytes": 93,
+        "usedBytes": 93,
+        "unusedBytes": 0,
+        "unusedPercent": 0
+      }
+    ],
+    "totalBytes": 121326,
+    "usedBytes": 34059,
+    "unusedBytes": 87267,
+    "unusedPercent": 72,
+    "importantCount": 21,
+    "duplicates": 1358,
+    "vendorPrefixes": {
+      "webkit": 52,
+      "moz": 2,
+      "ms": 0,
+      "o": 0
+    },
+    "keyframes": [],
+    "specificity": {
+      "max": [
+        1,
+        5,
+        4
+      ],
+      "average": [
+        0.01,
+        1.93,
+        0.85
+      ],
+      "count": 593
+    },
+    "issues": [
+      "21 !important rules",
+      "1358 duplicate declarations",
+      "72% unused CSS"
+    ]
+  }
+}

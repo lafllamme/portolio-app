@@ -2,7 +2,62 @@
 @import '@unocss/reset/eric-meyer.css';
 @import '@unocss/reset/tailwind-v4.css';
 
-html, body {
+html,
+body {
   background: #0b0c10;
   scroll-behavior: smooth;
+}
+
+.hero-mask {
+  overflow: hidden;
+}
+
+@keyframes hero-slide-up {
+  from {
+    transform: translate3d(0, 150%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes subline-slide-up {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hero-reveal,
+.subline-reveal {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Prevent SSR first-frame text flash before motion starts */
+.hero-reveal {
+  transform: translate3d(0, 150%, 0);
+}
+
+.subline-reveal {
+  transform: translate3d(0, 100%, 0);
+  opacity: 0.7;
+}
+
+.motion-ready .hero-reveal {
+  animation: hero-slide-up 930ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-ready .subline-reveal {
+  animation: subline-slide-up 780ms cubic-bezier(0.22, 1, 0.36, 1) 680ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal,
+  .subline-reveal {
+    animation: none !important;
+    transform: none !important;
+  }
 }

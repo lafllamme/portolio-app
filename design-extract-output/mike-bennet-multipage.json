@@ -1,0 +1,31 @@
+{
+  "targets": [
+    {
+      "type": "about",
+      "url": "https://mikebennet.framer.website/about-me",
+      "anchor": "about me"
+    }
+  ],
+  "pages": [
+    {
+      "url": "https://mikebennet.framer.website/about-me",
+      "type": "about",
+      "intent": {
+        "type": "unknown",
+        "confidence": 0,
+        "path": "/about-me",
+        "title": "Mike Bennet - Free Portfolio Website Template",
+        "description": "",
+        "signals": [],
+        "alternates": [],
+        "needsSmart": true
+      },
+      "error": null
+    }
+  ],
+  "consistency": {
+    "pairwise": [],
+    "drift": {},
+    "shared": {}
+  }
+}

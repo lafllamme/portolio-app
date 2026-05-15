@@ -1,0 +1,63 @@
+:root {
+  /* Colors — Primary */
+  --color-primary: #ece8df;
+  --color-secondary: #0000ee;
+
+  /* Colors — Neutrals */
+  --color-neutral-50: #000000;
+  --color-neutral-100: #141414;
+  --color-neutral-200: #f6f4f0;
+  --color-neutral-300: #ffffff;
+
+  /* Colors — Backgrounds */
+  --color-bg: #141414;
+
+  /* Colors — Text */
+  --color-text: #000000;
+  --color-text-1: #ece8df;
+  --color-text-2: #f6f4f0;
+  --color-text-3: #0000ee;
+  --color-text-4: #141414;
+
+  /* Typography — Families */
+  --font-sans: 'Funnel Sans', sans-serif;
+  --font-body: 'Times', sans-serif;
+
+  /* Typography — Scale */
+  --font-size-225.853: 225.853px;
+  --font-size-168: 168px;
+  --font-size-72: 72px;
+  --font-size-24: 24px;
+  --font-size-20: 20px;
+  --font-size-16: 16px;
+  --font-size-12: 12px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-10: 10px;
+  --spacing-36: 36px;
+  --spacing-64: 64px;
+  --spacing-72: 72px;
+  --spacing-96: 96px;
+  --spacing-280: 280px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 11px;
+  --radius-full: 40px;
+
+  /* Box Shadows */
+  --shadow-sm: rgb(0, 0, 0) 0px 0px 0px 1px inset;
+  --shadow-xs: rgba(0, 0, 0, 0.17) 0px 0.602187px 1.56569px -1.5px, rgba(0, 0, 0, 0.14) 0px 2.28853px 5.95019px -3px, rgba(0, 0, 0, 0.02) 0px 10px 26px -4.5px;
+
+  /* Original Site Variables */
+  /* — other — */
+  --one-if-corner-shape-supported: 1;
+  /* — semantic — */
+  success: [object Object];
+  warning: [object Object];
+  error: [object Object];
+  info: [object Object];
+
+}

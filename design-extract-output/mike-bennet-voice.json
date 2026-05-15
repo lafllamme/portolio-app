@@ -1,0 +1,16 @@
+{
+  "tone": "friendly",
+  "pronoun": "you-only",
+  "headingStyle": "all-lowercase",
+  "headingLengthClass": "tight",
+  "ctaVerbs": [],
+  "buttonPatterns": [],
+  "sampleHeadings": [
+    "mike bennet",
+    "mike bennet"
+  ],
+  "stats": {
+    "buttons": 0,
+    "headings": 2
+  }
+}

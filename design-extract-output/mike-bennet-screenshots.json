@@ -1,0 +1,42 @@
+{
+  "components": [
+    {
+      "cluster": "nav",
+      "variant": 0,
+      "path": "screenshots/nav-0.png",
+      "bounds": {
+        "w": 1280,
+        "h": 48
+      },
+      "retina": true,
+      "fallback": true
+    },
+    {
+      "cluster": "hero",
+      "variant": 0,
+      "path": "screenshots/hero-0.png",
+      "bounds": {
+        "w": 1280,
+        "h": 2518
+      },
+      "retina": true,
+      "fallback": true
+    },
+    {
+      "cluster": "hero",
+      "variant": 1,
+      "path": "screenshots/hero-1.png",
+      "bounds": {
+        "w": 322,
+        "h": 257
+      },
+      "retina": true,
+      "fallback": true
+    }
+  ],
+  "fullPage": {
+    "path": "screenshots/full-page.png",
+    "retina": true
+  },
+  "count": 3
+}
