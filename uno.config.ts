@@ -2,6 +2,18 @@ import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [presetWind4()],
+  rules: [
+    ['hero-reveal-ready', {
+      'animation': 'hero-reveal 1080ms cubic-bezier(0.2,0.95,0.34,1) both',
+      'opacity': '0',
+      'will-change': 'transform, opacity',
+    }],
+    ['subline-reveal-ready', {
+      'animation': 'subline-reveal 900ms cubic-bezier(0.2,0.95,0.34,1) 750ms both',
+      'opacity': '0',
+      'will-change': 'transform, opacity',
+    }],
+  ],
   theme: {
     colors: {
       bg: '#0b0c10',
@@ -14,7 +26,7 @@ export default defineConfig({
       sans: '"Funnel Sans", system-ui, -apple-system, sans-serif',
     },
     spacing: {
-      container: '1660px',
+      container: '1608px',
       section: '6.25rem',
       sectionLg: '8.5rem',
     },
@@ -35,7 +47,12 @@ export default defineConfig({
     },
     animation: {
       keyframes: {
-        float: '{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}',
+        'hero-reveal':
+          '{from{transform:translate3d(0,1500px,0);opacity:0}to{transform:translate3d(0,0,0);opacity:1}}',
+        'subline-reveal':
+          '{from{transform:translate3d(0,100px,0);opacity:0}to{transform:translate3d(0,0,0);opacity:.7}}',
+        'float':
+          '{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}',
       },
     },
   },
@@ -43,8 +60,10 @@ export default defineConfig({
     'page-shell': 'bg-bg text-text font-sans',
     'page-wrap': 'mx-auto max-w-container px-5 py-6 md:px-7',
     'headline': 'text-hero leading-[0.9] font-700 tracking-[-0.045em]',
-    'nav-link': 'transition-colors duration-250 hover:text-text text-muted',
-    'card-title': 'mt-4 text-cardTitle leading-none font-600 tracking-tight text-text',
+    'nav-link':
+      'text-text/90 transition-opacity duration-250 hover:opacity-100',
+    'card-title':
+      'mt-4 text-cardTitle leading-none font-600 tracking-tight text-text',
     'card-meta': 'mt-2 text-cardMeta leading-none text-muted',
     'footer-link': 'text-footer leading-[1.15] text-text',
   },

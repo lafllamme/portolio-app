@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { useElementVisibility, useResizeObserver } from '@vueuse/core'
+import type { Ref } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
+import ScrollReveal from '~/components/ScrollReveal.vue'
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)
@@ -56,8 +59,7 @@ useResizeObserver(footerNameWrapRef, () => {
   fitFooterTitleWidth()
 })
 
-const aboutRef = ref<HTMLElement | null>(null)
-const aboutInView = useElementVisibility(aboutRef, { threshold: 0.35 })
+const aboutScrollText = `i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.`
 
 const projects = [
   {
@@ -120,22 +122,22 @@ const projects = [
       </nav>
 
       <header id="top" ref="heroHeaderRef" class="pt-2 [--hero-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
-        <div class="hero-mask hero-title-mask h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full">
+        <div class="pb-[0.24em] h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full overflow-hidden">
           <h1
             ref="heroTitleRef"
             dir="auto"
-            class="hero-reveal framer-text text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase"
-            :class="heroReady ? 'opacity-100 hero-reveal-ready' : 'opacity-0'"
+            class="framer-text text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase keyframes-hero-reveal"
+            :class="heroReady ? 'hero-reveal-ready' : 'opacity-0'"
             :style="{ '--hero-fit-fs': heroFitPx ? `${heroFitPx}px` : null }"
           >
             dogan&nbsp;teke
           </h1>
         </div>
         <div class="mt-3 flex justify-end md:mt-4">
-          <div class="hero-mask max-w-[640px] md:max-w-[620px]">
+          <div class="max-w-[640px] overflow-hidden md:max-w-[620px]">
             <p
-              class="subline-reveal text-[24px] text-muted leading-[28.8px] tracking-[-0.96px]"
-              :class="heroReady ? 'subline-reveal-ready' : ''"
+              class="text-[24px] text-muted leading-[28.8px] tracking-[-0.96px] keyframes-subline-reveal"
+              :class="heroReady ? 'subline-reveal-ready' : 'opacity-0'"
             >
               i build modern fullstack products with a frontend-first mindset, combining clean UX, robust architecture, and practical AI integrations.
             </p>
@@ -166,13 +168,18 @@ const projects = [
         </article>
       </section>
 
-      <section id="about" ref="aboutRef" class="mt-[11.5rem]">
-        <h2
-          class="transition-[background-size] text-[clamp(3.1rem,5.625vw,4.5rem)] text-transparent leading-[1.1] tracking-[-0.05em] font-500 mb-16 duration-1000 ease-out bg-clip-text"
-          :class="aboutInView ? 'bg-[linear-gradient(90deg,#ece8df_0%,#ece8df_100%)] bg-no-repeat bg-[length:100%_100%]' : 'bg-[linear-gradient(90deg,#3d3f44_0%,#ece8df_100%)] bg-no-repeat bg-[length:0%_100%]'"
-        >
-          i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.
-        </h2>
+      <section id="about" class="mt-[11.5rem]">
+        <ScrollReveal
+          :children="aboutScrollText"
+          :enable-blur="true"
+          :base-opacity="0.1"
+          :base-rotation="3"
+          :blur-strength="4"
+          container-class-name="text-[clamp(3.1rem,5.625vw,4.5rem)] leading-[1.1] tracking-[-0.05em] font-500 mb-16 text-text"
+          text-class-name="block"
+          rotation-end="bottom bottom"
+          word-animation-end="bottom bottom"
+        />
         <div class="gap-12 grid grid-cols-1 lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">
           <img
             src="https://framerusercontent.com/images/qH75Va6nL5ddkYAQwubJVI0QORI.png?scale-down-to=2048&width=1600&height=2400"
