@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import AboutSection from '~/components/AboutSection.vue'
+import StickyMenu from '~/components/StickyMenu.vue'
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)
@@ -107,18 +108,8 @@ const projects = [
 
 <template>
   <main class="page-shell">
-    <section class="page-wrap">
-      <nav class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mb-10 grid-cols-12 hidden items-center md:grid">
-        <a href="#top" class="text-[#f6f4f0] col-span-1 whitespace-nowrap justify-self-start">dogan teke</a>
-        <a href="#work" class="nav-link col-span-1 col-start-4 whitespace-nowrap justify-self-center">work</a>
-        <a href="#about" class="nav-link col-span-1 col-start-8 whitespace-nowrap justify-self-center">about me</a>
-        <a href="#contact" class="nav-link col-span-1 col-start-12 whitespace-nowrap justify-self-end">start a project</a>
-      </nav>
-      <nav class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 mb-8 flex items-center justify-between md:hidden">
-        <a href="#top" class="text-[#f6f4f0]">dogan teke</a>
-        <a href="#work" class="nav-link">work</a>
-      </nav>
-
+    <StickyMenu />
+    <section class="page-wrap pt-20 md:pt-24">
       <header id="top" ref="heroHeaderRef" class="pt-2 [--hero-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
         <div class="pb-[0.24em] h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full overflow-hidden">
           <h1
@@ -195,7 +186,7 @@ const projects = [
         <div class="gap-12 grid grid-cols-1 lg:grid-cols-[1.45fr_1fr]">
           <div class="space-y-4">
             <p class="footer-link">
-              email: me@doantike.de
+              email: im@doganteke.dev
             </p>
             <p class="footer-link">
               based in: germany, remote first

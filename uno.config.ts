@@ -57,7 +57,7 @@ export default defineConfig({
     },
   },
   shortcuts: {
-    'page-shell': 'bg-bg text-text font-sans',
+    'page-shell': 'bg-bg text-text font-sans antialiased',
     'page-wrap': 'mx-auto max-w-container px-5 py-6 md:px-7',
     'headline': 'text-hero leading-[0.9] font-700 tracking-[-0.045em]',
     'nav-link':
