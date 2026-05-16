@@ -4,17 +4,18 @@ import { useElementVisibility, useResizeObserver } from '@vueuse/core'
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)
 const heroFitPx = ref<number | null>(null)
+const footerNameWrapRef = ref<HTMLElement | null>(null)
+const footerNameRef = ref<HTMLElement | null>(null)
+const footerFitPx = ref<number | null>(null)
 const heroReady = ref(false)
 const HERO_FILL_RATIO = 1
 const HERO_EDGE_INSET_PX = 8
 
-function fitHeroTitleWidth() {
-  const headerEl = heroHeaderRef.value
-  const titleEl = heroTitleRef.value
-  if (!headerEl || !titleEl)
+function fitTitleWidth(containerEl: HTMLElement | null, titleEl: HTMLElement | null, target: Ref<number | null>) {
+  if (!containerEl || !titleEl)
     return
 
-  const containerWidth = headerEl.clientWidth
+  const containerWidth = containerEl.clientWidth
   const availableWidth = containerWidth - (HERO_EDGE_INSET_PX * 2)
   if (!containerWidth || availableWidth <= 0)
     return
@@ -27,21 +28,32 @@ function fitHeroTitleWidth() {
   if (!containerWidth || !textWidth)
     return
 
-  // Fit by font-size only (no horizontal glyph scaling), keep tiny safety margin.
-  // Don't force exact 100% fill - keep a tiny breathing room for more natural type color.
   const nextPx = computedSize * (availableWidth / textWidth) * HERO_FILL_RATIO
-  heroFitPx.value = Number(nextPx.toFixed(2))
+  target.value = Number(nextPx.toFixed(2))
+}
+
+function fitHeroTitleWidth() {
+  fitTitleWidth(heroHeaderRef.value, heroTitleRef.value, heroFitPx)
+}
+
+function fitFooterTitleWidth() {
+  fitTitleWidth(footerNameWrapRef.value, footerNameRef.value, footerFitPx)
 }
 
 onMounted(() => {
   requestAnimationFrame(() => {
     fitHeroTitleWidth()
+    fitFooterTitleWidth()
     heroReady.value = true
   })
 })
 
 useResizeObserver(heroHeaderRef, () => {
   fitHeroTitleWidth()
+})
+
+useResizeObserver(footerNameWrapRef, () => {
+  fitFooterTitleWidth()
 })
 
 const aboutRef = ref<HTMLElement | null>(null)
@@ -108,7 +120,7 @@ const projects = [
       </nav>
 
       <header id="top" ref="heroHeaderRef" class="pt-2 [--hero-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
-        <div class="hero-mask hero-title-mask px-[8px] h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full">
+        <div class="hero-mask hero-title-mask h-[calc(var(--hero-fit-fs,var(--hero-fs))*1.44)] w-full">
           <h1
             ref="heroTitleRef"
             dir="auto"
@@ -248,9 +260,15 @@ const projects = [
             </div>
           </div>
         </div>
-        <h2 class="text-[clamp(6rem,20.1vw,24rem)] text-text leading-[0.9] tracking-[-0.06em] font-700 mt-24 w-[calc(100%+0.06em)] whitespace-nowrap lowercase -mx-[0.03em]">
-          dogan teke
-        </h2>
+        <div ref="footerNameWrapRef" class="mt-24 [--footer-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
+          <h2
+            ref="footerNameRef"
+            class="text-[length:var(--footer-fit-fs,var(--footer-fs))] text-text leading-[1] tracking-[-0.06em] font-700 px-[8px] pb-[0.46em] w-max block whitespace-nowrap lowercase"
+            :style="{ '--footer-fit-fs': footerFitPx ? `${footerFitPx}px` : null }"
+          >
+            dogan teke
+          </h2>
+        </div>
         <div class="text-sm text-muted mt-4 pt-5 border-t border-line flex flex-wrap gap-4 items-center justify-between">
           <p>© 2026 dogan teke. all rights reserved</p>
           <p>fullstack frontend engineering · modern ai products</p>
