@@ -171,14 +171,11 @@ const projects = [
       <section id="about" class="mt-[11.5rem]">
         <ScrollReveal
           :children="aboutScrollText"
-          :enable-blur="true"
-          :base-opacity="0.1"
           :base-rotation="3"
-          :blur-strength="4"
           container-class-name="text-[clamp(3.1rem,5.625vw,4.5rem)] leading-[1.1] tracking-[-0.05em] font-500 mb-16 text-text"
           text-class-name="block"
-          rotation-end="bottom bottom"
-          word-animation-end="bottom bottom"
+          rotation-end="bottom 78%"
+          word-animation-end="bottom 62%"
         />
         <div class="gap-12 grid grid-cols-1 lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">
           <img
