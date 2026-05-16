@@ -2,7 +2,7 @@
 import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
-import ScrollReveal from '~/components/ScrollReveal.vue'
+import AboutSection from '~/components/AboutSection.vue'
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)
@@ -58,8 +58,6 @@ useResizeObserver(heroHeaderRef, () => {
 useResizeObserver(footerNameWrapRef, () => {
   fitFooterTitleWidth()
 })
-
-const aboutScrollText = `i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.`
 
 const projects = [
   {
@@ -168,42 +166,7 @@ const projects = [
         </article>
       </section>
 
-      <section id="about" class="mt-[11.5rem]">
-        <ScrollReveal
-          :children="aboutScrollText"
-          :base-rotation="3"
-          container-class-name="text-[clamp(3.1rem,5.625vw,4.5rem)] leading-[1.1] tracking-[-0.05em] font-500 mb-16 text-text"
-          text-class-name="block"
-          rotation-end="bottom 78%"
-          word-animation-end="bottom 62%"
-        />
-        <div class="gap-12 grid grid-cols-1 lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">
-          <img
-            src="https://framerusercontent.com/images/qH75Va6nL5ddkYAQwubJVI0QORI.png?scale-down-to=2048&width=1600&height=2400"
-            alt="Portrait of Dogan Teke"
-            class="rounded-[8px] w-full object-cover"
-          >
-          <div>
-            <p class="text-[1.25rem] text-muted leading-none">
-              why work with me
-            </p>
-            <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-4 max-w-[24ch]">
-              i combine product thinking with engineering execution. from architecture to polished UI, i focus on performance, maintainability, and a design standard that feels intentional on every screen.
-            </p>
-            <button class="text-[16px] text-[#1a1a1a] leading-[19.2px] tracking-[-0.48px] font-500 mt-8 px-8 py-4 rounded-[4px] bg-text transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]">
-              download cv
-            </button>
-          </div>
-          <div>
-            <p class="text-[1.25rem] text-muted leading-none">
-              current focus
-            </p>
-            <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-4 max-w-[24ch]">
-              fullstack development with modern TypeScript stacks, advanced frontend systems, and applied AI workflows. i care about developer velocity, visual quality, and shipping features users actually use.
-            </p>
-          </div>
-        </div>
-      </section>
+      <AboutSection />
 
       <section id="contact" class="mt-[11.5rem]">
         <div class="gap-8 grid items-center md:grid-cols-3">
@@ -273,7 +236,7 @@ const projects = [
             dogan teke
           </h2>
         </div>
-        <div class="text-sm text-muted mt-4 pt-5 border-t border-line flex flex-wrap gap-4 items-center justify-between">
+        <div class="text-sm text-muted mt-4 pt-5 border-t border-stone-700 border-solid flex flex-wrap gap-4 items-center justify-between">
           <p>© 2026 dogan teke. all rights reserved</p>
           <p>fullstack frontend engineering · modern ai products</p>
         </div>
