@@ -168,6 +168,8 @@ Use this file as the primary source of repository level instructions. If additio
 - Prefer semantic and composable utility groupings over long unstructured class strings where possible.
 - Avoid introducing custom CSS for patterns already expressible with UnoCSS.
 - Prefer reusable component patterns over repeating large utility sets across many files.
+- Do not generate UnoCSS class names dynamically at runtime (for example template strings like `bg-${color}-${index}`).
+- For variant switching, list all utility classes explicitly in source (for example `bg-token-1` to `bg-token-6`) and switch by index/condition in Vue bindings.
 - Border utilities rule (UnoCSS/Tailwind preset compatibility): when rendering a visible border, always set border width explicitly (`border`, `border-[1px]`, `border-2`, etc.) in addition to color/style classes. Do not rely on color/style classes alone (`border-red-800`, `border-solid`) to imply width.
 
 ## Performance and rendering conventions

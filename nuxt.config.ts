@@ -25,6 +25,22 @@ export default defineNuxtConfig({
         weights: [400, 500, 600, 700],
         styles: ['normal'],
       },
+      {
+        name: 'Cabinet Grotesk',
+        provider: 'fontshare',
+        global: true,
+        preload: true,
+        weights: [400, 500, 700],
+        styles: ['normal'],
+      },
+      {
+        name: 'Satoshi',
+        provider: 'fontshare',
+        global: true,
+        preload: true,
+        weights: [400, 500, 700],
+        styles: ['normal'],
+      },
     ],
   },
 })

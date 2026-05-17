@@ -23,7 +23,10 @@ export default defineConfig({
       line: '#1a1d22',
     },
     font: {
-      sans: '"Funnel Sans", system-ui, -apple-system, sans-serif',
+      sans: '"Satoshi", "Funnel Sans", system-ui, -apple-system, sans-serif',
+      headline:
+        '"Cabinet Grotesk", "Funnel Sans", system-ui, -apple-system, sans-serif',
+      body: '"Satoshi", "Funnel Sans", system-ui, -apple-system, sans-serif',
     },
     spacing: {
       container: '1608px',

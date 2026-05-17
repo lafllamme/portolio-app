@@ -14,6 +14,8 @@ const footerFitPx = ref<number | null>(null)
 const heroReady = ref(false)
 const HERO_FILL_RATIO = 1
 const HERO_EDGE_INSET_PX = 8
+const heroFitStyle = ref('')
+const footerFitStyle = ref('')
 
 function fitTitleWidth(containerEl: HTMLElement | null, titleEl: HTMLElement | null, target: Ref<number | null>) {
   if (!containerEl || !titleEl)
@@ -38,10 +40,12 @@ function fitTitleWidth(containerEl: HTMLElement | null, titleEl: HTMLElement | n
 
 function fitHeroTitleWidth() {
   fitTitleWidth(heroHeaderRef.value, heroTitleRef.value, heroFitPx)
+  heroFitStyle.value = heroFitPx.value ? `--hero-fit-fs:${heroFitPx.value}px` : ''
 }
 
 function fitFooterTitleWidth() {
   fitTitleWidth(footerNameWrapRef.value, footerNameRef.value, footerFitPx)
+  footerFitStyle.value = footerFitPx.value ? `--footer-fit-fs:${footerFitPx.value}px` : ''
 }
 
 onMounted(() => {
@@ -115,9 +119,9 @@ const projects = [
           <h1
             ref="heroTitleRef"
             dir="auto"
-            class="framer-text text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase keyframes-hero-reveal"
+            class="framer-text font-headline text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase keyframes-hero-reveal"
             :class="heroReady ? 'hero-reveal-ready' : 'opacity-0'"
-            :style="{ '--hero-fit-fs': heroFitPx ? `${heroFitPx}px` : null }"
+            :style="heroFitStyle"
           >
             dogan&nbsp;teke
           </h1>
@@ -161,7 +165,7 @@ const projects = [
 
       <section id="contact" class="mt-[11.5rem]">
         <div class="gap-8 grid items-center md:grid-cols-3">
-          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700">
+          <h2 class="font-headline text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700">
             get in
           </h2>
           <div class="mx-auto h-[22rem] w-[28rem] [perspective:1200px] relative md:h-[24rem] md:w-[31rem]">
@@ -176,7 +180,7 @@ const projects = [
               class="rounded-[8px] h-[18rem] w-[24rem] [transform:translateZ(0)_scale(1)] left-1/2 top-1/2 absolute object-cover -translate-x-1/2 -translate-y-1/2"
             >
           </div>
-          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 text-right">
+          <h2 class="font-headline text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 text-right">
             touch
           </h2>
         </div>
@@ -221,8 +225,8 @@ const projects = [
         <div ref="footerNameWrapRef" class="mt-24 [--footer-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
           <h2
             ref="footerNameRef"
-            class="text-[length:var(--footer-fit-fs,var(--footer-fs))] text-text leading-[1] tracking-[-0.06em] font-700 px-[8px] pb-[0.46em] w-max block whitespace-nowrap lowercase"
-            :style="{ '--footer-fit-fs': footerFitPx ? `${footerFitPx}px` : null }"
+            class="font-headline text-[length:var(--footer-fit-fs,var(--footer-fs))] text-text leading-[1] tracking-[-0.06em] font-700 px-[8px] pb-[0.46em] w-max block whitespace-nowrap lowercase"
+            :style="footerFitStyle"
           >
             dogan teke
           </h2>
