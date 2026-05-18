@@ -70,3 +70,9 @@ Use one app-controlled route transition engine for every full route change so in
   - covered hold set to a brief handoff window (`60ms`) to keep motion organic
   - stage shift amplitudes reduced (`-5%` leave, `5%` enter) to avoid excessive push
   - enter and curtain-uncover hold windows shortened (`12%` / `14%`) to tighten reveal sync
+
+## Lifecycle edge cases
+
+- Rapid double navigation: the second wipe must cancel, not queue.
+- Browser back/forward reuses the same curtain path as in-app links.
+- Scroll restoration waits for the cover frame, otherwise content jumps.
