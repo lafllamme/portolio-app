@@ -1,0 +1,340 @@
+<script setup lang="ts">
+import { useElementSize, useIntersectionObserver } from '@vueuse/core'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { NuxtImg } from '#components'
+
+/**
+ * Shared pixel-reveal image wrapper built on top of Nuxt Image.
+ *
+ * Accessibility contract:
+ * - Provide descriptive `alt` text for meaningful images.
+ * - Pass `alt=""` for decorative-only images.
+ */
+interface Props {
+  src: string
+  alt: string
+  width?: number | string
+  height?: number | string
+  sizes?: string
+  densities?: string
+  quality?: number | string
+  format?: string
+  fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside' | string
+  loading?: 'lazy' | 'eager'
+  revealHoldMs?: number
+  stepDurationMs?: number
+  fadeDurationMs?: number
+  pixelScales?: number[]
+  threshold?: number
+  containerClass?: string
+  imageClass?: string
+  canvasClass?: string
+}
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = withDefaults(defineProps<Props>(), {
+  width: undefined,
+  height: undefined,
+  sizes: undefined,
+  densities: undefined,
+  quality: undefined,
+  format: undefined,
+  fit: 'cover',
+  loading: 'lazy',
+  revealHoldMs: 180,
+  stepDurationMs: 130,
+  fadeDurationMs: 220,
+  pixelScales: () => [42, 34, 27, 21, 16, 12, 9, 7, 5, 4, 3],
+  threshold: 0.05,
+  containerClass: '',
+  imageClass: '',
+  canvasClass: '',
+})
+
+const rootRef = ref<HTMLElement | null>(null)
+const imageRef = ref<HTMLImageElement | null>(null)
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+const isImageReady = ref(false)
+const isAnimating = ref(false)
+const isOverlayVisible = ref(false)
+const isInViewport = ref(false)
+const wasIntersecting = ref(false)
+const hasPlayedOnce = ref(false)
+const overlayOpacity = ref(1)
+
+const { width, height } = useElementSize(rootRef)
+
+let runId = 0
+let timeoutIds: number[] = []
+
+function clearScheduledWork() {
+  for (const timeoutId of timeoutIds)
+    window.clearTimeout(timeoutId)
+
+  timeoutIds = []
+}
+
+function clearCanvas() {
+  const canvasElement = canvasRef.value
+  const context = canvasElement?.getContext('2d')
+  if (!canvasElement || !context)
+    return
+
+  context.clearRect(0, 0, canvasElement.width, canvasElement.height)
+}
+
+function resetOverlay() {
+  runId += 1
+  clearScheduledWork()
+  isAnimating.value = false
+  isOverlayVisible.value = false
+  overlayOpacity.value = 1
+  clearCanvas()
+}
+
+function prepareCanvas(viewWidth: number, viewHeight: number) {
+  const canvasElement = canvasRef.value
+  if (!canvasElement)
+    return null
+
+  const deviceScale = window.devicePixelRatio || 1
+  canvasElement.width = Math.round(viewWidth * deviceScale)
+  canvasElement.height = Math.round(viewHeight * deviceScale)
+  canvasElement.style.width = `${viewWidth}px`
+  canvasElement.style.height = `${viewHeight}px`
+
+  const context = canvasElement.getContext('2d')
+  if (!context)
+    return null
+
+  context.setTransform(deviceScale, 0, 0, deviceScale, 0, 0)
+  return context
+}
+
+/**
+ * Draw a single discrete pixelation step onto the overlay canvas.
+ * The underlying image remains visible; the canvas only controls the reveal look.
+ */
+function drawPixelFrame(pixelScale: number) {
+  const imageElement = imageRef.value
+  if (!imageElement)
+    return
+
+  const viewWidth = Math.round(width.value)
+  const viewHeight = Math.round(height.value)
+  if (!viewWidth || !viewHeight)
+    return
+
+  const context = prepareCanvas(viewWidth, viewHeight)
+  if (!context)
+    return
+
+  const sampleWidth = Math.max(1, Math.round(viewWidth / pixelScale))
+  const sampleHeight = Math.max(1, Math.round(viewHeight / pixelScale))
+  const pixelCanvas = document.createElement('canvas')
+  pixelCanvas.width = sampleWidth
+  pixelCanvas.height = sampleHeight
+
+  const pixelContext = pixelCanvas.getContext('2d')
+  if (!pixelContext)
+    return
+
+  pixelContext.imageSmoothingEnabled = true
+  pixelContext.clearRect(0, 0, sampleWidth, sampleHeight)
+  pixelContext.drawImage(imageElement, 0, 0, sampleWidth, sampleHeight)
+
+  context.clearRect(0, 0, viewWidth, viewHeight)
+  context.imageSmoothingEnabled = false
+  context.drawImage(pixelCanvas, 0, 0, sampleWidth, sampleHeight, 0, 0, viewWidth, viewHeight)
+}
+
+function scheduleStep(callback: () => void, delayMs: number) {
+  const timeoutId = window.setTimeout(callback, delayMs)
+  timeoutIds.push(timeoutId)
+}
+
+function isElementInViewport() {
+  if (!import.meta.client || !rootRef.value)
+    return false
+
+  const bounds = rootRef.value.getBoundingClientRect()
+  return bounds.bottom > 0
+    && bounds.right > 0
+    && bounds.top < window.innerHeight
+    && bounds.left < window.innerWidth
+}
+
+/**
+ * Start one reveal run for the current page load.
+ * Replay is blocked after the first successful run until the image source changes
+ * or the page is refreshed.
+ */
+function startReveal() {
+  if (!import.meta.client || !isImageReady.value || hasPlayedOnce.value)
+    return
+
+  const imageElement = imageRef.value
+  const viewWidth = Math.round(width.value)
+  const viewHeight = Math.round(height.value)
+  if (!imageElement || !viewWidth || !viewHeight)
+    return
+
+  const nextRunId = runId + 1
+  runId = nextRunId
+  clearScheduledWork()
+  isAnimating.value = true
+  isOverlayVisible.value = true
+  overlayOpacity.value = 1
+  hasPlayedOnce.value = true
+
+  const steps = props.pixelScales.filter(scale => scale > 1)
+  drawPixelFrame(steps[0] ?? 64)
+
+  scheduleStep(() => {
+    if (runId !== nextRunId)
+      return
+
+    steps.forEach((scale, index) => {
+      scheduleStep(() => {
+        if (runId !== nextRunId)
+          return
+
+        drawPixelFrame(scale)
+
+        const isLastStep = index === steps.length - 1
+        if (!isLastStep)
+          return
+
+        overlayOpacity.value = 0
+        scheduleStep(() => {
+          if (runId !== nextRunId)
+            return
+
+          resetOverlay()
+        }, props.fadeDurationMs)
+      }, index * props.stepDurationMs)
+    })
+  }, props.revealHoldMs)
+}
+
+function syncImageReadyState() {
+  const imageElement = imageRef.value
+  if (!imageElement)
+    return
+
+  if (!imageElement.complete || imageElement.naturalWidth <= 0)
+    return
+
+  isImageReady.value = true
+  isInViewport.value = isElementInViewport()
+}
+
+function handleImageLoad() {
+  isImageReady.value = true
+  isInViewport.value = isElementInViewport()
+}
+
+watch(
+  [() => isInViewport.value, () => isImageReady.value, () => width.value, () => height.value],
+  ([enteredViewport, imageReady, nextWidth, nextHeight]) => {
+    if (!enteredViewport || !imageReady || !nextWidth || !nextHeight || isAnimating.value)
+      return
+
+    startReveal()
+  },
+)
+
+watch(
+  () => props.src,
+  async () => {
+    resetOverlay()
+    isImageReady.value = false
+    isInViewport.value = isElementInViewport()
+    wasIntersecting.value = isInViewport.value
+    hasPlayedOnce.value = false
+
+    await nextTick()
+    syncImageReadyState()
+  },
+)
+
+useIntersectionObserver(
+  rootRef,
+  ([entry]) => {
+    const isIntersecting = entry?.isIntersecting ?? false
+    const didJustEnter = !wasIntersecting.value && isIntersecting
+    const didJustLeave = wasIntersecting.value && !isIntersecting
+
+    wasIntersecting.value = isIntersecting
+    isInViewport.value = isIntersecting
+
+    if (didJustLeave) {
+      return
+    }
+
+    if (didJustEnter)
+      startReveal()
+  },
+  {
+    threshold: props.threshold,
+  },
+)
+
+onMounted(async () => {
+  await nextTick()
+  syncImageReadyState()
+  requestAnimationFrame(() => {
+    syncImageReadyState()
+  })
+})
+
+onBeforeUnmount(() => {
+  resetOverlay()
+})
+</script>
+
+<template>
+  <div
+    ref="rootRef"
+    class="rounded-md h-full w-full relative overflow-hidden"
+    :class="containerClass"
+  >
+    <NuxtImg
+      v-slot="{ src: resolvedSrc, imgAttrs }"
+      :src="src"
+      :alt="alt"
+      :width="width"
+      :height="height"
+      :sizes="sizes"
+      :densities="densities"
+      :quality="quality"
+      :format="format"
+      :fit="fit"
+      :loading="loading"
+      :custom="true"
+    >
+      <img
+        ref="imageRef"
+        v-bind="imgAttrs"
+        :src="resolvedSrc"
+        :alt="alt"
+        crossorigin="anonymous"
+        class="h-full w-full object-cover object-center"
+        :class="imageClass"
+        decoding="async"
+        @load="handleImageLoad"
+      >
+    </NuxtImg>
+    <canvas
+      v-show="isOverlayVisible"
+      ref="canvasRef"
+      class="rounded-md h-full w-full pointer-events-none transition-opacity inset-0 absolute overflow-hidden"
+      :class="canvasClass"
+      :style="{ opacity: String(overlayOpacity), transitionDuration: `${fadeDurationMs}ms` }"
+      aria-hidden="true"
+    />
+  </div>
+</template>

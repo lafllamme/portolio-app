@@ -1,20 +1,46 @@
-# Hero Animation Spec
+# Motion Spec
 
 ## Scope
 
-This document defines the intro motion behavior for the home hero title and description.
+This document defines the current motion behavior for the home hero intro and the shared pixel reveal image treatment.
 
 ## Goals
 
 - Match the reference sequencing from `mikebennet.framer.website`.
 - Keep SSR output stable (no client-only layout jump).
 - Keep implementation utility-first and UnoCSS-driven.
+- Keep shared image reveal behavior documented so timing changes do not drift from the intended visual language.
 
 ## Sequence
 
 1. Hero title enters first from below.
 2. Description enters second with a short delay.
 3. Description must not be visible before its own animation starts.
+
+## Shared Pixel Reveal
+
+Shared component:
+
+- [`/Users/flame/Developer/Projects/portfolio-app/app/components/media/PixelRevealImage.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/media/PixelRevealImage.vue)
+
+Intent:
+
+- Provide a reusable `NuxtImg` wrapper with a pixel-canvas reveal overlay.
+- Play once per page load for a given image source.
+- Keep the image accessible by preserving the underlying `alt` text and marking the canvas overlay as decorative.
+
+Current defaults:
+
+- `revealHoldMs: 180`
+- `stepDurationMs: 130`
+- `fadeDurationMs: 220`
+- `pixelScales: [42, 34, 27, 21, 16, 12, 9, 7, 5, 4, 3]`
+- `threshold: 0.05`
+
+Tuning note:
+
+- This feature is intentionally still tunable. If reveal timing, step density, or replay behavior changes, update this document and the shared component together.
+- Current direction: smoother and calmer than the harsher Framer reference timing, while preserving the same overall feel.
 
 ## Motion Tokens
 
@@ -50,4 +76,5 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 
 - Do not reintroduce `document.documentElement.classList` toggles for hero animation.
 - Keep animation class names static (extractor-safe).
-- If timing changes, update both this doc and `uno.config.ts` together.
+- If hero timing changes, update both this doc and `uno.config.ts` together.
+- If pixel reveal timing changes, update both this doc and `PixelRevealImage.vue` together.

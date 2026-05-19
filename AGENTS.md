@@ -104,6 +104,7 @@ Use this file as the primary source of repository level instructions. If additio
 - Use `layers/` only when a reusable app layer is actually justified.
 - Prefer Nuxt auto imports for components and composables.
 - For agent-authored changes, add explicit imports for used components/composables/helpers in `<script setup>` instead of relying on auto-import resolution.
+- For agent-authored changes, use explicit `~/...` imports for local components, composables, helpers, and models. Do not rely on auto-imports, implicit resolution, or relative-path guesswork when a stable `~/...` import can be used.
 - Use `useHead` and `useSeoMeta` for metadata and SEO.
 - Prefer Nuxt runtime config and built in utilities over ad hoc global access.
 
@@ -285,6 +286,7 @@ Typical structure for this project should follow Nuxt conventions such as:
 
 Additional project specific guidance can live in:
 
+- `docs/design-system/animation.md` - hero motion and shared pixel reveal behavior
 - `docs/unocss` - everything related to styling configuration
 - `docs/nuxt` - everything related to Nuxt in all forms
 - `docs/test.md` - test commands, roast endpoint verification, and E2E workflow

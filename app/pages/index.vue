@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import AboutSection from '~/components/AboutSection.vue'
+import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 import StickyMenu from '~/components/StickyMenu.vue'
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
@@ -69,42 +70,42 @@ const projects = [
     title: 'ai commerce studio',
     subtitle: 'fullstack product engineering',
     image: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-    alt: 'Minimalist coffee can design in hand',
+    alt: 'Hand holding a minimalist white coffee can in a studio product photo',
     layout: 'lg:col-span-8',
   },
   {
     title: 'vision copilot',
     subtitle: 'frontend systems & ai ux',
     image: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-    alt: 'White branded cap on lemons',
+    alt: 'White branded cap displayed in a warm editorial product scene',
     layout: 'lg:col-span-4',
   },
   {
     title: 'edge analytics',
     subtitle: 'dashboard architecture',
     image: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-    alt: 'Stack of modern books on leather chair',
+    alt: 'Stack of modern books arranged on a leather chair',
     layout: 'lg:col-span-6',
   },
   {
     title: 'neural workspace',
     subtitle: 'design system & ai tools',
     image: 'https://framerusercontent.com/images/QOH1Zk5nsoAVg2S4bHQmbD476g.jpg?scale-down-to=2048&width=4500&height=3002',
-    alt: 'Pastel ice cream packaging design',
+    alt: 'Pastel ice cream packaging mockup in a brand presentation',
     layout: 'lg:col-span-6 lg:pt-12',
   },
   {
     title: 'runtime cloud',
     subtitle: 'platform frontend',
     image: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-    alt: 'Sports supplement packaging tubes',
+    alt: 'Sports supplement tubes shown in a clean product packaging layout',
     layout: 'lg:col-span-6',
   },
   {
     title: 'agent studio',
     subtitle: 'fullstack ai workflows',
     image: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-    alt: 'Food magazine brochure mockup',
+    alt: 'Open food magazine brochure mockup with an editorial layout',
     layout: 'lg:col-span-6 lg:pt-8',
   },
 ]
@@ -119,7 +120,7 @@ const projects = [
           <h1
             ref="heroTitleRef"
             dir="auto"
-            class="framer-text font-headline text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 pb-[0.46em] w-max block whitespace-nowrap lowercase keyframes-hero-reveal"
+            class="framer-text text-[length:var(--hero-fit-fs,var(--hero-fs))] text-text leading-[1] tracking-[-0.06em] font-700 font-headline pb-[0.46em] w-max block whitespace-nowrap lowercase keyframes-hero-reveal"
             :class="heroReady ? 'hero-reveal-ready' : 'opacity-0'"
             :style="heroFitStyle"
           >
@@ -138,49 +139,29 @@ const projects = [
         </div>
       </header>
 
-      <section id="work" class="mt-[5.3rem] gap-x-6 gap-y-16 grid grid-cols-1 lg:grid-cols-12">
-        <article
-          v-for="project in projects"
-          :key="project.title"
-          class="group"
-          :class="project.layout"
-        >
-          <div class="rounded-none bg-surface overflow-hidden">
-            <img
-              :src="project.image"
-              :alt="project.alt"
-              class="h-full w-full transition-transform duration-500 ease-out object-cover object-center group-hover:scale-[1.01]"
-            >
-          </div>
-          <h2 class="card-title">
-            {{ project.title }}
-          </h2>
-          <p class="card-meta">
-            {{ project.subtitle }}
-          </p>
-        </article>
-      </section>
+      <ProjectGallerySection :projects="projects" />
 
       <AboutSection />
 
       <section id="contact" class="mt-[11.5rem]">
         <div class="gap-8 grid items-center md:grid-cols-3">
-          <h2 class="font-headline text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700">
+          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 font-headline">
             get in
           </h2>
           <div class="mx-auto h-[22rem] w-[28rem] [perspective:1200px] relative md:h-[24rem] md:w-[31rem]">
             <img
               src="https://framerusercontent.com/images/5762hl6RTc8SjiRzWwECIOsXeW0.png?scale-down-to=1024&width=904&height=1200"
-              alt="stacked background image"
-              class="rounded-[8px] opacity-95 h-[8.8rem] w-[13.5rem] [transform:translateZ(-100px)_scale(0.92)] left-1/2 top-[-0.85rem] absolute object-cover -translate-x-1/2"
+              alt=""
+              aria-hidden="true"
+              class="rounded-md opacity-95 h-[8.8rem] w-[13.5rem] [transform:translateZ(-100px)_scale(0.92)] left-1/2 top-[-0.85rem] absolute object-cover -translate-x-1/2"
             >
             <img
               src="https://framerusercontent.com/images/SSdVHX1oKvAE62eonEHC5cIiM.png?scale-down-to=1024&width=2400&height=2400"
-              alt="close-up portrait"
-              class="rounded-[8px] h-[18rem] w-[24rem] [transform:translateZ(0)_scale(1)] left-1/2 top-1/2 absolute object-cover -translate-x-1/2 -translate-y-1/2"
+              alt="Close-up portrait of Dogan Teke"
+              class="rounded-md h-[18rem] w-[24rem] [transform:translateZ(0)_scale(1)] left-1/2 top-1/2 absolute object-cover -translate-x-1/2 -translate-y-1/2"
             >
           </div>
-          <h2 class="font-headline text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 text-right">
+          <h2 class="text-[clamp(8rem,13.2vw,10.5rem)] leading-[0.9] tracking-[-0.095em] font-700 font-headline text-right">
             touch
           </h2>
         </div>
@@ -225,7 +206,7 @@ const projects = [
         <div ref="footerNameWrapRef" class="mt-24 [--footer-fs:min(16.9cqw,16.7rem)] [container-type:inline-size]">
           <h2
             ref="footerNameRef"
-            class="font-headline text-[length:var(--footer-fit-fs,var(--footer-fs))] text-text leading-[1] tracking-[-0.06em] font-700 px-[8px] pb-[0.46em] w-max block whitespace-nowrap lowercase"
+            class="text-[length:var(--footer-fit-fs,var(--footer-fs))] text-text leading-[1] tracking-[-0.06em] font-700 font-headline px-[8px] pb-[0.46em] w-max block whitespace-nowrap lowercase"
             :style="footerFitStyle"
           >
             dogan teke
