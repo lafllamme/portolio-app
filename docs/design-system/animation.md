@@ -141,3 +141,9 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - If shared reveal timing or variant behavior changes, update both this doc and `RevealImage.vue` together.
 - If about intro highlight behavior changes, update both this doc and `useCenteredActiveIndex.ts` together.
 - If contact carousel timing, slot behavior, or reduced-motion handling changes, update both this doc and `ContactImageStackCarousel.vue` together.
+
+## Timing reference
+
+- Micro interactions: 150–250ms, `power2.out`.
+- Section reveals: 600–900ms, `power3.out`, stagger 60–90ms.
+- Route curtain: 1100ms total — 45% cover, 10% hold, 45% reveal.
