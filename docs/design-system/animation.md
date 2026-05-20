@@ -42,6 +42,23 @@ Tuning note:
 - This feature is intentionally still tunable. If reveal timing, step density, or replay behavior changes, update this document and the shared component together.
 - Current direction: smoother and calmer than the harsher Framer reference timing, while preserving the same overall feel.
 
+## Scroll Reveal Text
+
+Component:
+
+- [`/Users/flame/Developer/Projects/portfolio-app/app/components/ScrollReveal.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/ScrollReveal.vue)
+
+Intent:
+
+- Reveal long editorial headlines progressively on scroll.
+- Keep word-level animation targets template-driven instead of querying the DOM after render.
+- Rebuild GSAP state cleanly when text or animation inputs change.
+
+Stability note:
+
+- Initialization waits for Vue render completion and font readiness before creating the ScrollTrigger timelines.
+- Trigger positions are refreshed on browser load and page restore so late layout shifts do not leave the reveal in a falsely completed state.
+
 ## Motion Tokens
 
 Defined in [`/Users/flame/Developer/Projects/portfolio-app/uno.config.ts`](/Users/flame/Developer/Projects/portfolio-app/uno.config.ts):

@@ -123,6 +123,8 @@ Use this file as the primary source of repository level instructions. If additio
 - Prefer small single purpose components.
 - Keep templates declarative and easy to scan.
 - Avoid complex inline expressions in templates.
+- Prefer explicit template refs and Vue bindings over DOM queries such as `querySelector`, `querySelectorAll`, or manual DOM traversal inside components.
+- When a component needs element-level animation targets, model them in the template first instead of discovering them imperatively after render.
 - Prefer computed state over imperative watchers when state can be derived.
 - Use watchers only when side effects are actually needed.
 - Prefer explicit typed props and emits.
@@ -139,6 +141,7 @@ Use this file as the primary source of repository level instructions. If additio
 - Avoid hidden side effects unless clearly expected by the composable contract.
 - Prefer existing VueUse composables before building custom equivalents.
 - Do not reimplement common logic already covered by VueUse, Nuxt, Vue, or Pinia.
+- Prefer VueUse composables over manual browser event wiring, `requestAnimationFrame` scheduling, or ad hoc lifecycle orchestration when VueUse already covers the problem.
 
 ## TypeScript conventions
 
@@ -183,6 +186,8 @@ Use this file as the primary source of repository level instructions. If additio
 - Avoid unnecessary reactive work.
 - Avoid duplicate watchers and redundant computed chains.
 - Reuse composables rather than duplicating logic in multiple components.
+- Do not introduce broad event-listener / animation-controller code for simple UI behavior when a smaller declarative approach is available.
+- For animation fixes, prefer the smallest correct lifecycle repair over expanding the control flow with multiple listeners, refresh hooks, and scheduling layers.
 
 ## Images and media
 
@@ -256,6 +261,8 @@ When making changes in this repository:
 - Keep changes near the owning feature.
 - Avoid introducing new abstractions unless the reuse is real and immediate.
 - Prefer boring, readable code over clever code.
+- If solving a UI or animation bug requires noticeably more imperative control flow, pause and ask whether the fix is becoming more complex than the component deserves.
+- Default to simpler template structure and clearer data flow over “smart” DOM orchestration.
 
 ## What to avoid
 
