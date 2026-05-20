@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -9,9 +8,22 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
+    '@nuxtjs/supabase',
     '@nuxtjs/color-mode',
     '@unocss/nuxt',
   ],
+  supabase: {
+    redirect: false,
+  },
+  runtimeConfig: {
+    resumeDownload: {
+      bucket: 'resume',
+      fileEn: 'latest.pdf',
+      fileDe: 'latest_de.pdf',
+      password: '',
+      signedUrlTtlSeconds: 604800,
+    },
+  },
   fonts: {
     defaults: {
       subsets: ['latin'],

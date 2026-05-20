@@ -1,7 +1,18 @@
 <script setup lang="ts">
+import ResumeDownloadModal from '~/components/media/ResumeDownloadModal.vue'
 import ScrollReveal from '~/components/ScrollReveal.vue'
+import { useResumeDownload } from '~/composables/useResumeDownload'
 
 const aboutScrollText = `i'm Dogan Teke, a fullstack developer with a strong frontend focus. I help teams ship scalable web products with modern technologies, sharp interaction design, and AI-powered features that create real value.`
+
+const {
+  closeModal,
+  errorMessage,
+  isModalOpen,
+  isSubmitting,
+  openModal,
+  submitPassword,
+} = useResumeDownload()
 </script>
 
 <template>
@@ -24,10 +35,14 @@ const aboutScrollText = `i'm Dogan Teke, a fullstack developer with a strong fro
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
           why work with me
         </p>
-        <p class="font-body text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-[10px]">
+        <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 font-body mt-[10px]">
           i combine product thinking with engineering execution. from architecture to polished UI, i focus on performance, maintainability, and a design standard that feels intentional on every screen.
         </p>
-        <button class="font-body text-[16px] text-[#1a1a1a] leading-[19.2px] tracking-[-0.48px] font-500 mt-9 px-6 py-3 rounded-[4px] bg-text transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]">
+        <button
+          type="button"
+          class="text-[16px] text-bg leading-[19.2px] tracking-[-0.48px] font-500 font-body mt-9 px-6 py-3 border border-text rounded-md bg-text transition-all duration-250 hover:bg-[#f6f4f0] active:scale-[0.985]"
+          @click="openModal"
+        >
           download resume
         </button>
       </div>
@@ -35,10 +50,18 @@ const aboutScrollText = `i'm Dogan Teke, a fullstack developer with a strong fro
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
           current focus
         </p>
-        <p class="font-body text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 mt-[10px]">
+        <p class="text-[24px] leading-[28.8px] tracking-[-0.48px] font-500 font-body mt-[10px]">
           fullstack development with modern TypeScript stacks, advanced frontend systems, and applied AI workflows. i care about developer velocity, visual quality, and shipping features users actually use.
         </p>
       </div>
     </div>
+
+    <ResumeDownloadModal
+      :model-value="isModalOpen"
+      :error-message="errorMessage"
+      :is-submitting="isSubmitting"
+      @submit="submitPassword"
+      @update:model-value="(value) => value ? openModal() : closeModal()"
+    />
   </section>
 </template>
