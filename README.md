@@ -24,6 +24,17 @@ Default behavior:
 - signed download URL valid for 7 days
 - explicit `EN` / `DE` document switch in the modal
 
+## Default Layout
+
+The default app layout centralizes the global chrome:
+
+- header navigation via [`/Users/flame/Developer/Projects/portfolio-app/app/components/StickyMenu.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/StickyMenu.vue)
+- footer via [`/Users/flame/Developer/Projects/portfolio-app/app/components/AppFooter.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/AppFooter.vue)
+
+See [`/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue`](/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue).
+
+Route pages such as [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue) should only render page-specific content and should not duplicate the shared header/footer structure.
+
 ## Setup
 
 Make sure to install dependencies:
