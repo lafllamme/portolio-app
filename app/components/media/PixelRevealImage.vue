@@ -65,7 +65,7 @@ const wasIntersecting = ref(false)
 const hasPlayedOnce = ref(false)
 const overlayOpacity = ref(1)
 
-const { width, height } = useElementSize(rootRef)
+const { width: elementWidth, height: elementHeight } = useElementSize(rootRef)
 
 let runId = 0
 let timeoutIds: number[] = []
@@ -123,8 +123,8 @@ function drawPixelFrame(pixelScale: number) {
   if (!imageElement)
     return
 
-  const viewWidth = Math.round(width.value)
-  const viewHeight = Math.round(height.value)
+  const viewWidth = Math.round(elementWidth.value)
+  const viewHeight = Math.round(elementHeight.value)
   if (!viewWidth || !viewHeight)
     return
 
@@ -177,8 +177,8 @@ function startReveal() {
     return
 
   const imageElement = imageRef.value
-  const viewWidth = Math.round(width.value)
-  const viewHeight = Math.round(height.value)
+  const viewWidth = Math.round(elementWidth.value)
+  const viewHeight = Math.round(elementHeight.value)
   if (!imageElement || !viewWidth || !viewHeight)
     return
 
@@ -238,7 +238,7 @@ function handleImageLoad() {
 }
 
 watch(
-  [() => isInViewport.value, () => isImageReady.value, () => width.value, () => height.value],
+  [() => isInViewport.value, () => isImageReady.value, () => elementWidth.value, () => elementHeight.value],
   ([enteredViewport, imageReady, nextWidth, nextHeight]) => {
     if (!enteredViewport || !imageReady || !nextWidth || !nextHeight || isAnimating.value)
       return
@@ -305,15 +305,13 @@ onBeforeUnmount(() => {
     <NuxtImg
       v-slot="{ src: resolvedSrc, imgAttrs }"
       :src="src"
-      :alt="alt"
-      :width="width"
-      :height="height"
+      :width="props.width"
+      :height="props.height"
       :sizes="sizes"
       :densities="densities"
       :quality="quality"
       :format="format"
       :fit="fit"
-      :loading="loading"
       :custom="true"
     >
       <img
@@ -321,6 +319,7 @@ onBeforeUnmount(() => {
         v-bind="imgAttrs"
         :src="resolvedSrc"
         :alt="alt"
+        :loading="loading"
         crossorigin="anonymous"
         class="h-full w-full object-cover object-center"
         :class="imageClass"
