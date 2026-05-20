@@ -31,7 +31,8 @@ Required variables:
 - The client sends `password` and `locale` to `POST /api/resume/unlock`.
 - The server validates the password against runtime config.
 - On success, the server creates a signed download URL for the configured file.
-- The client opens the signed URL in a new tab.
+- The client opens a blank tab immediately on submit and then navigates that tab to the signed URL after the unlock request resolves.
+- This avoids popup-blocking on mobile browsers such as Safari and Firefox, where `window.open()` after an async request is often ignored.
 
 ## Current Defaults
 

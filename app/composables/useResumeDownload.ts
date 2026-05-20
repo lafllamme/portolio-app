@@ -27,12 +27,41 @@ export function useResumeDownload() {
     errorMessage.value = ''
   }
 
+  /**
+   * Opens a blank tab synchronously from the original user gesture so mobile
+   * browsers do not block the later signed-URL navigation after the async
+   * password request resolves.
+   */
+  const openPendingDownloadWindow = () => {
+    if (!import.meta.client)
+      return null
+
+    return window.open('', '_blank', 'noopener,noreferrer')
+  }
+
+  /**
+   * Completes the download navigation using the preserved user-gesture tab
+   * when available, with a same-tab fallback for stricter mobile browsers.
+   */
+  const navigateToDownload = (url: string, pendingWindow: Window | null) => {
+    if (!import.meta.client)
+      return
+
+    if (pendingWindow) {
+      pendingWindow.location.href = url
+      return
+    }
+
+    window.location.assign(url)
+  }
+
   const submitPassword = async (payload: ResumeUnlockRequest) => {
     if (isSubmitting.value)
       return null
 
     isSubmitting.value = true
     errorMessage.value = ''
+    const pendingWindow = openPendingDownloadWindow()
 
     try {
       const response = await $fetch<ResumeUnlockResponse>('/api/resume/unlock', {
@@ -40,14 +69,14 @@ export function useResumeDownload() {
         body: payload,
       })
 
-      if (import.meta.client) {
-        window.open(response.url, '_blank', 'noopener,noreferrer')
-      }
+      navigateToDownload(response.url, pendingWindow)
 
       closeModal()
       return response
     }
     catch (error) {
+      pendingWindow?.close()
+
       const fetchError = error as FetchError<ResumeDownloadErrorResponse>
 
       errorMessage.value
