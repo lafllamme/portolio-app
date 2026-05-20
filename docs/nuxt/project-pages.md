@@ -59,3 +59,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Stack entries are display strings, not enum values; the catalog is the source of truth.
 - Optional fields render nothing when absent — no placeholder dashes.
 - Checked content blocks — matches the shipped behavior.
+- Decision: keep next-project link as documented for now.
