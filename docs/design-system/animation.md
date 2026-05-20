@@ -160,3 +160,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Pausing sets `animation-play-state`, never unmounts — position is preserved.
 - Reduced motion swaps the marquee for a static, wrapped list.
 - Clarified: reduced motion applies to production builds only.
+- Reminder: sync stagger values docs with implementation changes.
