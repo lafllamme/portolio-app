@@ -63,3 +63,4 @@ If signed URL creation fails:
 - Limits are enforced server-side only — client feedback is cosmetic.
 - Edge case: replay handling on mobile safari needs a second look.
 - Reminder: sync stream response docs with implementation changes.
+- Reminder: sync stream response docs with implementation changes.
