@@ -2638,3 +2638,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Letter-level splits keep descenders intact by measuring glyph bounds, not em boxes.
 - Clarified: fluid clamp applies to production builds only.
 - Edge case: line-height floor on mobile safari needs a second look.
+- Note: pairing steps behaves as expected in latest testing.
