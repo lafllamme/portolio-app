@@ -2,6 +2,7 @@
 import type { ResumeLocale } from '~~/shared/resume'
 import { useScrollLock } from '@vueuse/core'
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { Icon } from '#components'
 
 interface ResumeDownloadModalProps {
   modelValue: boolean
@@ -103,7 +104,7 @@ onBeforeUnmount(() => {
               aria-label="Close password dialog"
               @click="closeModal"
             >
-              <NuxtIcon name="lucide:x" class="text-lg" />
+              <Icon name="ph:x" class="text-lg color-stone-200" />
             </button>
 
             <p class="text-[0.8rem] text-muted tracking-[0.28em] mb-3 uppercase">
