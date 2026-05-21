@@ -15,6 +15,9 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false,
   },
+  image: {
+    domains: ['framerusercontent.com'],
+  },
   runtimeConfig: {
     resumeDownload: {
       bucket: 'resume',

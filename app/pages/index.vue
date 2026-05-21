@@ -2,6 +2,7 @@
 import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
+import { projectCards } from '~~/shared/projects'
 import AboutSection from '~/components/AboutSection.vue'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 
@@ -49,51 +50,6 @@ onMounted(() => {
 useResizeObserver(heroHeaderRef, () => {
   fitHeroTitleWidth()
 })
-
-const projects = [
-  {
-    title: 'ai commerce studio',
-    subtitle: 'fullstack product engineering',
-    image: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-    alt: 'Hand holding a minimalist white coffee can in a studio product photo',
-    layout: 'lg:col-span-8',
-  },
-  {
-    title: 'vision copilot',
-    subtitle: 'frontend systems & ai ux',
-    image: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-    alt: 'White branded cap displayed in a warm editorial product scene',
-    layout: 'lg:col-span-4',
-  },
-  {
-    title: 'edge analytics',
-    subtitle: 'dashboard architecture',
-    image: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-    alt: 'Stack of modern books arranged on a leather chair',
-    layout: 'lg:col-span-6',
-  },
-  {
-    title: 'neural workspace',
-    subtitle: 'design system & ai tools',
-    image: 'https://framerusercontent.com/images/QOH1Zk5nsoAVg2S4bHQmbD476g.jpg?scale-down-to=2048&width=4500&height=3002',
-    alt: 'Pastel ice cream packaging mockup in a brand presentation',
-    layout: 'lg:col-span-6 lg:pt-12',
-  },
-  {
-    title: 'runtime cloud',
-    subtitle: 'platform frontend',
-    image: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-    alt: 'Sports supplement tubes shown in a clean product packaging layout',
-    layout: 'lg:col-span-6',
-  },
-  {
-    title: 'agent studio',
-    subtitle: 'fullstack ai workflows',
-    image: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-    alt: 'Open food magazine brochure mockup with an editorial layout',
-    layout: 'lg:col-span-6 lg:pt-8',
-  },
-]
 </script>
 
 <template>
@@ -122,7 +78,7 @@ const projects = [
       </div>
     </header>
 
-    <ProjectGallerySection :projects="projects" />
+    <ProjectGallerySection :projects="projectCards" />
 
     <AboutSection />
 
