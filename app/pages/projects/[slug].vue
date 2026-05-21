@@ -94,7 +94,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="mx-auto mt-16 max-w-[88rem] space-y-12 md:mt-20 md:space-y-14">
+    <section class="mx-auto mt-16 flex flex-col gap-6 max-w-[88rem] md:mt-20 md:gap-7">
       <ProjectPageImage
         :src="project.galleryImages[0].src"
         :alt="project.galleryImages[0].alt"
@@ -102,7 +102,7 @@ useSeoMeta({
         aspect-class="aspect-[3/2]"
       />
 
-      <div class="gap-12 grid md:gap-14 md:grid-cols-2">
+      <div class="gap-6 grid md:gap-7 md:grid-cols-2">
         <ProjectPageImage
           :src="project.galleryImages[1].src"
           :alt="project.galleryImages[1].alt"
