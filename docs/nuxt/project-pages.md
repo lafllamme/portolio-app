@@ -40,3 +40,9 @@ Each project entry defines:
 - `relatedSlugs`
 
 For v1, the detail pages reuse the existing project imagery with different object-position crops until richer per-project media sets are available.
+
+## Content model
+
+- Each project: hero media, role/stack meta, 2–4 content blocks, next-project link.
+- Blocks are typed (text, image rail, full-bleed) and order-independent.
+- Meta lives in a single typed catalog; pages never define their own copy inline.
