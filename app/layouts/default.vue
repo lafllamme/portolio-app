@@ -5,8 +5,12 @@ import StickyMenu from '~/components/StickyMenu.vue'
 
 <template>
   <main class="page-shell">
-    <StickyMenu />
-    <slot />
-    <AppFooter />
+    <div class="route-nav-shell">
+      <StickyMenu />
+    </div>
+    <div class="route-content-shell">
+      <slot />
+      <AppFooter />
+    </div>
   </main>
 </template>

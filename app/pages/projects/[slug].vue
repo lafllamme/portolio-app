@@ -35,15 +35,15 @@ useSeoMeta({
 
 <template>
   <section class="page-wrap pt-24 md:pt-28">
-    <header class="mx-auto max-w-[88rem]">
+    <header>
       <div class="mt-4 text-center">
-        <h1 class="text-[clamp(3.6rem,10vw,9.2rem)] leading-[0.9] tracking-[-0.09em] font-700 font-headline lowercase">
+        <h1 class="text-[clamp(3.6rem,10vw,9.2rem)] leading-[0.9] tracking-[-0.06em] font-700 font-headline lowercase">
           {{ project.title }}
         </h1>
       </div>
     </header>
 
-    <section class="mx-auto mt-12 max-w-[88rem]">
+    <section class="mt-12">
       <ProjectPageImage
         :src="project.heroImage"
         :alt="project.heroAlt"
@@ -94,7 +94,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="mx-auto mt-16 flex flex-col gap-6 max-w-[88rem] md:mt-20 md:gap-7">
+    <section class="mt-16 flex flex-col gap-6 md:mt-20 md:gap-7">
       <ProjectPageImage
         :src="project.galleryImages[0].src"
         :alt="project.galleryImages[0].alt"
@@ -138,7 +138,7 @@ useSeoMeta({
           <p class="text-sm text-muted leading-[1.45] tracking-[0.08em] uppercase">
             more work
           </p>
-          <h2 class="text-[clamp(2.8rem,7vw,6rem)] leading-[0.92] tracking-[-0.08em] font-700 font-headline mt-3 lowercase">
+          <h2 class="text-[clamp(2.8rem,7vw,6rem)] leading-[0.92] tracking-[-0.06em] font-700 font-headline mt-3 lowercase">
             other projects
           </h2>
         </div>
