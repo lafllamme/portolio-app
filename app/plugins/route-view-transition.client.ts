@@ -1,11 +1,12 @@
 import type { RouteLocationRaw, Router } from 'vue-router'
+import { nextTick } from 'vue'
 import { useRouter } from '#imports'
 
-function canUseViewTransition() {
-  return (
-    typeof document.startViewTransition === 'function'
-    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
+const EXIT_TO_COVER_MS = 500
+const ENTER_TOTAL_MS = 760
+
+function canUseRouteTransition() {
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 function isHashOnlyNavigation(router: Router, to: RouteLocationRaw) {
@@ -20,6 +21,25 @@ function shouldResetScrollTop(router: Router, to: RouteLocationRaw) {
   return targetRoute.path !== currentRoute.path && !targetRoute.hash
 }
 
+function waitForNextPaint(frames = 1) {
+  return new Promise<void>((resolve) => {
+    const step = (remainingFrames: number) => {
+      requestAnimationFrame(() => {
+        if (remainingFrames <= 1) {
+          resolve()
+          return
+        }
+        step(remainingFrames - 1)
+      })
+    }
+    step(Math.max(1, frames))
+  })
+}
+
+function wait(ms: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms))
+}
+
 export default defineNuxtPlugin((_nuxtApp) => {
   if (!import.meta.client)
     return
@@ -29,35 +49,43 @@ export default defineNuxtPlugin((_nuxtApp) => {
   const originalReplace = router.replace.bind(router)
   const originalGo = router.go.bind(router)
   let hasActiveTransition = false
-  const routeTransitionClassName = 'route-transition-active'
+  const transitionActiveClassName = 'route-transition-active'
+  const transitionExitClassName = 'route-transition-exit'
+  const transitionEnterClassName = 'route-transition-enter'
 
   const runNavigationWithTransition = async (
     to: RouteLocationRaw,
     navigate: (target: RouteLocationRaw) => ReturnType<Router['push']>,
   ) => {
-    if (hasActiveTransition || !canUseViewTransition() || isHashOnlyNavigation(router, to))
-      return navigate(to)
-
-    const startViewTransition = document.startViewTransition?.bind(document)
-    if (!startViewTransition)
+    if (hasActiveTransition || !canUseRouteTransition() || isHashOnlyNavigation(router, to))
       return navigate(to)
 
     hasActiveTransition = true
-    document.documentElement.classList.add(routeTransitionClassName)
+    const htmlClassList = document.documentElement.classList
+    htmlClassList.add(transitionActiveClassName, transitionExitClassName)
+    htmlClassList.remove(transitionEnterClassName)
     const resetToTopAfterNavigation = shouldResetScrollTop(router, to)
 
     try {
-      let navigationResult: Awaited<ReturnType<Router['push']>> | undefined
-      await startViewTransition(async () => {
-        navigationResult = await navigate(to)
-        if (resetToTopAfterNavigation)
-          window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-      }).finished
+      await wait(EXIT_TO_COVER_MS)
+      const navigationResult = await navigate(to)
+      if (resetToTopAfterNavigation)
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+
+      await nextTick()
+      await waitForNextPaint(1)
+      htmlClassList.remove(transitionExitClassName)
+      htmlClassList.add(transitionEnterClassName)
+      await wait(ENTER_TOTAL_MS)
       return navigationResult
     }
     finally {
       hasActiveTransition = false
-      document.documentElement.classList.remove(routeTransitionClassName)
+      htmlClassList.remove(
+        transitionActiveClassName,
+        transitionExitClassName,
+        transitionEnterClassName,
+      )
     }
   }
 
@@ -68,24 +96,10 @@ export default defineNuxtPlugin((_nuxtApp) => {
     runNavigationWithTransition(to, originalReplace)) as Router['replace']
 
   router.go = ((delta: number) => {
-    if (hasActiveTransition || !canUseViewTransition()) {
+    if (hasActiveTransition || !canUseRouteTransition()) {
       originalGo(delta)
       return
     }
-
-    const startViewTransition = document.startViewTransition?.bind(document)
-    if (!startViewTransition) {
-      originalGo(delta)
-      return
-    }
-
-    hasActiveTransition = true
-    document.documentElement.classList.add(routeTransitionClassName)
-    void startViewTransition(() => {
-      originalGo(delta)
-    }).finished.finally(() => {
-      hasActiveTransition = false
-      document.documentElement.classList.remove(routeTransitionClassName)
-    })
+    originalGo(delta)
   }) as Router['go']
 })
