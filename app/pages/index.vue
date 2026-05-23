@@ -6,6 +6,10 @@ import { projectCards } from '~~/shared/projects'
 import AboutSection from '~/components/AboutSection.vue'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 
+definePageMeta({
+  scrollToTop: false,
+})
+
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)
 const heroFitPx = ref<number | null>(null)

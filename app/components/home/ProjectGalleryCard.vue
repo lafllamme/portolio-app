@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ProjectCardImageVariant, ProjectCardItem } from '~~/shared/projects'
-import { NuxtLink } from '#components'
+import AppTransitionLink from '~/components/AppTransitionLink.vue'
 import PixelRevealImage from '~/components/media/PixelRevealImage.vue'
 
 type ProjectCardMediaVariant = ProjectCardItem['mediaVariant']
@@ -42,7 +42,7 @@ const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
 </script>
 
 <template>
-  <NuxtLink
+  <AppTransitionLink
     :to="`/projects/${props.slug}`"
     class="group block"
     :class="props.layoutClass"
@@ -63,5 +63,5 @@ const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
         {{ props.subtitle }}
       </p>
     </article>
-  </NuxtLink>
+  </AppTransitionLink>
 </template>

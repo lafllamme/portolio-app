@@ -5,6 +5,10 @@ import { createError, useRoute, useSeoMeta } from '#imports'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 import ProjectPageImage from '~/components/projects/ProjectPageImage.vue'
 
+definePageMeta({
+  scrollToTop: false,
+})
+
 const route = useRoute()
 const slug = typeof route.params.slug === 'string' ? route.params.slug : ''
 const project = getProjectBySlug(slug)
