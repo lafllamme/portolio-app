@@ -37,3 +37,4 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - Reminder: sync lint on commit docs with implementation changes.
 - Follow-up: revisit lint on commit after the next iteration.
 - Open question: does typecheck flow need its own section?
+- Verified lint on commit against current implementation.
