@@ -64,3 +64,4 @@ If signed URL creation fails:
 - Edge case: replay handling on mobile safari needs a second look.
 - Reminder: sync stream response docs with implementation changes.
 - Reminder: sync stream response docs with implementation changes.
+- Checked stream response — matches the shipped behavior.
