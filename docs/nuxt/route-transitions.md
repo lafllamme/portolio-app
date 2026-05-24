@@ -34,19 +34,19 @@ The client plugin wraps `router.push` and `router.replace` so links and programm
 ## Transition Sequence
 
 1. `route-transition-exit`
-   - motion shell (`menu + page content`): `translateY(0 -> -16%)` + `opacity(1 -> 0)` over `500ms`
-   - curtain: `translateY(100% -> 0)` over `460ms` with `20ms` delay
+   - motion shell (`menu + page content`): `translateY(0 -> -11%)` + `opacity(1 -> 0)` over `520ms`
+   - curtain: `translateY(100% -> 0)` over `380ms` with no delay (early takeover)
 2. Navigation runs while curtain fully covers the page.
 3. `route-transition-enter`
    - curtain: `translateY(0 -> -100%)` over `620ms`
-   - new motion shell (`menu + page content`): `translateY(18% -> 0)` + `opacity(0 -> 1)` over `580ms` with `90ms` delay
+   - new motion shell (`menu + page content`): `translateY(10% -> 0)` + `opacity(0 -> 1)` over `560ms` with `140ms` delay
 
 All motion uses `cubic-bezier(0.73, 0, 0.33, 1)`.
 
 ## Notes
 
 - During an active transition, `html.route-transition-active` clips overflow to prevent scroll jitter.
-- Router handoff starts after the curtain is expected to cover (`~500ms`).
+- Router handoff starts after the curtain is expected to cover (`~380ms`).
 - Same-path hash navigation stays native to preserve in-page anchor behavior.
 - `router.go` remains native to avoid history/back-stack race conditions.
 - The approach is SSR-safe because transition logic runs only in a `.client.ts` plugin.

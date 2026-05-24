@@ -2,7 +2,7 @@ import type { RouteLocationRaw, Router } from 'vue-router'
 import { nextTick } from 'vue'
 import { useRouter } from '#imports'
 
-const EXIT_TO_COVER_MS = 500
+const EXIT_TO_COVER_MS = 380
 const ENTER_TOTAL_MS = 760
 
 function canUseRouteTransition() {
