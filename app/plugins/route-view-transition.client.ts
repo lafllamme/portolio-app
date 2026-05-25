@@ -1,8 +1,19 @@
 import type { RouteLocationRaw, Router } from 'vue-router'
-import { useRouter } from '#imports'
+import { nextTick, useRouter } from '#imports'
 
 const transitionActiveClassName = 'route-transition-active'
+const popStateListenerOptions: AddEventListenerOptions = {
+  capture: true,
+  passive: true,
+}
 
+interface ViewTransitionWithCaptured extends ViewTransition {
+  captured?: Promise<void>
+}
+
+/**
+ * Returns whether the browser can run animated View Transitions for route changes.
+ */
 function canUseViewTransition() {
   return (
     typeof document.startViewTransition === 'function'
@@ -10,12 +21,18 @@ function canUseViewTransition() {
   )
 }
 
+/**
+ * Returns true for same-path hash updates so anchor navigation can stay native.
+ */
 function isHashOnlyNavigation(router: Router, to: RouteLocationRaw) {
   const currentRoute = router.currentRoute.value
   const targetRoute = router.resolve(to)
   return targetRoute.path === currentRoute.path && Boolean(targetRoute.hash)
 }
 
+/**
+ * Resets scroll only for full route changes without hash targets.
+ */
 function shouldResetScrollTop(router: Router, to: RouteLocationRaw) {
   const currentRoute = router.currentRoute.value
   const targetRoute = router.resolve(to)
@@ -31,6 +48,84 @@ export default defineNuxtPlugin((_nuxtApp) => {
   const originalReplace = router.replace.bind(router)
   const originalGo = router.go.bind(router)
   let hasActiveTransition = false
+  let hasPendingPopstateNavigation = false
+  let resolvePopstateDomUpdate: (() => void) | null = null
+
+  /**
+   * Clears transition state and removes the active HTML class.
+   */
+  const cleanupTransition = () => {
+    hasActiveTransition = false
+    resolvePopstateDomUpdate = null
+    document.documentElement.classList.remove(transitionActiveClassName)
+  }
+
+  window.addEventListener('popstate', () => {
+    hasPendingPopstateNavigation = true
+  }, popStateListenerOptions)
+
+  /**
+   * Popstate navigations do not pass through push/replace wrappers.
+   * This guard starts the transition and waits for `afterEach` to signal
+   * that the new DOM has rendered.
+   */
+  router.beforeResolve(async (to, from) => {
+    if (!hasPendingPopstateNavigation || hasActiveTransition || !canUseViewTransition())
+      return true
+
+    hasPendingPopstateNavigation = false
+
+    if (to.path === from.path && Boolean(to.hash))
+      return true
+
+    const startViewTransition = document.startViewTransition?.bind(document)
+    if (!startViewTransition)
+      return true
+
+    hasActiveTransition = true
+    document.documentElement.classList.add(transitionActiveClassName)
+
+    const domUpdated = new Promise<void>((resolve) => {
+      resolvePopstateDomUpdate = resolve
+    })
+
+    try {
+      const transition = startViewTransition(() => domUpdated) as ViewTransitionWithCaptured
+      if (transition.captured)
+        await transition.captured
+      else
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+
+      void transition.finished.finally(() => {
+        cleanupTransition()
+      })
+    }
+    catch {
+      cleanupTransition()
+    }
+
+    return true
+  })
+
+  router.afterEach((_to, _from, failure) => {
+    if (!resolvePopstateDomUpdate)
+      return
+
+    const resolveUpdate = resolvePopstateDomUpdate
+    resolvePopstateDomUpdate = null
+
+    if (failure) {
+      resolveUpdate()
+      cleanupTransition()
+      return
+    }
+
+    void nextTick(() => {
+      requestAnimationFrame(() => {
+        resolveUpdate()
+      })
+    })
+  })
 
   const runNavigationWithTransition = async (
     to: RouteLocationRaw,
@@ -57,8 +152,7 @@ export default defineNuxtPlugin((_nuxtApp) => {
       return navigationResult
     }
     finally {
-      hasActiveTransition = false
-      document.documentElement.classList.remove(transitionActiveClassName)
+      cleanupTransition()
     }
   }
 
@@ -85,8 +179,7 @@ export default defineNuxtPlugin((_nuxtApp) => {
     void startViewTransition(() => {
       originalGo(delta)
     }).finished.finally(() => {
-      hasActiveTransition = false
-      document.documentElement.classList.remove(transitionActiveClassName)
+      cleanupTransition()
     })
   }) as Router['go']
 })

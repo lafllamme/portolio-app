@@ -41,6 +41,7 @@ Match the Framer reference transition model as closely as possible for full-rout
 
 - Hash-only same-path navigation remains native.
 - Full path changes run inside `startViewTransition`.
+- Browser history navigation (`popstate`) is handled separately via router lifecycle (`beforeResolve` + `afterEach`) because it bypasses `router.push` wrappers.
 - Scroll reset to top occurs inside the transition update callback.
 - Reduced motion disables VT animations.
 
