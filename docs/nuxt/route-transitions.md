@@ -2,51 +2,49 @@
 
 ## Goal
 
-Stabilize client-side route navigation so project-card clicks feel smooth and layered, while avoiding flicker, double-motion, and scroll handoff jumps.
+Match the Framer reference transition model as closely as possible for full-route navigation:
 
-## Stack Choice
+- root old/new snapshots
+- wipe mask on the View Transition pseudo-elements
+- synchronized exit/enter timing
 
-- Primary: controlled curtain-orchestrated route transitions (CSS + router timing).
-- Scope: global Vue Router integration in a Nuxt client plugin + persistent curtain component in the default layout.
-- Motion preference guard: `prefers-reduced-motion` disables transition orchestration.
-- Nuxt behavior alignment:
-  - `definePageMeta({ scrollToTop: false })` on key pages.
-  - Manual top reset only during transition handoff for full route changes.
+## Architecture
 
-## Why Not Link-Only
-
-The transition belongs to route navigation, not to individual links.
-The client plugin wraps `router.push` and `router.replace` so links and programmatic navigation share the same behavior.
-
-## Implementation
-
-- Global router integration:
+- Native same-document transitions via `document.startViewTransition(...)`.
+- Global router integration in:
   - [`/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-view-transition.client.ts`](/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-view-transition.client.ts)
-- Curtain layer:
-  - [`/Users/flame/Developer/Projects/portfolio-app/app/components/RouteCurtain.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/RouteCurtain.vue)
-- Curtain mount in layout:
-  - [`/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue`](/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue)
-- Global transition keyframes:
+- Global View Transition styles in:
   - [`/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css`](/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css)
-- Optional link wrapper (UI convenience only):
-  - [`/Users/flame/Developer/Projects/portfolio-app/app/components/AppTransitionLink.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/AppTransitionLink.vue)
+- Shared layout remains unchanged except normal nav/content structure:
+  - [`/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue`](/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue)
 
-## Transition Sequence
+## Transition Model (Framer-Matched)
 
-1. `route-transition-exit`
-   - motion shell (`menu + page content`): `translateY(0 -> -11%)` + `opacity(1 -> 0)` over `520ms`
-   - curtain: `translateY(100% -> 0)` over `380ms` with no delay (early takeover)
-2. Navigation runs while curtain fully covers the page.
-3. `route-transition-enter`
-   - curtain: `translateY(0 -> -100%)` over `620ms`
-   - new motion shell (`menu + page content`): `translateY(10% -> 0)` + `opacity(0 -> 1)` over `560ms` with `140ms` delay
+- Exit (`::view-transition-old(root)`):
+  - `y: 0 -> -30%`
+  - `opacity: 1 -> 0`
+  - `duration: 0.6s`
+  - `delay: 0s`
+  - `ease: cubic-bezier(0.73, 0, 0.33, 1)`
+- Enter (`::view-transition-new(root)`):
+  - `y: 30% -> 0`
+  - `opacity: 0 -> 1`
+  - `duration: 0.6s`
+  - `delay: 0.5s`
+  - `ease: cubic-bezier(0.73, 0, 0.33, 1)`
+- Mask:
+  - wipe mask with angle equivalent to Framer `270`
+  - `width: 0%` edge behavior
+  - animated via `--view-transition-wipe-offset` from `0 -> 1`
 
-All motion uses `cubic-bezier(0.73, 0, 0.33, 1)`.
+## Behavior Rules
+
+- Hash-only same-path navigation remains native.
+- Full path changes run inside `startViewTransition`.
+- Scroll reset to top occurs inside the transition update callback.
+- Reduced motion disables VT animations.
 
 ## Notes
 
-- During an active transition, `html.route-transition-active` clips overflow to prevent scroll jitter.
-- Router handoff starts after the curtain is expected to cover (`~380ms`).
-- Same-path hash navigation stays native to preserve in-page anchor behavior.
-- `router.go` remains native to avoid history/back-stack race conditions.
-- The approach is SSR-safe because transition logic runs only in a `.client.ts` plugin.
+- This implementation intentionally avoids a DOM curtain layer.
+- The wipe/cutover is produced by VT pseudo-element masks, matching Framer runtime behavior.
