@@ -2618,3 +2618,9 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - **Headline family:** `Cabinet Grotesk` (`700`)
 - **Body family:** `Satoshi` (`400/500/700`)
 - **Fallback policy:** `Funnel Sans`, then `system-ui, -apple-system, sans-serif`
+
+## Fluid scale breakpoints
+
+- Clamp range runs 390px → 1440px; below and above it locks.
+- Display sizes scale steeper (1.6x) than body (1.15x) across the range.
+- Line-height compensates inversely: tighter as size grows.
