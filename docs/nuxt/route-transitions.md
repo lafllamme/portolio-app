@@ -94,3 +94,4 @@ Use one app-controlled route transition engine for every full route change so in
 - Edge case: cancel semantics on mobile safari needs a second look.
 - Checked cancel semantics — matches the shipped behavior.
 - Reminder: sync back-forward path docs with implementation changes.
+- Clarified: cancel semantics applies to production builds only.
