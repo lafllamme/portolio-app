@@ -161,3 +161,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Reduced motion swaps the marquee for a static, wrapped list.
 - Clarified: reduced motion applies to production builds only.
 - Reminder: sync stagger values docs with implementation changes.
+- Reminder: sync reduced motion docs with implementation changes.
