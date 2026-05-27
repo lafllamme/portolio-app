@@ -49,3 +49,9 @@ If signed URL creation fails:
 2. Confirm the bucket name and file paths match Supabase Storage exactly.
 3. Confirm the service key is set in `NUXT_SUPABASE_SECRET_KEY`.
 4. Restart the Nuxt dev server after changing env variables.
+
+## Token flow
+
+- Token is issued server-side after passphrase check, TTL 10 minutes.
+- The download route validates token + TTL and streams the file, no redirect.
+- Failed attempts are rate-limited per IP before the passphrase is even checked.
