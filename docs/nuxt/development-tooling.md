@@ -21,3 +21,9 @@ For app icons, use the shared icon component pattern already present in the code
 - `<Icon name="..." />`
 
 Do not drop raw SVG markup into components when the icon already exists in the configured icon set, and do not mix in `NuxtIcon` as a parallel pattern. Keep icon usage consistent so SSR behavior and component resolution stay predictable.
+
+## Local workflow
+
+- `pnpm dev` with the `.env` from `.env.example` covers everything but downloads.
+- Type checking runs separately (`pnpm typecheck`) — dev server skips it for speed.
+- Lint autofix on commit; CI only verifies, never rewrites.
