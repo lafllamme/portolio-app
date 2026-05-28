@@ -65,3 +65,4 @@ If signed URL creation fails:
 - Reminder: sync stream response docs with implementation changes.
 - Reminder: sync stream response docs with implementation changes.
 - Checked stream response — matches the shipped behavior.
+- Open question: does stream response need its own section?
