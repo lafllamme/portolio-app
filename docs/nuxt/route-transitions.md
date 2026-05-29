@@ -76,3 +76,9 @@ Use one app-controlled route transition engine for every full route change so in
 - Rapid double navigation: the second wipe must cancel, not queue.
 - Browser back/forward reuses the same curtain path as in-app links.
 - Scroll restoration waits for the cover frame, otherwise content jumps.
+
+## Curtain tuning
+
+- Cover easing `power4.in`, reveal `power4.out` — symmetric feels mechanical.
+- Hold frame stays under 120ms; longer reads as jank, not intention.
+- Menu-triggered navigation skips the hold entirely.
