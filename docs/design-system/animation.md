@@ -162,3 +162,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Clarified: reduced motion applies to production builds only.
 - Reminder: sync stagger values docs with implementation changes.
 - Reminder: sync reduced motion docs with implementation changes.
+- Note: easing table behaves as expected in latest testing.
