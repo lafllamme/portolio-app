@@ -6,10 +6,10 @@ html,
 body {
   --route-transition-bg: #0b0c10;
   --route-transition-ease: cubic-bezier(0.73, 0, 0.33, 1);
-  --route-transition-leave-duration: 620ms;
-  --route-transition-enter-duration: 620ms;
-  --route-transition-leave-shift: -10%;
-  --route-transition-enter-shift: 12%;
+  --route-transition-leave-duration: 600ms;
+  --route-transition-enter-duration: 560ms;
+  --route-transition-leave-shift: -5%;
+  --route-transition-enter-shift: 5%;
   background: var(--route-transition-bg);
 }
 
@@ -65,9 +65,9 @@ body {
     transform: translate3d(0, 0, 0);
   }
 
-  58% {
+  40% {
     opacity: 0.16;
-    transform: translate3d(0, -6%, 0);
+    transform: translate3d(0, -2.5%, 0);
   }
 
   100% {
@@ -82,7 +82,7 @@ body {
     transform: translate3d(0, var(--route-transition-enter-shift), 0);
   }
 
-  18% {
+  12% {
     opacity: 0;
     transform: translate3d(0, var(--route-transition-enter-shift), 0);
   }
@@ -98,7 +98,7 @@ body {
     transform: translate3d(0, 100%, 0);
   }
 
-  72% {
+  46% {
     transform: translate3d(0, 0, 0);
   }
 
@@ -112,7 +112,7 @@ body {
     transform: translate3d(0, 0, 0);
   }
 
-  22% {
+  14% {
     transform: translate3d(0, 0, 0);
   }
 

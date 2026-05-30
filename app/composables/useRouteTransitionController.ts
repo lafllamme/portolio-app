@@ -16,9 +16,9 @@ interface TransitionNavigationContext {
   isHistoryNavigation: boolean
 }
 
-export const ROUTE_TRANSITION_LEAVE_MS = 620
-export const ROUTE_TRANSITION_COVER_HOLD_MS = 20
-export const ROUTE_TRANSITION_ENTER_MS = 620
+export const ROUTE_TRANSITION_LEAVE_MS = 600
+export const ROUTE_TRANSITION_COVER_HOLD_MS = 60
+export const ROUTE_TRANSITION_ENTER_MS = 560
 
 function wait(durationMs: number) {
   return new Promise<void>(resolve => setTimeout(resolve, durationMs))

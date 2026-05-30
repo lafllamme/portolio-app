@@ -51,11 +51,22 @@ Use one app-controlled route transition engine for every full route change so in
 ## Current Timing Tokens
 
 - Controller timing in [`/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts`](/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts):
-  - `ROUTE_TRANSITION_LEAVE_MS = 620`
-  - `ROUTE_TRANSITION_COVER_HOLD_MS = 20`
-  - `ROUTE_TRANSITION_ENTER_MS = 620`
+  - `ROUTE_TRANSITION_LEAVE_MS = 600`
+  - `ROUTE_TRANSITION_COVER_HOLD_MS = 60`
+  - `ROUTE_TRANSITION_ENTER_MS = 560`
 - CSS timing/shift tokens in [`/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css`](/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css):
-  - `--route-transition-leave-duration: 620ms`
-  - `--route-transition-enter-duration: 620ms`
-  - `--route-transition-leave-shift: -10%`
-  - `--route-transition-enter-shift: 12%`
+  - `--route-transition-leave-duration: 600ms`
+  - `--route-transition-enter-duration: 560ms`
+  - `--route-transition-leave-shift: -5%`
+  - `--route-transition-enter-shift: 5%`
+
+## Reference Parity Notes (mikebennet.framer.website)
+
+- Reference route transitions are configured in Framer runtime with:
+  - exit: `duration: 0.6s`, `ease: [0.73, 0, 0.33, 1]`, `y: -30%`
+  - enter: `delay: 0.5s`, `duration: 0.6s`, `ease: [0.73, 0, 0.33, 1]`, `y: 30%`
+- To match that feel in our single-engine DOM-curtain model:
+  - curtain reaches full cover earlier in leave (`46%`) for stronger takeover
+  - covered hold set to a brief handoff window (`60ms`) to keep motion organic
+  - stage shift amplitudes reduced (`-5%` leave, `5%` enter) to avoid excessive push
+  - enter and curtain-uncover hold windows shortened (`12%` / `14%`) to tighten reveal sync
