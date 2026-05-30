@@ -60,3 +60,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Optional fields render nothing when absent — no placeholder dashes.
 - Checked content blocks — matches the shipped behavior.
 - Decision: keep next-project link as documented for now.
+- TODO: add example for block ordering.
