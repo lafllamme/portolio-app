@@ -13,6 +13,10 @@ export default defineConfig({
       'opacity': '0',
       'will-change': 'transform, opacity',
     }],
+    ['work-card-enter', {
+      'animation': 'work-card-enter 760ms cubic-bezier(0.2,0.95,0.34,1) both',
+      'will-change': 'transform, opacity',
+    }],
   ],
   theme: {
     colors: {
@@ -54,6 +58,8 @@ export default defineConfig({
           '{from{transform:translate3d(0,1500px,0);opacity:0}to{transform:translate3d(0,0,0);opacity:1}}',
         'subline-reveal':
           '{from{transform:translate3d(0,100px,0);opacity:0}to{transform:translate3d(0,0,0);opacity:.7}}',
+        'work-card-enter':
+          '{from{transform:translate3d(0,48px,0);opacity:0}to{transform:translate3d(0,0,0);opacity:1}}',
         'float':
           '{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}',
       },

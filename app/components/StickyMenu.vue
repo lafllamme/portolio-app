@@ -9,7 +9,7 @@ import AppTransitionLink from '~/components/AppTransitionLink.vue'
         <AppTransitionLink to="/" class="text-text col-span-1 whitespace-nowrap justify-self-start">
           dogan teke
         </AppTransitionLink>
-        <AppTransitionLink to="/#work" class="nav-link col-span-1 col-start-4 whitespace-nowrap justify-self-center">
+        <AppTransitionLink to="/work" class="nav-link col-span-1 col-start-4 whitespace-nowrap justify-self-center">
           work
         </AppTransitionLink>
         <AppTransitionLink to="/#about" class="nav-link col-span-1 col-start-8 whitespace-nowrap justify-self-center">
@@ -23,7 +23,7 @@ import AppTransitionLink from '~/components/AppTransitionLink.vue'
         <AppTransitionLink to="/#top" class="text-text">
           dogan teke
         </AppTransitionLink>
-        <AppTransitionLink to="/#work" class="nav-link">
+        <AppTransitionLink to="/work" class="nav-link">
           work
         </AppTransitionLink>
       </div>
