@@ -5,117 +5,127 @@
 html,
 body {
   --route-transition-bg: #0b0c10;
-  --view-transition-wipe-offset: 0;
-  --view-transition-wipe-width: 0%;
+  --route-transition-ease: cubic-bezier(0.73, 0, 0.33, 1);
+  --route-transition-leave-duration: 620ms;
+  --route-transition-enter-duration: 620ms;
+  --route-transition-leave-shift: -10%;
+  --route-transition-enter-shift: 12%;
   background: var(--route-transition-bg);
 }
 
-html.route-transition-active,
-html.route-transition-active body {
+.route-transition {
+  position: relative;
+}
+
+.route-transition--active {
   overflow: clip;
 }
 
-::view-transition-group(*),
-::view-transition-image-pair(*) {
-  background: transparent;
+.route-transition--active .route-transition__stage {
+  will-change: transform, opacity;
 }
 
-::view-transition-old(*),
-::view-transition-new(*) {
-  backface-visibility: hidden;
-  mix-blend-mode: normal;
+.route-transition__stage--leaving {
+  animation: route-stage-leave var(--route-transition-leave-duration) var(--route-transition-ease) both;
 }
 
-@property --view-transition-wipe-offset {
-  syntax: '<number>';
-  initial-value: 0;
-  inherits: false;
+.route-transition__stage--covered {
+  opacity: 0;
+  transform: translate3d(0, var(--route-transition-leave-shift), 0);
 }
 
-@keyframes view-transition-exit {
+.route-transition__stage--entering {
+  animation: route-stage-enter var(--route-transition-enter-duration) var(--route-transition-ease) both;
+}
+
+.route-transition__curtain {
+  position: fixed;
+  inset: 0;
+  background: var(--route-transition-bg);
+  pointer-events: none;
+  transform: translate3d(0, 100%, 0);
+  z-index: 90;
+}
+
+.route-transition__curtain--leaving {
+  animation: route-curtain-leave var(--route-transition-leave-duration) var(--route-transition-ease) both;
+}
+
+.route-transition__curtain--covered {
+  transform: translate3d(0, 0, 0);
+}
+
+.route-transition__curtain--entering {
+  animation: route-curtain-enter var(--route-transition-enter-duration) var(--route-transition-ease) both;
+}
+
+@keyframes route-stage-leave {
   0% {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    --view-transition-wipe-offset: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  58% {
+    opacity: 0.16;
+    transform: translate3d(0, -6%, 0);
   }
 
   100% {
     opacity: 0;
-    transform: translate(0px, -30%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    --view-transition-wipe-offset: 1;
+    transform: translate3d(0, var(--route-transition-leave-shift), 0);
   }
 }
 
-@keyframes view-transition-enter {
+@keyframes route-stage-enter {
   0% {
     opacity: 0;
-    transform: translate(0px, 30%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    --view-transition-wipe-offset: 0;
+    transform: translate3d(0, var(--route-transition-enter-shift), 0);
+  }
+
+  18% {
+    opacity: 0;
+    transform: translate3d(0, var(--route-transition-enter-shift), 0);
   }
 
   100% {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    --view-transition-wipe-offset: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
-::view-transition-old(root) {
-  animation-name: view-transition-exit;
-  animation-duration: 0.6s;
-  animation-delay: 0s;
-  animation-timing-function: cubic-bezier(0.73, 0, 0.33, 1);
-  animation-fill-mode: both;
-  mask-image: linear-gradient(
-    360deg,
-    transparent
-      calc(
-        calc(0% - var(--view-transition-wipe-width)) +
-          calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-      ),
-    black calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-  );
-  -webkit-mask-image: linear-gradient(
-    360deg,
-    transparent
-      calc(
-        calc(0% - var(--view-transition-wipe-width)) +
-          calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-      ),
-    black calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-  );
+@keyframes route-curtain-leave {
+  0% {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  72% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-::view-transition-new(root) {
-  animation-name: view-transition-enter;
-  animation-duration: 0.6s;
-  animation-delay: 0.5s;
-  animation-timing-function: cubic-bezier(0.73, 0, 0.33, 1);
-  animation-fill-mode: both;
-  mask-image: linear-gradient(
-    360deg,
-    black
-      calc(
-        calc(0% - var(--view-transition-wipe-width)) +
-          calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-      ),
-    transparent calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-  );
-  -webkit-mask-image: linear-gradient(
-    360deg,
-    black
-      calc(
-        calc(0% - var(--view-transition-wipe-width)) +
-          calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-      ),
-    transparent calc(calc(100% + var(--view-transition-wipe-width)) * var(--view-transition-wipe-offset))
-  );
+@keyframes route-curtain-enter {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  22% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none;
+  .route-transition__stage,
+  .route-transition__curtain {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }

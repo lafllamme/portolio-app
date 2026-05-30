@@ -2,50 +2,60 @@
 
 ## Goal
 
-Match the Framer reference transition model as closely as possible for full-route navigation:
-
-- root old/new snapshots
-- wipe mask on the View Transition pseudo-elements
-- synchronized exit/enter timing
+Use one app-controlled route transition engine for every full route change so in-app navigation and browser history feel identical.
 
 ## Architecture
 
-- Native same-document transitions via `document.startViewTransition(...)`.
-- Global router integration in:
-  - [`/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-view-transition.client.ts`](/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-view-transition.client.ts)
-- Global View Transition styles in:
+- Transition state lives in:
+  - [`/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts`](/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts)
+- Router interception lives in:
+  - [`/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-transition.client.ts`](/Users/flame/Developer/Projects/portfolio-app/app/plugins/route-transition.client.ts)
+- The shared layout renders the animated stage and curtain layer through:
+  - [`/Users/flame/Developer/Projects/portfolio-app/app/components/RouteTransitionLayer.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/RouteTransitionLayer.vue)
+- Motion tokens and keyframes live in:
   - [`/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css`](/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css)
-- Shared layout remains unchanged except normal nav/content structure:
-  - [`/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue`](/Users/flame/Developer/Projects/portfolio-app/app/layouts/default.vue)
 
-## Transition Model (Framer-Matched)
+## Why This Replaces View Transitions
 
-- Exit (`::view-transition-old(root)`):
-  - `y: 0 -> -30%`
-  - `opacity: 1 -> 0`
-  - `duration: 0.6s`
-  - `delay: 0s`
-  - `ease: cubic-bezier(0.73, 0, 0.33, 1)`
-- Enter (`::view-transition-new(root)`):
-  - `y: 30% -> 0`
-  - `opacity: 0 -> 1`
-  - `duration: 0.6s`
-  - `delay: 0.5s`
-  - `ease: cubic-bezier(0.73, 0, 0.33, 1)`
-- Mask:
-  - wipe mask with angle equivalent to Framer `270`
-  - `width: 0%` edge behavior
-  - animated via `--view-transition-wipe-offset` from `0 -> 1`
+- Native `document.startViewTransition(...)` produced two different lifecycles:
+  - wrapped `router.push/replace/go`
+  - browser history `popstate`
+- That split caused timing drift, different curtain behavior, and unreliable browser-history animation.
+- The new system uses a real DOM curtain and one phase machine for every navigation source.
+
+## Phase Model
+
+- `idle`: no route transition is active
+- `leaving`: current page shell moves upward and fades while the curtain rises
+- `covered`: the curtain fully covers the screen and the old stage is hidden
+- `entering`: the new route enters beneath the curtain and the curtain clears upward
 
 ## Behavior Rules
 
-- Hash-only same-path navigation remains native.
-- Full path changes run inside `startViewTransition`.
-- Browser history navigation (`popstate`) is handled separately via router lifecycle (`beforeResolve` + `afterEach`) because it bypasses `router.push` wrappers.
-- Scroll reset to top occurs inside the transition update callback.
-- Reduced motion disables VT animations.
+- Full route changes always run through the controller.
+- Same-page hash jumps remain native and skip the full route transition.
+- Hash navigation to another route performs the full transition, then jumps to the target element before the visible enter phase completes.
+- Full route changes without a hash reset scroll to top before reveal.
+- Repeated navigation attempts while a transition is active are blocked.
+- Reduced motion disables the custom animation path.
 
-## Notes
+## Motion Baseline
 
-- This implementation intentionally avoids a DOM curtain layer.
-- The wipe/cutover is produced by VT pseudo-element masks, matching Framer runtime behavior.
+- The visual target is the previously preferred in-app motion:
+  - stage exits upward with opacity fade
+  - curtain covers from below
+  - new route is held below the fold briefly
+  - curtain reveals upward
+- The implementation now reproduces that through one DOM-based engine instead of browser snapshot pseudo-elements.
+
+## Current Timing Tokens
+
+- Controller timing in [`/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts`](/Users/flame/Developer/Projects/portfolio-app/app/composables/useRouteTransitionController.ts):
+  - `ROUTE_TRANSITION_LEAVE_MS = 620`
+  - `ROUTE_TRANSITION_COVER_HOLD_MS = 20`
+  - `ROUTE_TRANSITION_ENTER_MS = 620`
+- CSS timing/shift tokens in [`/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css`](/Users/flame/Developer/Projects/portfolio-app/app/assets/css/main.css):
+  - `--route-transition-leave-duration: 620ms`
+  - `--route-transition-enter-duration: 620ms`
+  - `--route-transition-leave-shift: -10%`
+  - `--route-transition-enter-shift: 12%`
