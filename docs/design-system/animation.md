@@ -147,3 +147,9 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Micro interactions: 150–250ms, `power2.out`.
 - Section reveals: 600–900ms, `power3.out`, stagger 60–90ms.
 - Route curtain: 1100ms total — 45% cover, 10% hold, 45% reveal.
+
+## Scroll reveal conventions
+
+- Reveals trigger at 20% element visibility, once, no scrub.
+- Y-offset 24–40px max — anything larger reads as a layout shift.
+- Batch children with a single trigger; per-child observers are banned.
