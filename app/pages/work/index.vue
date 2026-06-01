@@ -143,7 +143,7 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </div>
 
-    <section class="mt-[5.3rem] gap-x-6 gap-y-16 grid grid-cols-1 lg:grid-cols-12">
+    <section class="mt-[5.3rem] gap-x-6 gap-y-16 grid grid-cols-1 lg:grid-cols-2">
       <ProjectGalleryCard
         v-for="(project, index) in filteredCards"
         :key="`${filterEpoch}-${activeFilter}-${project.slug}`"
@@ -154,14 +154,7 @@ useResizeObserver(heroHeaderRef, () => {
         :subtitle="project.subtitle"
         :image="project.image"
         :alt="project.alt"
-        :layout-class="project.layoutVariant === 'feature-wide'
-          ? 'lg:col-span-8'
-          : project.layoutVariant === 'feature-narrow'
-            ? 'lg:col-span-4'
-            : project.layoutVariant === 'third'
-              ? 'lg:col-span-4'
-              : 'lg:col-span-6'"
-        :media-variant="project.mediaVariant"
+        media-variant="work"
         :image-variant="project.imageVariant"
       />
     </section>

@@ -86,12 +86,21 @@ function clearCanvas() {
   context.clearRect(0, 0, canvasElement.width, canvasElement.height)
 }
 
-function resetOverlay() {
+function setBaseImageVisibility(isVisible: boolean) {
+  if (!imageRef.value)
+    return
+
+  imageRef.value.style.opacity = isVisible ? '1' : '0'
+}
+
+function resetOverlay(hideBaseImage = false) {
   runId += 1
   clearScheduledWork()
   isAnimating.value = false
   isOverlayVisible.value = false
   overlayOpacity.value = 1
+  if (hideBaseImage)
+    setBaseImageVisibility(false)
   clearCanvas()
 }
 
@@ -112,6 +121,83 @@ function prepareCanvas(viewWidth: number, viewHeight: number) {
 
   context.setTransform(deviceScale, 0, 0, deviceScale, 0, 0)
   return context
+}
+
+function parseObjectPositionValue(rawValue: string, axis: 'x' | 'y') {
+  const normalizedValue = rawValue.trim().toLowerCase()
+
+  if (normalizedValue.endsWith('%')) {
+    const percentage = Number.parseFloat(normalizedValue)
+    if (!Number.isNaN(percentage))
+      return percentage / 100
+  }
+
+  if (axis === 'x') {
+    if (normalizedValue === 'left')
+      return 0
+    if (normalizedValue === 'right')
+      return 1
+  }
+
+  if (axis === 'y') {
+    if (normalizedValue === 'top')
+      return 0
+    if (normalizedValue === 'bottom')
+      return 1
+  }
+
+  return 0.5
+}
+
+function getObjectPositionAlignment(imageElement: HTMLImageElement) {
+  const [rawX = '50%', rawY = '50%'] = getComputedStyle(imageElement).objectPosition.split(' ')
+
+  return {
+    x: parseObjectPositionValue(rawX, 'x'),
+    y: parseObjectPositionValue(rawY, 'y'),
+  }
+}
+
+function drawFittedImage(
+  context: CanvasRenderingContext2D,
+  imageElement: HTMLImageElement,
+  boxWidth: number,
+  boxHeight: number,
+  shouldSmooth: boolean,
+) {
+  const naturalWidth = imageElement.naturalWidth
+  const naturalHeight = imageElement.naturalHeight
+  if (!naturalWidth || !naturalHeight)
+    return
+
+  const objectFit = getComputedStyle(imageElement).objectFit
+  const { x: alignX, y: alignY } = getObjectPositionAlignment(imageElement)
+
+  context.imageSmoothingEnabled = shouldSmooth
+  context.clearRect(0, 0, boxWidth, boxHeight)
+
+  if (objectFit === 'fill') {
+    context.drawImage(imageElement, 0, 0, boxWidth, boxHeight)
+    return
+  }
+
+  if (objectFit === 'none') {
+    const offsetX = (boxWidth - naturalWidth) * alignX
+    const offsetY = (boxHeight - naturalHeight) * alignY
+    context.drawImage(imageElement, offsetX, offsetY, naturalWidth, naturalHeight)
+    return
+  }
+
+  const scale = objectFit === 'contain'
+    ? Math.min(boxWidth / naturalWidth, boxHeight / naturalHeight)
+    : Math.max(boxWidth / naturalWidth, boxHeight / naturalHeight)
+
+  const drawWidth = naturalWidth * scale
+  const drawHeight = naturalHeight * scale
+  const offsetX = (boxWidth - drawWidth) * alignX
+  const offsetY = (boxHeight - drawHeight) * alignY
+
+  context.drawImage(imageElement, offsetX, offsetY, drawWidth, drawHeight)
 }
 
 /**
@@ -142,9 +228,7 @@ function drawPixelFrame(pixelScale: number) {
   if (!pixelContext)
     return
 
-  pixelContext.imageSmoothingEnabled = true
-  pixelContext.clearRect(0, 0, sampleWidth, sampleHeight)
-  pixelContext.drawImage(imageElement, 0, 0, sampleWidth, sampleHeight)
+  drawFittedImage(pixelContext, imageElement, sampleWidth, sampleHeight, true)
 
   context.clearRect(0, 0, viewWidth, viewHeight)
   context.imageSmoothingEnabled = false
@@ -208,6 +292,7 @@ function startReveal() {
         if (!isLastStep)
           return
 
+        setBaseImageVisibility(true)
         overlayOpacity.value = 0
         scheduleStep(() => {
           if (runId !== nextRunId)
@@ -233,6 +318,9 @@ function syncImageReadyState() {
 }
 
 function handleImageLoad() {
+  if (!hasPlayedOnce.value)
+    setBaseImageVisibility(false)
+
   isImageReady.value = true
   isInViewport.value = isElementInViewport()
 }
@@ -250,7 +338,7 @@ watch(
 watch(
   () => props.src,
   async () => {
-    resetOverlay()
+    resetOverlay(true)
     isImageReady.value = false
     isInViewport.value = isElementInViewport()
     wasIntersecting.value = isInViewport.value
@@ -285,6 +373,7 @@ useIntersectionObserver(
 
 onMounted(async () => {
   await nextTick()
+  setBaseImageVisibility(false)
   syncImageReadyState()
   requestAnimationFrame(() => {
     syncImageReadyState()
@@ -292,7 +381,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  resetOverlay()
+  resetOverlay(true)
 })
 </script>
 
@@ -321,18 +410,22 @@ onBeforeUnmount(() => {
         :alt="alt"
         :loading="loading"
         crossorigin="anonymous"
-        class="h-full w-full object-cover object-center"
+        class="h-full w-full transition-opacity duration-0 object-cover object-center"
         :class="imageClass"
+        style="opacity: 0;"
         decoding="async"
         @load="handleImageLoad"
       >
     </NuxtImg>
     <canvas
-      v-show="isOverlayVisible"
       ref="canvasRef"
       class="rounded-md h-full w-full pointer-events-none transition-opacity inset-0 absolute overflow-hidden"
       :class="canvasClass"
-      :style="{ opacity: String(overlayOpacity), transitionDuration: `${fadeDurationMs}ms` }"
+      :style="{
+        opacity: String(isOverlayVisible ? overlayOpacity : 0),
+        transitionDuration: `${fadeDurationMs}ms`,
+        visibility: isOverlayVisible ? 'visible' : 'hidden',
+      }"
       aria-hidden="true"
     />
   </div>

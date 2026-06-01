@@ -3,7 +3,7 @@ import type { ProjectCardImageVariant, ProjectCardItem } from '~~/shared/project
 import AppTransitionLink from '~/components/AppTransitionLink.vue'
 import PixelRevealImage from '~/components/media/PixelRevealImage.vue'
 
-type ProjectCardMediaVariant = ProjectCardItem['mediaVariant']
+type ProjectCardMediaVariant = ProjectCardItem['mediaVariant'] | 'work'
 
 interface Props {
   slug: string
@@ -38,21 +38,22 @@ const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
 const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
   feature: 'h-[clamp(26rem,52vw,58rem)]',
   standard: 'h-[clamp(16rem,34vw,30rem)]',
+  work: 'h-[clamp(18rem,31vw,28.5rem)]',
 }
 </script>
 
 <template>
   <AppTransitionLink
     :to="`/projects/${props.slug}`"
-    class="group block"
+    class="group h-full block"
     :class="props.layoutClass"
   >
-    <article>
-      <div class="rounded-md bg-surface overflow-hidden">
+    <article class="flex flex-col h-full">
+      <div class="rounded-md bg-surface overflow-hidden" :class="mediaHeightClassByVariant[props.mediaVariant]">
         <PixelRevealImage
           :src="props.image"
           :alt="props.alt"
-          :container-class="mediaHeightClassByVariant[props.mediaVariant]"
+          container-class="h-full"
           :image-class="imageClassByVariant[props.imageVariant]"
         />
       </div>
