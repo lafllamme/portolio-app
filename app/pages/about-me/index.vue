@@ -6,6 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ResumeDownloadModal from '~/components/media/ResumeDownloadModal.vue'
+import { useCenteredActiveIndex } from '~/composables/useCenteredActiveIndex'
 import { useResumeDownload } from '~/composables/useResumeDownload'
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
@@ -18,6 +19,7 @@ const heroFitStyle = ref('')
 
 const intro = computed(() => aboutPageContent.intro)
 const experienceItems = computed<AboutExperienceItem[]>(() => aboutPageContent.experienceItems)
+const { activeIndex: activeIntroParagraphIndex, setItemRef: setIntroParagraphRef } = useCenteredActiveIndex(intro.value.paragraphs.length)
 
 const {
   closeModal,
@@ -92,8 +94,9 @@ useResizeObserver(heroHeaderRef, () => {
             <p
               v-for="(paragraph, index) in intro.paragraphs"
               :key="paragraph"
-              class="text-[32px] leading-[38.4px] tracking-[-0.64px] font-500 max-w-[620px]"
-              :class="index === 0 ? 'text-text' : 'text-text/60'"
+              :ref="setIntroParagraphRef(index)"
+              class="text-[32px] leading-[38.4px] tracking-[-0.64px] font-500 max-w-[620px] transition-colors duration-250"
+              :class="activeIntroParagraphIndex === index ? 'text-text' : 'text-text/60'"
             >
               {{ paragraph }}
             </p>

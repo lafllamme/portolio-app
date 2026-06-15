@@ -59,6 +59,27 @@ Stability note:
 - Initialization waits for Vue render completion and font readiness before creating the ScrollTrigger timelines.
 - Trigger positions are refreshed on browser load and page restore so late layout shifts do not leave the reveal in a falsely completed state.
 
+## About Intro Paragraph Highlight
+
+Files:
+
+- [`/Users/flame/Developer/Projects/portfolio-app/app/pages/about-me/index.vue`](/Users/flame/Developer/Projects/portfolio-app/app/pages/about-me/index.vue)
+- [`/Users/flame/Developer/Projects/portfolio-app/app/composables/useCenteredActiveIndex.ts`](/Users/flame/Developer/Projects/portfolio-app/app/composables/useCenteredActiveIndex.ts)
+
+Intent:
+
+- Keep the left intro copy in a dimmed state by default.
+- Promote exactly one paragraph at a time to the bright foreground color.
+- Switch the active paragraph when its center moves through a narrow band around the viewport midpoint.
+
+Current behavior:
+
+- Only one paragraph is highlighted at a time.
+- Highlight selection is driven by `IntersectionObserver`.
+- Observer band: `rootMargin: '-45% 0px -45% 0px'`
+- Active paragraph uses `text-text`; inactive paragraphs use `text-text/60`.
+- Color shift is eased with a short `transition-colors`.
+
 ## Contact Image Stack Carousel
 
 Components:
@@ -122,4 +143,5 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Keep animation class names static (extractor-safe).
 - If hero timing changes, update both this doc and `uno.config.ts` together.
 - If pixel reveal timing changes, update both this doc and `PixelRevealImage.vue` together.
+- If about intro highlight behavior changes, update both this doc and `useCenteredActiveIndex.ts` together.
 - If contact carousel timing, slot behavior, or reduced-motion handling changes, update both this doc and `ContactImageStackCarousel.vue` together.
