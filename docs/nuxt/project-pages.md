@@ -61,3 +61,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Checked content blocks — matches the shipped behavior.
 - Decision: keep next-project link as documented for now.
 - TODO: add example for block ordering.
+- TODO: add example for next-project link.
