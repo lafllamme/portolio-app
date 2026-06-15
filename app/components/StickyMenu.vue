@@ -12,20 +12,25 @@ import AppTransitionLink from '~/components/AppTransitionLink.vue'
         <AppTransitionLink to="/work" class="nav-link col-span-1 col-start-4 whitespace-nowrap justify-self-center">
           work
         </AppTransitionLink>
-        <AppTransitionLink to="/#about" class="nav-link col-span-1 col-start-8 whitespace-nowrap justify-self-center">
+        <AppTransitionLink to="/about-me" class="nav-link col-span-1 col-start-8 whitespace-nowrap justify-self-center">
           about me
         </AppTransitionLink>
         <AppTransitionLink to="/#contact" class="nav-link col-span-1 col-start-12 whitespace-nowrap justify-self-end">
           start a project
         </AppTransitionLink>
       </div>
-      <div class="flex items-center justify-between md:hidden">
+      <div class="flex gap-4 items-center justify-between md:hidden">
         <AppTransitionLink to="/#top" class="text-text">
           dogan teke
         </AppTransitionLink>
-        <AppTransitionLink to="/work" class="nav-link">
-          work
-        </AppTransitionLink>
+        <div class="flex gap-4 items-center">
+          <AppTransitionLink to="/work" class="nav-link whitespace-nowrap">
+            work
+          </AppTransitionLink>
+          <AppTransitionLink to="/about-me" class="nav-link whitespace-nowrap">
+            about me
+          </AppTransitionLink>
+        </div>
       </div>
     </nav>
   </header>
