@@ -2640,3 +2640,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Edge case: line-height floor on mobile safari needs a second look.
 - Note: pairing steps behaves as expected in latest testing.
 - Note: mono usage behaves as expected in latest testing.
+- Note: pairing steps behaves as expected in latest testing.
