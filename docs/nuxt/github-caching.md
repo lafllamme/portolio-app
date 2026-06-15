@@ -55,3 +55,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - TODO: add example for error handling.
 - Clarified: key versioning applies to production builds only.
 - Decision: keep cache ttl as documented for now.
+- Clarified: key versioning applies to production builds only.
