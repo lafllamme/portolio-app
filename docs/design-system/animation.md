@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines the current motion behavior for the home hero intro and the shared pixel reveal image treatment.
+This document defines the current motion behavior for the home hero intro, the contact image stack carousel, and the shared pixel reveal image treatment.
 
 ## Goals
 
@@ -59,6 +59,33 @@ Stability note:
 - Initialization waits for Vue render completion and font readiness before creating the ScrollTrigger timelines.
 - Trigger positions are refreshed on browser load and page restore so late layout shifts do not leave the reveal in a falsely completed state.
 
+## Contact Image Stack Carousel
+
+Components:
+
+- [`/Users/flame/Developer/Projects/portfolio-app/app/components/ContactShowcaseSection.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/ContactShowcaseSection.vue)
+- [`/Users/flame/Developer/Projects/portfolio-app/app/components/contact/ContactImageStackCarousel.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/contact/ContactImageStackCarousel.vue)
+
+Intent:
+
+- Preserve the existing `get in / touch` composition while rotating the central image stack automatically.
+- Keep the large foreground image as the active frame and the smaller offset image as the upcoming frame.
+- Reuse content-driven image data from [`/Users/flame/Developer/Projects/portfolio-app/shared/about.ts`](/Users/flame/Developer/Projects/portfolio-app/shared/about.ts) instead of hardcoding gallery assets inside the component.
+
+Current behavior:
+
+- Rotation interval: `1000ms`
+- Slot model: two visible images
+  - foreground slot: current image
+  - accent slot: next image
+- Motion is disabled when reduced motion is preferred.
+- Rotation pauses automatically when there is only one image.
+
+Implementation note:
+
+- This carousel intentionally uses a small template-first state machine with VueUse `useIntervalFn`.
+- Keep the component extractor-safe and SSR-safe: no manual DOM queries, no runtime-generated utility classes, and no client-only layout measurement.
+
 ## Motion Tokens
 
 Defined in [`/Users/flame/Developer/Projects/portfolio-app/uno.config.ts`](/Users/flame/Developer/Projects/portfolio-app/uno.config.ts):
@@ -95,3 +122,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Keep animation class names static (extractor-safe).
 - If hero timing changes, update both this doc and `uno.config.ts` together.
 - If pixel reveal timing changes, update both this doc and `PixelRevealImage.vue` together.
+- If contact carousel timing, slot behavior, or reduced-motion handling changes, update both this doc and `ContactImageStackCarousel.vue` together.

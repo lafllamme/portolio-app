@@ -20,7 +20,6 @@ export interface AboutExperienceItem {
 export interface AboutContactVisual {
   src: string
   alt: string
-  className: string
 }
 
 export interface AboutContactContent {
@@ -121,14 +120,20 @@ export const aboutPageContent: AboutPageContent = {
     availability: 'Freelance, consulting & product builds',
     visuals: [
       {
-        src: 'https://framerusercontent.com/images/5762hl6RTc8SjiRzWwECIOsXeW0.png?scale-down-to=1024&width=904&height=1200',
-        alt: 'Abstract close-up portrait accent image',
-        className: 'h-[6.9rem] w-[10.75rem] left-1/2 top-[-0.35rem] [transform:translateZ(-100px)_scale(0.92)] sm:h-[8.8rem] sm:w-[13.5rem] sm:top-[-0.85rem]',
-      },
-      {
         src: 'https://framerusercontent.com/images/SSdVHX1oKvAE62eonEHC5cIiM.png?scale-down-to=1024&width=2400&height=2400',
         alt: 'Close-up portrait of Dogan Teke',
-        className: 'h-[14.5rem] w-[19rem] left-1/2 top-1/2 [transform:translateZ(0)_scale(1)] sm:h-[18rem] sm:w-[24rem]',
+      },
+      {
+        src: 'https://framerusercontent.com/images/5762hl6RTc8SjiRzWwECIOsXeW0.png?scale-down-to=1024&width=904&height=1200',
+        alt: 'Close-up of a pink cocktail in a martini glass',
+      },
+      {
+        src: 'https://framerusercontent.com/images/Y8YQTVXQhjlt3culO6oyUw2jsg.png?scale-down-to=1024&width=906&height=1200',
+        alt: 'Close-up of a yellow tennis ball sitting on a green court',
+      },
+      {
+        src: 'https://framerusercontent.com/images/mAHCRmeJYJ06DXVdSj6m7oktE9U.png?scale-down-to=1024&width=2399&height=1800',
+        alt: 'Close-up of a hand wearing decorative rings against a blue background',
       },
     ],
   },
