@@ -80,35 +80,35 @@ export const aboutPageContent: AboutPageContent = {
       company: 'Freelance',
       role: 'senior fullstack developer',
       summary:
-        'Leading end-to-end product work for startups and teams that need strong execution without sacrificing architecture. That includes frontend systems, fullstack delivery, technical decision-making, and AI-assisted feature workflows from concept to rollout.',
+        'Leading end-to-end product work for startups and teams that need strong execution without sacrificing architecture. That includes frontend systems, fullstack delivery, technical decision-making, design system work, AI-assisted feature workflows, and shipping product ideas from concept to rollout.',
       period: '2022 - now',
     },
     {
       company: 'denkwerk GmbH',
-      role: 'software developer',
+      role: 'fullstack developer',
       summary:
-        'Building complex web applications for international clients with Vue.js, Nuxt.js, and TypeScript. Scope includes SPAs, multi-step flows, streaming features, secure-token access, payment integrations, Apple Wallet, Storybook-based design systems, internal packages, code reviews, onboarding, and close collaboration in interdisciplinary teams of up to 12 to 15 people.',
-      period: 'Dec 2022 - today',
+        'Building complex client applications with Vue.js, Nuxt.js, and TypeScript across SPAs, multi-step flows, streaming features, secure token-based access, payment integrations, and Apple Wallet. The role also includes design systems, Storybook component libraries, internal npm packages, code reviews, onboarding, performance and accessibility work, and close delivery with cross-functional teams of up to 12 to 15 people.',
+      period: '2022 - now',
     },
     {
       company: 'Actineo GmbH',
       role: 'fullstack developer',
       summary:
-        'Fullstack development for a B2B platform digitizing claims processes for international insurance companies. Worked across React frontend implementation, REST APIs, backend business logic in Node.js and PHP, CI/CD, Docker, MongoDB migrations, and GDPR-conscious in-house infrastructure.',
-      period: 'May 2019 - Nov 2022',
+        'Fullstack development for a B2B platform digitizing claims management for international insurance companies. Worked across React-based frontend implementation, REST APIs, business logic in Node.js and PHP, database administration and MongoDB migrations, GDPR-conscious infrastructure, and automated delivery with GitLab CI and Docker.',
+      period: '2019 - 2022',
     },
     {
       company: 'IMV GmbH & Co. KG',
-      role: 'working student software development & consulting',
+      role: 'frontend developer & platform consulting',
       summary:
-        'Worked on B2B enterprise software through frontend customizations, styling, account configuration, software rollout support, and onboarding within a custom Drupal-based business platform.',
-      period: 'Dec 2018 - Feb 2019',
+        'Worked on B2B enterprise software through frontend customization, styling, account configuration, rollout support, and onboarding within a custom Drupal-based business platform. The role also included consulting around internal software processes and hands-on support during implementation.',
+      period: '2018 - 2019',
     },
     {
       company: 'Selected product work',
       role: 'design systems, ai & product engineering',
       summary:
-        'Built and maintained projects spanning Nuxt design systems, AI-based tools, CMS-backed fullstack apps, and Cloudflare-powered experiments. Typical stack: Nuxt, TypeScript, Storybook, Payload CMS, FastAPI, Workers AI, PostgreSQL, and modern monorepo tooling.',
+        'Built and maintained independent product work spanning typed Nuxt design systems, AI-powered tooling, CMS-backed fullstack apps, and Cloudflare-based experiments. Typical stack includes Nuxt, TypeScript, Storybook, Payload CMS, FastAPI, Workers AI, PostgreSQL, and modern monorepo tooling.',
       period: 'ongoing',
     },
   ],

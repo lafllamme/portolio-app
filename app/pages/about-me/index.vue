@@ -161,31 +161,32 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="mt-[6.5rem]">
-      <div class="pb-4 border-b border-line">
-        <h2 class="text-[20px] leading-[24px] tracking-[-0.8px] font-500 lowercase">
+    <section class="mt-[7.5rem] md:mt-[9rem]">
+      <div class="[container-type:inline-size]">
+        <h2 class="text-[min(15.2cqw,9.75rem)] text-text leading-[0.92] tracking-[-0.07em] font-700 font-headline lowercase">
           {{ aboutPageContent.experienceTitle }}
         </h2>
       </div>
+      <div class="mt-8 border-b border-line md:mt-10" />
 
       <div class="divide-line divide-y">
         <article
           v-for="item in experienceItems"
           :key="`${item.company}-${item.role}`"
-          class="py-8 gap-x-8 gap-y-4 grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_auto]"
+          class="py-8 gap-x-10 gap-y-5 grid items-start lg:py-12 md:py-10 lg:gap-x-14 md:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)_auto]"
         >
-          <div class="space-y-2">
-            <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
+          <div class="space-y-2.5">
+            <p class="text-[19px] text-text leading-[1.1] tracking-[-0.04em] font-500 lg:text-[24px] md:text-[22px]">
               {{ item.company }}
             </p>
-            <p class="text-[24px] leading-[28.8px] tracking-[-0.04em] font-500 lowercase">
+            <p class="text-[18px] text-text/58 leading-[1.15] tracking-[-0.04em] font-500 lowercase md:text-[20px]">
               {{ item.role }}
             </p>
           </div>
-          <p class="text-[20px] text-text/72 leading-[1.24] tracking-[-0.03em] max-w-[38rem]">
+          <p class="text-[18px] text-text/72 leading-[1.22] tracking-[-0.03em] lg:text-[24px] md:text-[21px]">
             {{ item.summary }}
           </p>
-          <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] whitespace-nowrap md:text-right">
+          <p class="text-[28px] text-text leading-[0.98] tracking-[-0.05em] font-500 whitespace-nowrap lg:text-[40px] md:text-[34px] md:text-right md:self-center">
             {{ item.period }}
           </p>
         </article>
