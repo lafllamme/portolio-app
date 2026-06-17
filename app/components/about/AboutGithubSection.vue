@@ -26,7 +26,7 @@ const { activity, contributions, hasError, isLoading } = useGithubActivity({
       </p>
     </div>
 
-    <div class="mt-8 md:mt-10">
+    <div class="mt-6 md:mt-7">
       <GithubContributionCalendar
         :activity="activity"
         :contributions="contributions"

@@ -13,3 +13,11 @@ The Nuxt config reads that list in:
 - [`/Users/flame/Developer/Projects/portfolio-app/nuxt.config.ts`](/Users/flame/Developer/Projects/portfolio-app/nuxt.config.ts)
 
 Use this helper only for packages that Vite explicitly reports as runtime-discovered dev dependencies. Keep the list small and additive so the reason for each entry stays obvious.
+
+## Icon Rendering
+
+For app icons, use the shared icon component pattern already present in the codebase:
+
+- `<Icon name="..." />`
+
+Do not drop raw SVG markup into components when the icon already exists in the configured icon set, and do not mix in `NuxtIcon` as a parallel pattern. Keep icon usage consistent so SSR behavior and component resolution stay predictable.

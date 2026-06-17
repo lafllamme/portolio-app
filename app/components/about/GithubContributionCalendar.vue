@@ -104,20 +104,20 @@ const levelClassFor = (level: GithubContributionLevel) => levelClassMap[level] ?
 const formatTooltipDate = (value: string) => tooltipDateFormatter.format(new Date(value))
 
 function cellStyleFor(weekIndex: number, dayIndex: number) {
-  const delayMs = ((weekIndex * 7) + dayIndex) * 8
+  const delayMs = ((weekIndex + dayIndex) * 14)
   const baseScale = activeVariant.value === 'minimal' ? '0.76' : '1'
 
   if (!hasEntered.value) {
     return {
       opacity: '0',
-      transform: `scale(${activeVariant.value === 'minimal' ? '0.5' : '0.72'})`,
+      transform: 'scale(0)',
     }
   }
 
   return {
     opacity: '1',
     transform: `scale(${baseScale})`,
-    transition: `transform 420ms cubic-bezier(0.2,0.95,0.34,1) ${delayMs}ms, opacity 420ms cubic-bezier(0.2,0.95,0.34,1) ${delayMs}ms`,
+    transition: `transform 680ms cubic-bezier(0.22,1,0.36,1) ${delayMs}ms, opacity 260ms ease-out ${delayMs}ms`,
   }
 }
 
@@ -179,7 +179,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
 </script>
 
 <template>
-  <div ref="calendarRef" class="p-4 border border-line rounded-[16px] bg-surface/30 md:p-6">
+  <div ref="calendarRef" class="p-4 border border-line rounded-[16px] bg-surface/30 md:p-[1.15rem]">
     <div v-if="props.isLoading" class="rounded-[12px] bg-surface/55 h-[14.5rem] animate-pulse" />
 
     <div v-else-if="props.hasError" class="p-4 border border-line rounded-[12px] bg-surface/55 space-y-3">
@@ -199,27 +199,26 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
       </a>
     </div>
 
-    <div v-else class="space-y-5">
-      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div v-else class="space-y-[0.85rem]">
+      <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
         <a
           :href="profileUrl"
           target="_blank"
           rel="noreferrer"
-          class="text-[16px] text-text leading-[1] tracking-[-0.03em] font-500 inline-flex gap-2 w-max transition-opacity duration-200 items-center hover:opacity-75"
+          class="text-[16px] text-text leading-[1] tracking-[-0.03em] font-500 inline-flex gap-[0.52rem] w-max transition-opacity duration-200 items-center hover:opacity-75"
         >
-          <span class="rounded-full bg-text/88 h-[0.8rem] w-[0.8rem] block" />
+          <Icon name="mdi:github" class="text-text/80 h-[0.92rem] w-[0.92rem]" />
           <span>@{{ username }}</span>
         </a>
 
-        <p class="text-[15px] text-text/62 leading-[1.2] tracking-[-0.02em] md:text-right">
-          {{ totalContributions }} contributions in the last year
-        </p>
-      </div>
-
-      <div v-if="lastCommitRelative" class="flex justify-end">
-        <p class="text-[13px] text-text/42 leading-[1.1] tracking-[-0.02em] lowercase">
-          last commit {{ lastCommitRelative }}
-        </p>
+        <div class="flex flex-col gap-[0.2rem] md:text-right md:items-end">
+          <p class="text-[15px] text-text/62 leading-[1.05] tracking-[-0.02em] whitespace-nowrap">
+            {{ totalContributions }} contributions in the last year
+          </p>
+          <p v-if="lastCommitRelative" class="text-[12px] text-text/42 leading-[1] tracking-[-0.02em] whitespace-nowrap lowercase">
+            last commit {{ lastCommitRelative }}
+          </p>
+        </div>
       </div>
 
       <div ref="calendarFrameRef" class="relative" @mouseleave="clearHover">
@@ -233,42 +232,42 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
           <span class="text-bg/66"> contributions on {{ hoveredDate ? formatTooltipDate(hoveredDate) : '' }}</span>
         </div>
 
-        <div class="pb-1 overflow-x-auto overflow-y-visible">
-          <div class="min-w-max relative">
+        <div class="overflow-x-auto overflow-y-visible">
+          <div class="min-w-full w-max relative">
             <div
               v-if="activeVariant !== 'minimal'"
-              class="pl-[1.55rem] flex gap-[0.32rem]"
+              class="pl-[1.6rem] flex gap-[0.1875rem]"
             >
               <div
                 v-for="(label, index) in monthLabels"
                 :key="`${label}-${index}`"
-                class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em] w-[0.92rem]"
+                class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em] w-[1rem]"
                 :class="label ? 'opacity-100' : 'opacity-0'"
               >
                 {{ label || '.' }}
               </div>
             </div>
 
-            <div class="flex gap-2" :class="activeVariant !== 'minimal' ? 'mt-2' : ''">
+            <div class="flex gap-[0.4rem]" :class="activeVariant !== 'minimal' ? 'mt-[0.45rem]' : ''">
               <div
                 v-if="activeVariant !== 'minimal'"
-                class="py-[0.1rem] flex flex-col justify-between"
+                class="py-[0.05rem] flex flex-col justify-between"
               >
                 <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">M</span>
                 <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">W</span>
                 <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">F</span>
               </div>
 
-              <div class="flex gap-[0.32rem]">
+              <div class="flex flex-nowrap gap-[0.1875rem] max-w-full w-max">
                 <div
                   v-for="(week, weekIndex) in weeks"
                   :key="`week-${weekIndex}`"
-                  class="flex flex-col gap-[0.32rem] w-[0.92rem]"
+                  class="flex flex-col gap-[0.1875rem] w-[1rem] items-center"
                 >
                   <div
                     v-for="(day, dayIndex) in week"
                     :key="day.date"
-                    class="rounded-[3px] h-[0.92rem] w-[0.92rem] transition-transform duration-200 hover:scale-[1.16]"
+                    class="will-change-transform rounded-[3px] h-[1rem] w-[1rem] transition-transform duration-200 hover:scale-[1.08]"
                     :class="[
                       levelClassFor(day.contributionLevel),
                       activeVariant === 'minimal' ? 'rounded-full hover:scale-[0.95]' : '',
