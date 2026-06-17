@@ -2641,3 +2641,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Note: pairing steps behaves as expected in latest testing.
 - Note: mono usage behaves as expected in latest testing.
 - Note: pairing steps behaves as expected in latest testing.
+- Verified line-height floor against current implementation.
