@@ -22,6 +22,13 @@ export interface AboutContactVisual {
   alt: string
 }
 
+export interface AboutGithubContent {
+  username: string
+  profileUrl: string
+  title: string
+  description: string
+}
+
 export interface AboutContactContent {
   email: string
   location: string
@@ -34,6 +41,7 @@ export interface AboutPageContent {
   intro: AboutIntroContent
   experienceTitle: string
   experienceItems: AboutExperienceItem[]
+  github: AboutGithubContent
   contactTitleStart: string
   contactTitleEnd: string
   contact: AboutContactContent
@@ -112,6 +120,13 @@ export const aboutPageContent: AboutPageContent = {
       period: 'ongoing',
     },
   ],
+  github: {
+    username: 'lafllamme',
+    profileUrl: 'https://github.com/lafllamme',
+    title: 'github activity',
+    description:
+      'GitHub still shows the throughline in how I work: steady iteration, reusable systems, and a real bias toward shipping.',
+  },
   contactTitleStart: 'get in',
   contactTitleEnd: 'touch',
   contact: {

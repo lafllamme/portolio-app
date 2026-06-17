@@ -30,6 +30,11 @@ export default defineConfig({
       text: '#ece8df',
       muted: '#9f9b93',
       line: '#1a1d22',
+      activity0: '#1a1d22',
+      activity1: '#365f50',
+      activity2: '#4d8b72',
+      activity3: '#68bb95',
+      activity4: '#8ee3b1',
     },
     font: {
       sans: '"Satoshi", "Funnel Sans", system-ui, -apple-system, sans-serif',

@@ -4,6 +4,7 @@ import type { AboutExperienceItem } from '~~/shared/about'
 import { useResizeObserver } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
+import AboutGithubSection from '~/components/about/AboutGithubSection.vue'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ResumeDownloadModal from '~/components/media/ResumeDownloadModal.vue'
 import { useCenteredActiveIndex } from '~/composables/useCenteredActiveIndex'
@@ -192,6 +193,8 @@ useResizeObserver(heroHeaderRef, () => {
         </article>
       </div>
     </section>
+
+    <AboutGithubSection />
 
     <ContactShowcaseSection />
 
