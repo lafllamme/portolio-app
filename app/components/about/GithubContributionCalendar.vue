@@ -3,6 +3,7 @@ import type { BorderGlowSettings } from '~~/shared/borderGlow'
 import type { GithubActivityData, GithubContributionData, GithubContributionLevel } from '~~/shared/github'
 import { useElementSize, useIntersectionObserver, useRafFn } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { borderGlowDefaults } from '~~/shared/borderGlow'
 import BorderGlow from '~/components/ui/BorderGlow.vue'
 
 const props = defineProps<{
@@ -30,6 +31,7 @@ const tooltipPaddingPx = 12
 const tooltipOffsetPx = 14
 
 const { width: calendarFrameWidth } = useElementSize(calendarFrameRef)
+const { width: glowCardWidth, height: glowCardHeight } = useElementSize(calendarRef)
 const { width: tooltipWidth, height: tooltipHeight } = useElementSize(tooltipRef)
 
 const levelClassMap = {
@@ -44,10 +46,44 @@ const weeks = computed(() => props.contributions?.contributions ?? [])
 const totalContributions = computed(() => props.contributions?.totalContributions ?? 0)
 const activeVariant = computed(() => props.variant ?? 'minimal')
 const lastCommitRelative = computed(() => props.activity?.lastCommitRelative ?? null)
+const glowSettings = computed(() => props.borderGlow ?? borderGlowDefaults)
 const tooltipDateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
+})
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function lerp(start: number, end: number, factor: number) {
+  return start + ((end - start) * factor)
+}
+
+const glowAspectRatio = computed(() => {
+  if (!glowCardWidth.value || !glowCardHeight.value)
+    return 1
+
+  return glowCardWidth.value / Math.max(glowCardHeight.value, 1)
+})
+
+const glowRectangleBias = computed(() => {
+  return clamp((glowAspectRatio.value - 1) / 2.2, 0, 1)
+})
+
+const effectiveConeSpread = computed(() => {
+  const rawConeSpread = glowSettings.value.coneSpread
+  const reducedConeSpread = Math.max(rawConeSpread * 0.52, 10)
+
+  return lerp(rawConeSpread, reducedConeSpread, glowRectangleBias.value)
+})
+
+const effectiveGlowRadius = computed(() => {
+  const rawGlowRadius = glowSettings.value.glowRadius
+  const reducedGlowRadius = Math.max(rawGlowRadius * 0.58, 16)
+
+  return lerp(rawGlowRadius, reducedGlowRadius, glowRectangleBias.value)
 })
 
 const tooltipTargetStyle = computed(() => {
@@ -183,16 +219,16 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
 
 <template>
   <BorderGlow
-    :animated="props.borderGlow?.animated"
-    :background-color="props.borderGlow?.backgroundColor"
-    :border-radius="props.borderGlow?.borderRadius"
-    :colors="props.borderGlow?.colors"
-    :cone-spread="props.borderGlow?.coneSpread"
-    :edge-sensitivity="props.borderGlow?.edgeSensitivity"
-    :fill-opacity="props.borderGlow?.fillOpacity"
-    :glow-color="props.borderGlow?.glowColor"
-    :glow-intensity="props.borderGlow?.glowIntensity"
-    :glow-radius="props.borderGlow?.glowRadius"
+    :animated="glowSettings.animated"
+    :background-color="glowSettings.backgroundColor"
+    :border-radius="glowSettings.borderRadius"
+    :colors="glowSettings.colors"
+    :cone-spread="effectiveConeSpread"
+    :edge-sensitivity="glowSettings.edgeSensitivity"
+    :fill-opacity="glowSettings.fillOpacity"
+    :glow-color="glowSettings.glowColor"
+    :glow-intensity="glowSettings.glowIntensity"
+    :glow-radius="effectiveGlowRadius"
   >
     <div ref="calendarRef" class="p-4 rounded-[16px] md:p-[1.15rem]">
       <div v-if="props.isLoading" class="rounded-[12px] bg-surface/55 h-[14.5rem] animate-pulse" />

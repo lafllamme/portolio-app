@@ -3,7 +3,6 @@ import type { BorderGlowSettings } from '~~/shared/borderGlow'
 import { reactive } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
 import { borderGlowDefaults } from '~~/shared/borderGlow'
-import AboutGithubGlowControls from '~/components/about/AboutGithubGlowControls.vue'
 import GithubContributionCalendar from '~/components/about/GithubContributionCalendar.vue'
 import { useGithubActivity } from '~/composables/useGithubActivity'
 
@@ -34,11 +33,6 @@ const borderGlowSettings = reactive<BorderGlowSettings>({
         {{ github.description }}
       </p>
     </div>
-
-    <div class="mt-6 md:mt-7">
-      <AboutGithubGlowControls v-model="borderGlowSettings" />
-    </div>
-
     <div class="mt-6 md:mt-7">
       <GithubContributionCalendar
         :activity="activity"
