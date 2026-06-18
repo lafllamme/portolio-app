@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { BorderGlowSettings } from '~~/shared/borderGlow'
 import type { GithubActivityData, GithubContributionData, GithubContributionLevel } from '~~/shared/github'
 import { useElementSize, useIntersectionObserver, useRafFn } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import BorderGlow from '~/components/ui/BorderGlow.vue'
 
 const props = defineProps<{
   activity: GithubActivityData | null
@@ -10,6 +12,7 @@ const props = defineProps<{
   isLoading: boolean
   username: string
   profileUrl: string
+  borderGlow?: BorderGlowSettings
   variant?: 'default' | 'minimal'
 }>()
 
@@ -179,119 +182,134 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
 </script>
 
 <template>
-  <div ref="calendarRef" class="p-4 border border-line rounded-[16px] bg-surface/30 md:p-[1.15rem]">
-    <div v-if="props.isLoading" class="rounded-[12px] bg-surface/55 h-[14.5rem] animate-pulse" />
+  <BorderGlow
+    :animated="props.borderGlow?.animated"
+    :background-color="props.borderGlow?.backgroundColor"
+    :border-radius="props.borderGlow?.borderRadius"
+    :colors="props.borderGlow?.colors"
+    :cone-spread="props.borderGlow?.coneSpread"
+    :edge-sensitivity="props.borderGlow?.edgeSensitivity"
+    :fill-opacity="props.borderGlow?.fillOpacity"
+    :glow-color="props.borderGlow?.glowColor"
+    :glow-intensity="props.borderGlow?.glowIntensity"
+    :glow-radius="props.borderGlow?.glowRadius"
+  >
+    <div ref="calendarRef" class="p-4 rounded-[16px] md:p-[1.15rem]">
+      <div v-if="props.isLoading" class="rounded-[12px] bg-surface/55 h-[14.5rem] animate-pulse" />
 
-    <div v-else-if="props.hasError" class="p-4 border border-line rounded-[12px] bg-surface/55 space-y-3">
-      <p class="text-[18px] text-text leading-[1.15] tracking-[-0.04em] font-500 lowercase">
-        github activity unavailable
-      </p>
-      <p class="text-[15px] text-text/62 leading-[1.35] tracking-[-0.02em]">
-        The public contribution feed did not respond right now. The profile link still goes straight to GitHub.
-      </p>
-      <a
-        :href="profileUrl"
-        target="_blank"
-        rel="noreferrer"
-        class="text-[15px] text-text leading-[1] tracking-[-0.02em] font-500 inline-flex"
-      >
-        open github profile
-      </a>
-    </div>
-
-    <div v-else class="space-y-[0.85rem]">
-      <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+      <div v-else-if="props.hasError" class="p-4 border border-line rounded-[12px] bg-surface/55 space-y-3">
+        <p class="text-[18px] text-text leading-[1.15] tracking-[-0.04em] font-500 lowercase">
+          github activity unavailable
+        </p>
+        <p class="text-[15px] text-text/62 leading-[1.35] tracking-[-0.02em]">
+          The public contribution feed did not respond right now. The profile link still goes straight to GitHub.
+        </p>
         <a
           :href="profileUrl"
           target="_blank"
           rel="noreferrer"
-          class="text-[16px] text-text leading-[1] tracking-[-0.03em] font-500 inline-flex gap-[0.52rem] w-max transition-opacity duration-200 items-center hover:opacity-75"
+          class="text-[15px] text-text leading-[1] tracking-[-0.02em] font-500 inline-flex"
         >
-          <Icon name="mdi:github" class="text-text/80 h-[0.92rem] w-[0.92rem]" />
-          <span>@{{ username }}</span>
+          open github profile
         </a>
-
-        <div class="flex flex-col gap-[0.2rem] md:text-right md:items-end">
-          <p class="text-[15px] text-text/62 leading-[1.05] tracking-[-0.02em] whitespace-nowrap">
-            {{ totalContributions }} contributions in the last year
-          </p>
-          <p v-if="lastCommitRelative" class="text-[12px] text-text/42 leading-[1] tracking-[-0.02em] whitespace-nowrap lowercase">
-            last commit {{ lastCommitRelative }}
-          </p>
-        </div>
       </div>
 
-      <div ref="calendarFrameRef" class="relative" @mouseleave="clearHover">
-        <div
-          ref="tooltipRef"
-          class="text-[13px] text-bg leading-[1] tracking-[-0.02em] px-4 py-2 will-change-transform rounded-[14px] bg-text pointer-events-none shadow-[0_16px_36px_rgba(0,0,0,0.32)] transition-opacity duration-150 ease-out left-0 top-0 absolute z-20"
-          :class="isTooltipVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
-          :style="tooltipStyle"
-        >
-          <span class="font-700">{{ hoveredCount }}</span>
-          <span class="text-bg/66"> contributions on {{ hoveredDate ? formatTooltipDate(hoveredDate) : '' }}</span>
+      <div v-else class="space-y-[0.85rem]">
+        <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+          <a
+            :href="profileUrl"
+            target="_blank"
+            rel="noreferrer"
+            class="text-[16px] text-text leading-[1] tracking-[-0.03em] font-500 inline-flex gap-[0.52rem] w-max transition-opacity duration-200 items-center hover:opacity-75"
+          >
+            <Icon name="mdi:github" class="text-text/80 size-5" />
+            <span>@{{ username }}</span>
+          </a>
+
+          <div class="flex flex-col gap-[0.2rem] md:text-right md:items-end">
+            <p class="text-[15px] text-text/62 leading-[1.05] tracking-[-0.02em] whitespace-nowrap">
+              {{ totalContributions }} contributions in the last year
+            </p>
+            <p v-if="lastCommitRelative" class="text-[12px] text-text/42 leading-[1] tracking-[-0.02em] whitespace-nowrap lowercase">
+              last commit {{ lastCommitRelative }}
+            </p>
+          </div>
         </div>
 
-        <div class="overflow-x-auto overflow-y-visible">
-          <div class="min-w-full w-max relative">
-            <div
-              v-if="activeVariant !== 'minimal'"
-              class="pl-[1.6rem] flex gap-[0.1875rem]"
-            >
-              <div
-                v-for="(label, index) in monthLabels"
-                :key="`${label}-${index}`"
-                class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em] w-[1rem]"
-                :class="label ? 'opacity-100' : 'opacity-0'"
-              >
-                {{ label || '.' }}
-              </div>
-            </div>
+        <div ref="calendarFrameRef" class="relative" @mouseleave="clearHover">
+          <div
+            ref="tooltipRef"
+            class="text-[13px] text-bg leading-[1] tracking-[-0.02em] px-4 py-2 will-change-transform rounded-[14px] bg-text pointer-events-none shadow-[0_16px_36px_rgba(0,0,0,0.32)] transition-opacity duration-150 ease-out left-0 top-0 absolute z-20"
+            :class="isTooltipVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
+            :style="tooltipStyle"
+          >
+            <span class="font-700">{{ hoveredCount }}</span>
+            <span class="text-bg/66"> contributions on {{ hoveredDate ? formatTooltipDate(hoveredDate) : '' }}</span>
+          </div>
 
-            <div class="flex gap-[0.4rem]" :class="activeVariant !== 'minimal' ? 'mt-[0.45rem]' : ''">
+          <div class="overflow-x-auto overflow-y-visible">
+            <div class="min-w-full w-max relative">
               <div
                 v-if="activeVariant !== 'minimal'"
-                class="py-[0.05rem] flex flex-col justify-between"
+                class="pl-[1.6rem] flex gap-[0.1875rem]"
               >
-                <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">M</span>
-                <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">W</span>
-                <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">F</span>
+                <div
+                  v-for="(label, index) in monthLabels"
+                  :key="`${label}-${index}`"
+                  class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em] w-[1rem]"
+                  :class="label ? 'opacity-100' : 'opacity-0'"
+                >
+                  {{ label || '.' }}
+                </div>
               </div>
 
-              <div class="flex flex-nowrap gap-[0.1875rem] max-w-full w-max">
+              <div class="flex gap-[0.4rem]" :class="activeVariant !== 'minimal' ? 'mt-[0.45rem]' : ''">
                 <div
-                  v-for="(week, weekIndex) in weeks"
-                  :key="`week-${weekIndex}`"
-                  class="flex flex-col gap-[0.1875rem] w-[1rem] items-center"
+                  v-if="activeVariant !== 'minimal'"
+                  class="py-[0.05rem] flex flex-col justify-between"
+                >
+                  <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">M</span>
+                  <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">W</span>
+                  <span class="text-[10px] text-text/36 leading-[1] tracking-[-0.02em]">F</span>
+                </div>
+
+                <div
+                  class="flex flex-nowrap gap-[0.1875rem] max-w-full w-max"
                 >
                   <div
-                    v-for="(day, dayIndex) in week"
-                    :key="day.date"
-                    class="will-change-transform rounded-[3px] h-[1rem] w-[1rem] transition-transform duration-200 hover:scale-[1.08]"
-                    :class="[
-                      levelClassFor(day.contributionLevel),
-                      activeVariant === 'minimal' ? 'rounded-full hover:scale-[0.95]' : '',
-                    ]"
-                    :style="cellStyleFor(weekIndex, dayIndex)"
-                    @mouseenter="handleCellHover(day, $event)"
-                    @mousemove="handleCellMove(day, $event)"
-                  />
+                    v-for="(week, weekIndex) in weeks"
+                    :key="`week-${weekIndex}`"
+                    class="flex flex-col gap-[0.1875rem] w-[1rem] items-center"
+                  >
+                    <div
+                      v-for="(day, dayIndex) in week"
+                      :key="day.date"
+                      class="will-change-transform rounded-[3px] h-[1rem] w-[1rem] transition-transform duration-200 hover:scale-[1.08]"
+                      :class="[
+                        levelClassFor(day.contributionLevel),
+                        activeVariant === 'minimal' ? 'rounded-full hover:scale-[0.95]' : '',
+                      ]"
+                      :style="cellStyleFor(weekIndex, dayIndex)"
+                      @mouseenter="handleCellHover(day, $event)"
+                      @mousemove="handleCellMove(day, $event)"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-if="activeVariant !== 'minimal'" class="flex gap-2 items-center justify-end">
-        <span class="text-[11px] text-text/40 leading-[1] tracking-[-0.02em]">less</span>
-        <span class="rounded-[3px] bg-activity0 h-3 w-3" />
-        <span class="rounded-[3px] bg-activity1 h-3 w-3" />
-        <span class="rounded-[3px] bg-activity2 h-3 w-3" />
-        <span class="rounded-[3px] bg-activity3 h-3 w-3" />
-        <span class="rounded-[3px] bg-activity4 h-3 w-3" />
-        <span class="text-[11px] text-text/40 leading-[1] tracking-[-0.02em]">more</span>
+        <div v-if="activeVariant !== 'minimal'" class="flex gap-2 items-center justify-end">
+          <span class="text-[11px] text-text/40 leading-[1] tracking-[-0.02em]">less</span>
+          <span class="rounded-[3px] bg-activity0 h-3 w-3" />
+          <span class="rounded-[3px] bg-activity1 h-3 w-3" />
+          <span class="rounded-[3px] bg-activity2 h-3 w-3" />
+          <span class="rounded-[3px] bg-activity3 h-3 w-3" />
+          <span class="rounded-[3px] bg-activity4 h-3 w-3" />
+          <span class="text-[11px] text-text/40 leading-[1] tracking-[-0.02em]">more</span>
+        </div>
       </div>
     </div>
-  </div>
+  </BorderGlow>
 </template>

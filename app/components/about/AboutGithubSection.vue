@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import type { BorderGlowSettings } from '~~/shared/borderGlow'
+import { reactive } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
+import { borderGlowDefaults } from '~~/shared/borderGlow'
+import AboutGithubGlowControls from '~/components/about/AboutGithubGlowControls.vue'
 import GithubContributionCalendar from '~/components/about/GithubContributionCalendar.vue'
 import { useGithubActivity } from '~/composables/useGithubActivity'
 
 const github = aboutPageContent.github
 const { activity, contributions, hasError, isLoading } = useGithubActivity({
   username: github.username,
+})
+
+const borderGlowSettings = reactive<BorderGlowSettings>({
+  ...borderGlowDefaults,
+  colors: ['#68bb95', '#38bdf8', '#a78bfa'],
 })
 </script>
 
@@ -27,8 +36,13 @@ const { activity, contributions, hasError, isLoading } = useGithubActivity({
     </div>
 
     <div class="mt-6 md:mt-7">
+      <AboutGithubGlowControls v-model="borderGlowSettings" />
+    </div>
+
+    <div class="mt-6 md:mt-7">
       <GithubContributionCalendar
         :activity="activity"
+        :border-glow="borderGlowSettings"
         :contributions="contributions"
         :has-error="hasError"
         :is-loading="isLoading"
