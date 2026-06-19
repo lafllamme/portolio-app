@@ -57,3 +57,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Decision: keep cache ttl as documented for now.
 - Clarified: key versioning applies to production builds only.
 - Edge case: error handling on mobile safari needs a second look.
+- Edge case: fallback payload on mobile safari needs a second look.
