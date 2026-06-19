@@ -68,13 +68,13 @@ export const aboutPageContent: AboutPageContent = {
     ],
     workedWith: [
       'Motel One',
-      'The Cloud One',
       'Hotelbird',
       'Verisk',
+      'The Cloud One',
       'Workmatrix',
+      'Usercentrics',
       'Yarowa',
       'Storck',
-      'Usercentrics',
       'AB Tasty',
     ],
     portrait: {
