@@ -33,7 +33,7 @@ const logos = computed<WorkLogoItem[]>(() => {
       <div
         v-for="logo in logos"
         :key="logo.company"
-        class="flex shrink-0 h-12 items-center justify-center md:h-14"
+        class="group text-text/46 flex shrink-0 h-12 transition-[color,opacity] duration-250 ease-out [--brand-logo-opacity:0.46] items-center justify-center hover:text-text/88 md:h-14 hover:[--brand-logo-opacity:0.88]"
         :class="logo.slotClass"
       >
         <BrandLogo

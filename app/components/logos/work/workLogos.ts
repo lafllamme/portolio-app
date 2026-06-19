@@ -29,8 +29,8 @@ export const workLogosByCompany: Record<string, WorkLogoItem> = {
     company: 'Hotelbird',
     svg: hotelbirdLogo,
     alt: 'Hotelbird logo',
-    slotClass: 'w-[168px] md:w-[188px]',
-    imgClass: 'h-[28px] md:h-[32px]',
+    slotClass: 'w-[186px] md:w-[214px]',
+    imgClass: 'h-[24px] md:h-[32px]',
   },
   'Motel One': {
     company: 'Motel One',

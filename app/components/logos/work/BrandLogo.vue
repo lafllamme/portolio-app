@@ -23,10 +23,19 @@ const svgMarkup = computed(() => {
 
   const styleAttributes = ' style="display:block;width:auto;height:100%;max-width:100%;max-height:100%;"'
 
-  return props.svg.replace(
-    /<svg\b([^>]*)>/i,
-    `<svg$1${styleAttributes}${ariaAttributes}>`,
-  )
+  return props.svg
+    .replace(
+      /<svg\b([^>]*)>/i,
+      `<svg$1${styleAttributes}${ariaAttributes}>`,
+    )
+    .replace(/fill="#([a-f0-9]{3}(?:[a-f0-9]{3})?)"/gi, 'fill="currentColor"')
+    .replace(/fill:\s*#([a-f0-9]{3}(?:[a-f0-9]{3})?)/gi, 'fill: currentColor')
+    .replace(/stroke="#([a-f0-9]{3}(?:[a-f0-9]{3})?)"/gi, 'stroke="currentColor"')
+    .replace(/stroke:\s*#([a-f0-9]{3}(?:[a-f0-9]{3})?)/gi, 'stroke: currentColor')
+    .replace(
+      /<image\b((?:(?!opacity=)[^>])*)>/gi,
+      '<image$1 opacity="var(--brand-logo-opacity,1)">',
+    )
 })
 </script>
 
