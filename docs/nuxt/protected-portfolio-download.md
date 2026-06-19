@@ -67,3 +67,4 @@ If signed URL creation fails:
 - Checked stream response — matches the shipped behavior.
 - Open question: does stream response need its own section?
 - Clarified: passphrase flow applies to production builds only.
+- Verified rate limiting against current implementation.
