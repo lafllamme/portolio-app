@@ -5,6 +5,7 @@ import { useResizeObserver } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
 import AboutGithubSection from '~/components/about/AboutGithubSection.vue'
+import AboutWorkedWithLogoLoop from '~/components/about/AboutWorkedWithLogoLoop.vue'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ResumeDownloadModal from '~/components/media/ResumeDownloadModal.vue'
 import { useCenteredActiveIndex } from '~/composables/useCenteredActiveIndex'
@@ -121,7 +122,7 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1fr)] mt-8 gap-6 grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+    <section class="xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] mt-8 gap-6 grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <div class="space-y-3">
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
           base
@@ -146,19 +147,11 @@ useResizeObserver(heroHeaderRef, () => {
         </div>
       </div>
 
-      <div class="xl:col-span-1 space-y-3 md:col-span-2">
+      <div class="xl:col-span-2 pt-4 space-y-3 md:pt-8 md:col-span-2">
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
           worked with
         </p>
-        <div class="flex flex-wrap gap-2">
-          <span
-            v-for="company in intro.workedWith"
-            :key="company"
-            class="text-[14px] text-text/82 leading-[1] tracking-[-0.02em] px-3 py-2 border border-line rounded-full bg-surface/45"
-          >
-            {{ company }}
-          </span>
-        </div>
+        <AboutWorkedWithLogoLoop :companies="intro.workedWith" />
       </div>
     </section>
 
