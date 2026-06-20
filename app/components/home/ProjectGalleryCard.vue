@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
  */
 const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
   'brew-can-co': 'object-[50%_44%]',
-  'lemon-drop': 'object-[50%_42%]',
+  'motel-one': 'object-[50%_46%]',
   'kernel-house': 'object-[50%_50%]',
   'scoop-roll': 'object-[50%_46%]',
   'peak-performance': 'object-[50%_52%]',

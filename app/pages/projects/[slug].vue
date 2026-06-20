@@ -27,6 +27,10 @@ const relatedProjects = computed(() =>
     .map(relatedProject => toProjectCardItem(relatedProject, 'third')),
 )
 
+const leadGalleryImage = computed(() => project.galleryImages[0] ?? null)
+const pairedGalleryImages = computed(() => project.galleryImages.slice(1, 3))
+const trailingGalleryImages = computed(() => project.galleryImages.slice(3))
+
 useSeoMeta({
   title: `${project.title} · Dogan Teke`,
   description: project.overview,
@@ -51,7 +55,7 @@ useSeoMeta({
       <ProjectPageImage
         :src="project.heroImage"
         :alt="project.heroAlt"
-        aspect-class="aspect-[3/2]"
+        :aspect-class="project.heroAspectClass ?? 'aspect-[3/2]'"
         loading="eager"
       />
       <div class="mt-16">
@@ -98,40 +102,31 @@ useSeoMeta({
       </div>
     </section>
 
-    <section class="mt-16 flex flex-col gap-6 md:mt-20 md:gap-7">
+    <section v-if="leadGalleryImage" class="mt-16 flex flex-col gap-6 md:mt-20 md:gap-7">
       <ProjectPageImage
-        :src="project.galleryImages[0].src"
-        :alt="project.galleryImages[0].alt"
-        :object-position-class="project.galleryImages[0].objectPositionClass"
+        :src="leadGalleryImage.src"
+        :alt="leadGalleryImage.alt"
+        :object-position-class="leadGalleryImage.objectPositionClass"
         aspect-class="aspect-[3/2]"
       />
 
-      <div class="gap-6 grid md:gap-7 md:grid-cols-2">
+      <div v-if="pairedGalleryImages.length" class="gap-6 grid md:gap-7 md:grid-cols-2">
         <ProjectPageImage
-          :src="project.galleryImages[1].src"
-          :alt="project.galleryImages[1].alt"
-          :object-position-class="project.galleryImages[1].objectPositionClass"
-          aspect-class="aspect-square"
-        />
-        <ProjectPageImage
-          :src="project.galleryImages[2].src"
-          :alt="project.galleryImages[2].alt"
-          :object-position-class="project.galleryImages[2].objectPositionClass"
+          v-for="image in pairedGalleryImages"
+          :key="image.src"
+          :src="image.src"
+          :alt="image.alt"
+          :object-position-class="image.objectPositionClass"
           aspect-class="aspect-square"
         />
       </div>
 
       <ProjectPageImage
-        :src="project.galleryImages[3].src"
-        :alt="project.galleryImages[3].alt"
-        :object-position-class="project.galleryImages[3].objectPositionClass"
-        aspect-class="aspect-[3/2]"
-      />
-
-      <ProjectPageImage
-        :src="project.galleryImages[4].src"
-        :alt="project.galleryImages[4].alt"
-        :object-position-class="project.galleryImages[4].objectPositionClass"
+        v-for="image in trailingGalleryImages"
+        :key="image.src"
+        :src="image.src"
+        :alt="image.alt"
+        :object-position-class="image.objectPositionClass"
         aspect-class="aspect-[3/2]"
       />
     </section>

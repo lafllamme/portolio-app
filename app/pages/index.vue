@@ -2,7 +2,7 @@
 import type { Ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
-import { projectCards } from '~~/shared/projects'
+import { homeProjectCards } from '~~/shared/projects'
 import AboutSection from '~/components/AboutSection.vue'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
@@ -83,7 +83,7 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </header>
 
-    <ProjectGallerySection :projects="projectCards" />
+    <ProjectGallerySection :projects="homeProjectCards" />
 
     <AboutSection />
 

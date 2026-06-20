@@ -8,7 +8,7 @@ export type ProjectCardLayoutVariant = 'feature-wide' | 'feature-narrow' | 'half
 
 export type ProjectCardImageVariant
   = | 'brew-can-co'
-    | 'lemon-drop'
+    | 'motel-one'
     | 'kernel-house'
     | 'scoop-roll'
     | 'peak-performance'
@@ -20,20 +20,17 @@ export interface ProjectEntry {
   subtitle: string
   cardImage: string
   cardAlt: string
+  homeCardImage?: string
+  homeCardAlt?: string
   heroImage: string
   heroAlt: string
+  heroAspectClass?: string
   overview: string
   projectType: string
   year: string
   myRole: string
   client: string
-  galleryImages: [
-    ProjectGalleryImage,
-    ProjectGalleryImage,
-    ProjectGalleryImage,
-    ProjectGalleryImage,
-    ProjectGalleryImage,
-  ]
+  galleryImages: ProjectGalleryImage[]
   relatedSlugs: [string, string, string]
 }
 
@@ -89,46 +86,54 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[52%_70%]',
       },
     ],
-    relatedSlugs: ['vision-copilot', 'runtime-cloud', 'agent-studio'],
+    relatedSlugs: ['motel-one', 'runtime-cloud', 'agent-studio'],
   },
   {
-    slug: 'vision-copilot',
-    title: 'lemon drop',
-    subtitle: 'brand identity & positioning',
-    cardImage: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-    cardAlt: 'White branded cap displayed in a warm editorial product scene',
-    heroImage: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-    heroAlt: 'White branded cap displayed in a warm editorial product scene',
-    overview: 'Vision Copilot explores how AI features can feel native inside a polished frontend system instead of bolted on after the fact. The project focuses on approachable interaction, clear affordances, and a UI that stays understandable even when the product gets smarter.',
-    projectType: 'AI product interface',
-    year: '2026',
-    myRole: 'Frontend systems, interaction design, AI UX framing',
-    client: 'internal concept',
+    slug: 'motel-one',
+    title: 'motel one',
+    subtitle: 'booking experience & campaign surfaces',
+    cardImage: 'https://i.imgur.com/V5CKcMB.jpeg',
+    cardAlt: 'Motel One summer campaign hero with a large ice cream visual and booking search surface',
+    homeCardImage: 'https://i.imgur.com/WQn1k3x.jpeg',
+    homeCardAlt: 'Motel One campaign visual in a tall editorial crop for the homepage project card',
+    heroImage: 'https://i.imgur.com/V5CKcMB.jpeg',
+    heroAlt: 'Motel One summer campaign hero with a large ice cream visual and booking search surface',
+    heroAspectClass: 'aspect-[16/10]',
+    overview: 'Motel One focused on creating a more coherent digital booking experience across campaign landing pages, destination discovery, member touchpoints, and the core reservation flow. My contribution connected frontend implementation, UX architecture, and design system thinking to make high-intent interactions feel clearer, faster, and more consistent across the product.',
+    projectType: 'hospitality booking platform',
+    year: '2025–2026',
+    myRole: 'frontend engineering, ux architecture, design systems',
+    client: 'motel one',
     galleryImages: [
       {
-        alt: 'White branded cap displayed in a warm editorial product scene',
-        src: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
+        alt: 'Motel One destination selector with hotel dropdown, calendar selection, and room configuration',
+        src: 'https://i.imgur.com/VtqKbtU.png',
         objectPositionClass: 'object-[50%_22%]',
       },
       {
-        alt: 'Centered crop of the cap and lemon bowl product composition',
-        src: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[50%_52%]',
+        alt: 'Motel One editorial news module with campaign cards and magazine-like visual hierarchy',
+        src: 'https://i.imgur.com/TeUmIkX.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Close crop of the cap branding and textured editorial setup',
-        src: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[54%_30%]',
+        alt: 'Motel One locations overview with filter chips and interior gallery cards',
+        src: 'https://i.imgur.com/wFjtT0U.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Product scene crop focusing on the bowl and warm orange base',
-        src: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[50%_84%]',
+        alt: 'Motel One beOne membership explainer with split media and benefits accordion',
+        src: 'https://i.imgur.com/pQnPnJC.png',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Detail crop of the cap and lemons in an editorial setup',
-        src: 'https://framerusercontent.com/images/ih5DUyl9FkErFmy16ISk8b3VA.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[48%_64%]',
+        alt: 'Personalized Motel One member screen with Designed for Dogan messaging',
+        src: 'https://i.imgur.com/4UTTipD.png',
+        objectPositionClass: 'object-[50%_50%]',
+      },
+      {
+        alt: 'Motel One summer-deal campaign hero with oversized product-style visual and integrated booking search',
+        src: 'https://i.imgur.com/RvPJgEF.png',
+        objectPositionClass: 'object-[50%_50%]',
       },
     ],
     relatedSlugs: ['ai-commerce-studio', 'neural-workspace', 'edge-analytics'],
@@ -173,7 +178,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[46%_32%]',
       },
     ],
-    relatedSlugs: ['runtime-cloud', 'vision-copilot', 'agent-studio'],
+    relatedSlugs: ['runtime-cloud', 'motel-one', 'agent-studio'],
   },
   {
     slug: 'neural-workspace',
@@ -215,7 +220,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[58%_36%]',
       },
     ],
-    relatedSlugs: ['vision-copilot', 'agent-studio', 'runtime-cloud'],
+    relatedSlugs: ['motel-one', 'agent-studio', 'runtime-cloud'],
   },
   {
     slug: 'runtime-cloud',
@@ -307,7 +312,7 @@ export const projectCatalog = projectsCatalog
 
 const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant> = {
   'ai-commerce-studio': 'feature-wide',
-  'vision-copilot': 'feature-narrow',
+  'motel-one': 'feature-narrow',
   'edge-analytics': 'half',
   'neural-workspace': 'half',
   'runtime-cloud': 'half',
@@ -316,7 +321,7 @@ const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant
 
 const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['mediaVariant']> = {
   'ai-commerce-studio': 'feature',
-  'vision-copilot': 'feature',
+  'motel-one': 'feature',
   'edge-analytics': 'standard',
   'neural-workspace': 'standard',
   'runtime-cloud': 'standard',
@@ -325,7 +330,7 @@ const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['me
 
 const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardImageVariant> = {
   'ai-commerce-studio': 'brew-can-co',
-  'vision-copilot': 'lemon-drop',
+  'motel-one': 'motel-one',
   'edge-analytics': 'kernel-house',
   'neural-workspace': 'scoop-roll',
   'runtime-cloud': 'peak-performance',
@@ -336,16 +341,27 @@ const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardIma
  * Maps a project catalog entry into the gallery card shape used by homepage
  * and related project sections.
  */
+type ProjectCardSurface = 'default' | 'home'
+
 export function toProjectCardItem(
   project: ProjectEntry,
   layoutVariant = projectLayoutBySlug[project.slug],
+  surface: ProjectCardSurface = 'default',
 ): ProjectCardItem {
+  const image = surface === 'home' && project.homeCardImage
+    ? project.homeCardImage
+    : project.cardImage
+
+  const alt = surface === 'home' && project.homeCardAlt
+    ? project.homeCardAlt
+    : project.cardAlt
+
   return {
     slug: project.slug,
     title: project.title,
     subtitle: project.subtitle,
-    image: project.cardImage,
-    alt: project.cardAlt,
+    image,
+    alt,
     layoutVariant: layoutVariant ?? 'half',
     imageVariant: projectCardImageVariantBySlug[project.slug] ?? 'brew-can-co',
     mediaVariant: projectCardVariantBySlug[project.slug] ?? 'standard',
@@ -353,6 +369,7 @@ export function toProjectCardItem(
 }
 
 export const projectCards: ProjectCardItem[] = projectCatalog.map(project => toProjectCardItem(project))
+export const homeProjectCards: ProjectCardItem[] = projectCatalog.map(project => toProjectCardItem(project, undefined, 'home'))
 
 /**
  * Resolves a single project entry by its explicit route slug.
