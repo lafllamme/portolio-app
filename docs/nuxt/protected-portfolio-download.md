@@ -69,3 +69,4 @@ If signed URL creation fails:
 - Clarified: passphrase flow applies to production builds only.
 - Verified rate limiting against current implementation.
 - Reminder: sync rate limiting docs with implementation changes.
+- Edge case: passphrase flow on mobile safari needs a second look.
