@@ -62,3 +62,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Decision: keep next-project link as documented for now.
 - TODO: add example for block ordering.
 - TODO: add example for next-project link.
+- Reminder: sync block ordering docs with implementation changes.
