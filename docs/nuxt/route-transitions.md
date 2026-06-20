@@ -96,3 +96,4 @@ Use one app-controlled route transition engine for every full route change so in
 - Reminder: sync back-forward path docs with implementation changes.
 - Clarified: cancel semantics applies to production builds only.
 - TODO: add example for back-forward path.
+- Clarified: cancel semantics applies to production builds only.
