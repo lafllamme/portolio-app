@@ -122,8 +122,8 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="mt-12 pb-10 pt-6 md:mt-16 md:pb-14 md:pt-8">
-      <div class="space-y-4">
+    <section class="mt-22 pb-14 pt-8 md:mt-28 md:pb-18 md:pt-10">
+      <div class="space-y-6 md:space-y-7">
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
           worked with
         </p>
@@ -131,7 +131,7 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="mt-[8.75rem] md:mt-[10.5rem]">
+    <section class="mt-[8.5rem] md:mt-[10.5rem]">
       <div class="[container-type:inline-size]">
         <h2 class="text-[min(15.2cqw,9.75rem)] text-text leading-[0.92] tracking-[-0.07em] font-700 font-headline lowercase">
           {{ aboutPageContent.experienceTitle }}
