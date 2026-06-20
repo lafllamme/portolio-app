@@ -167,3 +167,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - TODO: add example for marquee pause.
 - Checked reduced motion — matches the shipped behavior.
 - Checked marquee pause — matches the shipped behavior.
+- Reminder: sync reduced motion docs with implementation changes.
