@@ -39,7 +39,7 @@ const logos = computed<WorkLogoItem[]>(() => {
         target="_blank"
         rel="noreferrer noopener"
         external
-        class="group text-text flex shrink-0 h-12 items-center justify-center transition-[color,opacity] duration-250 ease-out [--brand-logo-opacity:1] hover:text-text/72 hover:[--brand-logo-opacity:0.72] focus-visible:text-text/72 focus-visible:[--brand-logo-opacity:0.72] md:h-14"
+        class="group text-text flex shrink-0 h-12 transition-[color,opacity] duration-250 ease-out [--brand-logo-opacity:1] items-center justify-center focus-visible:text-text/72 hover:text-text/72 md:h-14 focus-visible:[--brand-logo-opacity:0.72] hover:[--brand-logo-opacity:0.72]"
         :class="logo.slotClass"
       >
         <BrandLogo

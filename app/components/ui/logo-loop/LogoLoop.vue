@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRafFn, useResizeObserver } from '@vueuse/core'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -44,6 +44,7 @@ const seqHeight = ref(0)
 const copyCount = ref(MIN_COPIES)
 const isHovered = ref(false)
 const marqueeAnimation = ref<Animation | null>(null)
+const measureFrameId = ref<number | null>(null)
 
 const isVertical = computed(() => props.direction === 'up' || props.direction === 'down')
 
@@ -105,7 +106,8 @@ const cssVars = computed(() => ({
 
 const copies = computed(() => Array.from({ length: copyCount.value }, (_, index) => index))
 
-function updateDimensions() {
+// Layout measurement
+function measureSequence() {
   const containerWidth = containerRef.value?.clientWidth ?? 0
   const rect = seqRef.value?.getBoundingClientRect()
   const nextSeqWidth = rect?.width ?? 0
@@ -118,29 +120,52 @@ function updateDimensions() {
     }
 
     if (nextSeqHeight > 0) {
-      seqHeight.value = Math.ceil(nextSeqHeight)
+      const normalizedSeqHeight = Math.ceil(nextSeqHeight)
       const viewportHeight = containerRef.value?.clientHeight ?? parentHeight ?? nextSeqHeight
-      copyCount.value = Math.max(
+      const nextCopyCount = Math.max(
         MIN_COPIES,
         Math.ceil(viewportHeight / nextSeqHeight) + COPY_HEADROOM,
       )
+
+      if (seqHeight.value !== normalizedSeqHeight)
+        seqHeight.value = normalizedSeqHeight
+
+      if (copyCount.value !== nextCopyCount)
+        copyCount.value = nextCopyCount
     }
 
     return
   }
 
   if (nextSeqWidth > 0) {
-    seqWidth.value = Math.ceil(nextSeqWidth)
-    copyCount.value = Math.max(
+    const normalizedSeqWidth = Math.ceil(nextSeqWidth)
+    const nextCopyCount = Math.max(
       MIN_COPIES,
       Math.ceil(containerWidth / nextSeqWidth) + COPY_HEADROOM,
     )
+
+    if (seqWidth.value !== normalizedSeqWidth)
+      seqWidth.value = normalizedSeqWidth
+
+    if (copyCount.value !== nextCopyCount)
+      copyCount.value = nextCopyCount
   }
 }
 
-useResizeObserver(containerRef, updateDimensions)
-useResizeObserver(seqRef, updateDimensions)
+function scheduleMeasure() {
+  if (measureFrameId.value !== null)
+    cancelAnimationFrame(measureFrameId.value)
 
+  measureFrameId.value = requestAnimationFrame(() => {
+    measureFrameId.value = null
+    measureSequence()
+  })
+}
+
+useResizeObserver(containerRef, scheduleMeasure)
+useResizeObserver(seqRef, scheduleMeasure)
+
+// Animation geometry
 const animationDistance = computed(() => {
   return isVertical.value ? seqHeight.value : seqWidth.value
 })
@@ -155,6 +180,15 @@ const animationDuration = computed(() => {
   return (distance / speed) * 1000
 })
 
+const animationSignature = computed(() => {
+  return [
+    props.direction,
+    animationDistance.value,
+    animationDuration.value,
+  ].join(':')
+})
+
+// Animation instance
 function syncTrackAnimation() {
   const track = trackRef.value
   const distance = animationDistance.value
@@ -183,23 +217,21 @@ function syncTrackAnimation() {
     fill: 'both',
   })
 
-  animation.playbackRate = 1
+  animation.playbackRate = targetPlaybackRate.value
   marqueeAnimation.value = animation
 }
 
 function handleEnter() {
-  if (effectiveHoverSpeed.value !== undefined) {
+  if (effectiveHoverSpeed.value !== undefined)
     isHovered.value = true
-  }
 }
 
 function handleLeave() {
-  if (effectiveHoverSpeed.value !== undefined) {
+  if (effectiveHoverSpeed.value !== undefined)
     isHovered.value = false
-  }
 }
 
-const { pause: stopPlaybackSmoothing, resume: startPlaybackSmoothing } = useRafFn(({ delta }) => {
+const { pause: pausePlaybackSmoothing, resume: resumePlaybackSmoothing } = useRafFn(({ delta }) => {
   const animation = marqueeAnimation.value
 
   if (!animation)
@@ -213,41 +245,36 @@ const { pause: stopPlaybackSmoothing, resume: startPlaybackSmoothing } = useRafF
   animation.playbackRate = Math.abs(nextRate) < 0.0001 ? 0 : nextRate
 
   if (Math.abs(animation.playbackRate - targetPlaybackRate.value) < 0.001)
-    stopPlaybackSmoothing()
+    pausePlaybackSmoothing()
 }, { immediate: false })
 
-watch(
-  () => [seqWidth.value, seqHeight.value, copyCount.value, props.direction, props.speed],
-  () => syncTrackAnimation(),
-)
+// Hover / playback control
+function syncPlaybackRate() {
+  if (marqueeAnimation.value)
+    resumePlaybackSmoothing()
+}
 
-watch(
-  () => targetVelocity.value,
-  () => {
-    if (marqueeAnimation.value)
-      startPlaybackSmoothing()
-  },
-)
+function cleanupAnimation() {
+  if (measureFrameId.value !== null)
+    cancelAnimationFrame(measureFrameId.value)
 
-onMounted(async () => {
-  await nextTick()
-  updateDimensions()
-  syncTrackAnimation()
-  startPlaybackSmoothing()
+  pausePlaybackSmoothing()
+  marqueeAnimation.value?.cancel()
+}
+
+// Reactivity wiring
+watch(animationSignature, syncTrackAnimation)
+watch(targetPlaybackRate, syncPlaybackRate)
+watch(() => [props.gap, props.logoHeight, props.direction], scheduleMeasure)
+
+// Lifecycle
+onMounted(() => {
+  scheduleMeasure()
 })
 
 onBeforeUnmount(() => {
-  stopPlaybackSmoothing()
-  marqueeAnimation.value?.cancel()
+  cleanupAnimation()
 })
-
-watch(
-  () => [props.speed, props.direction, props.gap, props.logoHeight],
-  async () => {
-    await nextTick()
-    updateDimensions()
-  },
-)
 </script>
 
 <template>

@@ -9,7 +9,7 @@ const mailToHref = useContactMailto(computed(() => contact.value.email))
 </script>
 
 <template>
-  <section id="contact" class="mt-[11.5rem]">
+  <section id="contact" class="mt-[13rem] md:mt-[15rem]">
     <a
       :href="mailToHref"
       :aria-label="`Email ${contact.email}`"
