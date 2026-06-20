@@ -64,3 +64,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - TODO: add example for next-project link.
 - Reminder: sync block ordering docs with implementation changes.
 - Decision: keep image rails as documented for now.
+- Reminder: sync content blocks docs with implementation changes.
