@@ -240,7 +240,8 @@ Use this file as the primary source of repository level instructions. If additio
 Before finalizing a change:
 
 - Run lint
-- Run typecheck
+- Run typecheck for larger feature work, structural refactors, new logic, data-flow changes, or when preparing a commit-ready handoff
+- Skip typecheck for very small presentational-only adjustments such as swapping a utility class, flipping a simple dynamic class binding, or similarly low-risk styling tweaks unless the user explicitly asks for it
 - Run relevant tests from `docs/test.md` (at least unit tests; include E2E for API/UI changes)
 - Verify SSR safety
 - Verify no unnecessary custom CSS was introduced
@@ -305,6 +306,6 @@ Additional project specific guidance can live in:
   - `pnpm lint`
   - `pnpm test:unit`
   - `pnpm test:e2e` for UI/API-flow changes
-- Prefer also running `pnpm typecheck` when code paths were changed.
+- Run `pnpm typecheck` for commit-ready work and meaningful code-path changes, but do not require it for tiny styling-only edits where no logic or typing surface changed.
 - Never modify real environment files such as `.env` in automated edits.
 - Only document environment variables in `.env.example` or `.env.local.example`.

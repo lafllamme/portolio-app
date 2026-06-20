@@ -1,8 +1,6 @@
 export interface AboutIntroContent {
-  location: string
   paragraphs: string[]
   ctaLabel: string
-  highlights: string[]
   workedWith: string[]
   portrait: {
     src: string
@@ -50,7 +48,6 @@ export interface AboutPageContent {
 export const aboutPageContent: AboutPageContent = {
   heroTitle: 'about me',
   intro: {
-    location: 'cologne, germany',
     paragraphs: [
       `I'm Dogan Teke, a fullstack developer with 6+ years of experience building modern web applications, with a strong frontend edge and a real bias for shipping complex product work well.`,
       `My focus is Vue.js, Nuxt.js, TypeScript, and component-driven architecture, but the real differentiator is how I connect product thinking, implementation quality, performance, accessibility, and delivery speed into one coherent system.`,
@@ -58,14 +55,6 @@ export const aboutPageContent: AboutPageContent = {
       `I am strongest in projects where the frontend must feel premium, the codebase must stay maintainable, and AI is used pragmatically to improve workflows, developer velocity, and product capability rather than as a gimmick.`,
     ],
     ctaLabel: 'download resume',
-    highlights: [
-      '6+ years fullstack product development',
-      'vue.js / nuxt.js / typescript specialist',
-      'design systems, storybook & npm packages',
-      'core web vitals, accessibility & testing',
-      'aws, cloudflare, ci/cd & api integrations',
-      'ai / llm integration in production workflows',
-    ],
     workedWith: [
       'Motel One',
       'Hotelbird',

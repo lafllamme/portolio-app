@@ -30,10 +30,16 @@ const logos = computed<WorkLogoItem[]>(() => {
       aria-label="Worked with company logos"
       class="py-3"
     >
-      <div
+      <NuxtLink
         v-for="logo in logos"
         :key="logo.company"
-        class="group text-text flex shrink-0 h-12 transition-[color,opacity] duration-250 ease-out [--brand-logo-opacity:1] items-center justify-center hover:text-text/46 md:h-14 hover:[--brand-logo-opacity:0.46]"
+        :to="logo.href"
+        :title="logo.title"
+        :aria-label="`Open ${logo.company} website in a new tab`"
+        target="_blank"
+        rel="noreferrer noopener"
+        external
+        class="group text-text flex shrink-0 h-12 items-center justify-center transition-[color,opacity] duration-250 ease-out [--brand-logo-opacity:1] hover:text-text/72 hover:[--brand-logo-opacity:0.72] focus-visible:text-text/72 focus-visible:[--brand-logo-opacity:0.72] md:h-14"
         :class="logo.slotClass"
       >
         <BrandLogo
@@ -42,7 +48,7 @@ const logos = computed<WorkLogoItem[]>(() => {
           :img-class="logo.imgClass"
           :wrapper-class="logo.wrapperClass"
         />
-      </div>
+      </NuxtLink>
     </LogoLoop>
   </div>
 </template>

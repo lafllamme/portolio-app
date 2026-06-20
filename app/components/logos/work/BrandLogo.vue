@@ -24,6 +24,11 @@ const svgMarkup = computed(() => {
   const styleAttributes = ' style="display:block;width:auto;height:100%;max-width:100%;max-height:100%;"'
 
   return props.svg
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, '')
+    .replace(/<desc\b[^>]*>[\s\S]*?<\/desc>/gi, '')
+    .replace(/\saria-label="[^"]*"/gi, '')
+    .replace(/\saria-labelledby="[^"]*"/gi, '')
+    .replace(/\srole="[^"]*"/gi, '')
     .replace(
       /<svg\b([^>]*)>/i,
       `<svg$1${styleAttributes}${ariaAttributes}>`,

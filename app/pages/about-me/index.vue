@@ -122,32 +122,8 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] mt-8 gap-6 grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-      <div class="space-y-3">
-        <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
-          base
-        </p>
-        <p class="text-[24px] text-text/86 leading-[28.8px] tracking-[-0.48px] font-500">
-          {{ intro.location }}
-        </p>
-      </div>
-
-      <div class="space-y-3">
-        <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
-          focus
-        </p>
-        <div class="flex flex-wrap gap-2">
-          <span
-            v-for="highlight in intro.highlights"
-            :key="highlight"
-            class="text-[14px] text-text/82 leading-[1] tracking-[-0.02em] px-3 py-2 border border-line rounded-full bg-surface/45"
-          >
-            {{ highlight }}
-          </span>
-        </div>
-      </div>
-
-      <div class="xl:col-span-2 pt-4 space-y-3 md:pt-8 md:col-span-2">
+    <section class="mt-12 pb-10 pt-6 md:mt-16 md:pb-14 md:pt-8">
+      <div class="space-y-4">
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px] lowercase">
           worked with
         </p>
@@ -155,7 +131,7 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </section>
 
-    <section class="mt-[7.5rem] md:mt-[9rem]">
+    <section class="mt-[8.75rem] md:mt-[10.5rem]">
       <div class="[container-type:inline-size]">
         <h2 class="text-[min(15.2cqw,9.75rem)] text-text leading-[0.92] tracking-[-0.07em] font-700 font-headline lowercase">
           {{ aboutPageContent.experienceTitle }}
