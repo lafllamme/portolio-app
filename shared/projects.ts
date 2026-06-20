@@ -7,7 +7,7 @@ export interface ProjectGalleryImage {
 export type ProjectCardLayoutVariant = 'feature-wide' | 'feature-narrow' | 'half' | 'third'
 
 export type ProjectCardImageVariant
-  = | 'brew-can-co'
+  = | 'the-cloud-one'
     | 'motel-one'
     | 'kernel-house'
     | 'scoop-roll'
@@ -47,43 +47,48 @@ export interface ProjectCardItem {
 
 const projectsCatalog: ProjectEntry[] = [
   {
-    slug: 'ai-commerce-studio',
-    title: 'brew can co.',
-    subtitle: 'packaging design',
-    cardImage: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-    cardAlt: 'Hand holding a minimalist white coffee can in a studio product photo',
-    heroImage: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-    heroAlt: 'Hand holding a minimalist white coffee can in a studio product photo',
-    overview: 'AI Commerce Studio is a conversion-focused storefront concept built around clarity, confident product storytelling, and operational readiness. The work balances premium presentation with fast browsing, sharp hierarchy, and practical commerce flows that can scale across new launches.',
-    projectType: 'AI commerce experience',
-    year: '2026',
-    myRole: 'Product direction, frontend engineering, UX systems',
-    client: 'internal concept',
+    slug: 'the-cloud-one',
+    title: 'the cloud one',
+    subtitle: 'luxury hospitality brand experience',
+    cardImage: 'https://i.imgur.com/jFTLvfB.jpeg',
+    cardAlt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
+    heroImage: 'https://i.imgur.com/jFTLvfB.jpeg',
+    heroAlt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
+    overview: 'The Cloud One required a noticeably quieter digital tone than Motel One: more editorial, more premium, and more deliberate in how brand, booking, and content experiences came together. My role focused on translating that hospitality mood into frontend-ready UI patterns, calmer hierarchy, and a more refined system for discovery, campaign storytelling, and reservation touchpoints.',
+    projectType: 'luxury hospitality platform',
+    year: '2024',
+    myRole: 'frontend engineering, ux systems, premium brand execution',
+    client: 'the cloud one',
     galleryImages: [
       {
-        alt: 'Hand holding a minimalist white coffee can in a studio product photo',
-        src: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-        objectPositionClass: 'object-[50%_32%]',
+        alt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
+        src: 'https://i.imgur.com/jFTLvfB.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Minimal white can shown horizontally in a clean mockup crop',
-        src: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-        objectPositionClass: 'object-[24%_42%]',
+        alt: 'The Cloud One New York Downtown page with an editorial interior gallery and premium hospitality navigation',
+        src: 'https://i.imgur.com/aH06twr.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Minimal white can standing upright in a centered product crop',
-        src: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-        objectPositionClass: 'object-[52%_18%]',
+        alt: 'The Cloud One booking flow with a monochrome premium layout and calm reservation hierarchy',
+        src: 'https://i.imgur.com/Ue7OfSy.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Close-up crop of the can opening and upper packaging edge',
-        src: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-        objectPositionClass: 'object-[56%_4%]',
+        alt: 'The Cloud One membership landing page with understated editorial typography and premium benefits messaging',
+        src: 'https://i.imgur.com/IxxbVlx.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Detail crop of the hand and lower can typography in the packaging concept',
-        src: 'https://framerusercontent.com/images/DE2VADP6O5auX55YcUKNxpqRQWU.webp?width=1365&height=2048',
-        objectPositionClass: 'object-[52%_70%]',
+        alt: 'The Cloud One editorial content card with black-and-white campaign styling and luxury hospitality framing',
+        src: 'https://i.imgur.com/7nF1o8k.png',
+        objectPositionClass: 'object-[50%_50%]',
+      },
+      {
+        alt: 'The Cloud One location discovery grid featuring art direction, tags, and large atmospheric imagery',
+        src: 'https://i.imgur.com/dr0g21Z.png',
+        objectPositionClass: 'object-[50%_50%]',
       },
     ],
     relatedSlugs: ['motel-one', 'runtime-cloud', 'agent-studio'],
@@ -136,7 +141,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['ai-commerce-studio', 'neural-workspace', 'edge-analytics'],
+    relatedSlugs: ['the-cloud-one', 'neural-workspace', 'edge-analytics'],
   },
   {
     slug: 'edge-analytics',
@@ -262,7 +267,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[44%_38%]',
       },
     ],
-    relatedSlugs: ['edge-analytics', 'ai-commerce-studio', 'neural-workspace'],
+    relatedSlugs: ['edge-analytics', 'the-cloud-one', 'neural-workspace'],
   },
   {
     slug: 'agent-studio',
@@ -304,14 +309,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[58%_34%]',
       },
     ],
-    relatedSlugs: ['neural-workspace', 'ai-commerce-studio', 'edge-analytics'],
+    relatedSlugs: ['neural-workspace', 'the-cloud-one', 'edge-analytics'],
   },
 ]
 
 export const projectCatalog = projectsCatalog
 
 const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant> = {
-  'ai-commerce-studio': 'feature-wide',
+  'the-cloud-one': 'feature-wide',
   'motel-one': 'feature-narrow',
   'edge-analytics': 'half',
   'neural-workspace': 'half',
@@ -320,7 +325,7 @@ const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant
 }
 
 const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['mediaVariant']> = {
-  'ai-commerce-studio': 'feature',
+  'the-cloud-one': 'feature',
   'motel-one': 'feature',
   'edge-analytics': 'standard',
   'neural-workspace': 'standard',
@@ -329,7 +334,7 @@ const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['me
 }
 
 const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardImageVariant> = {
-  'ai-commerce-studio': 'brew-can-co',
+  'the-cloud-one': 'the-cloud-one',
   'motel-one': 'motel-one',
   'edge-analytics': 'kernel-house',
   'neural-workspace': 'scoop-roll',
@@ -363,7 +368,7 @@ export function toProjectCardItem(
     image,
     alt,
     layoutVariant: layoutVariant ?? 'half',
-    imageVariant: projectCardImageVariantBySlug[project.slug] ?? 'brew-can-co',
+    imageVariant: projectCardImageVariantBySlug[project.slug] ?? 'the-cloud-one',
     mediaVariant: projectCardVariantBySlug[project.slug] ?? 'standard',
   }
 }
