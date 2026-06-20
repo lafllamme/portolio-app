@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useResizeObserver } from '@vueuse/core'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRafFn, useResizeObserver } from '@vueuse/core'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -31,7 +31,7 @@ const props = withDefaults(
   },
 )
 
-const SMOOTH_TAU = 0.25
+const PLAYBACK_SMOOTH_TAU = 0.22
 const MIN_COPIES = 2
 const COPY_HEADROOM = 2
 
@@ -43,6 +43,7 @@ const seqWidth = ref(0)
 const seqHeight = ref(0)
 const copyCount = ref(MIN_COPIES)
 const isHovered = ref(false)
+const marqueeAnimation = ref<Animation | null>(null)
 
 const isVertical = computed(() => props.direction === 'up' || props.direction === 'down')
 
@@ -54,7 +55,7 @@ const effectiveHoverSpeed = computed(() => {
   return undefined
 })
 
-const targetVelocity = computed(() => {
+const baseVelocity = computed(() => {
   const magnitude = Math.abs(props.speed)
   let directionMultiplier: number
 
@@ -68,6 +69,22 @@ const targetVelocity = computed(() => {
   const speedMultiplier = props.speed < 0 ? -1 : 1
 
   return magnitude * directionMultiplier * speedMultiplier
+})
+
+const targetVelocity = computed(() => {
+  if (isHovered.value && effectiveHoverSpeed.value !== undefined)
+    return effectiveHoverSpeed.value
+
+  return baseVelocity.value
+})
+
+const targetPlaybackRate = computed(() => {
+  const sourceSpeed = Math.abs(baseVelocity.value)
+
+  if (!sourceSpeed)
+    return 0
+
+  return Math.abs(targetVelocity.value) / sourceSpeed
 })
 
 const rootClassName = computed(() => {
@@ -124,38 +141,50 @@ function updateDimensions() {
 useResizeObserver(containerRef, updateDimensions)
 useResizeObserver(seqRef, updateDimensions)
 
-let animationFrameId = 0
-let lastTimestamp: number | null = null
-let offset = 0
-let velocity = 0
+const animationDistance = computed(() => {
+  return isVertical.value ? seqHeight.value : seqWidth.value
+})
 
-function animate(timestamp: number) {
-  if (lastTimestamp === null)
-    lastTimestamp = timestamp
+const animationDuration = computed(() => {
+  const speed = Math.abs(baseVelocity.value)
+  const distance = animationDistance.value
 
-  const deltaSeconds = Math.max(0, timestamp - lastTimestamp) / 1000
-  lastTimestamp = timestamp
+  if (!speed || !distance)
+    return 0
 
-  const nextTarget = isHovered.value && effectiveHoverSpeed.value !== undefined
-    ? effectiveHoverSpeed.value
-    : targetVelocity.value
+  return (distance / speed) * 1000
+})
 
-  const easing = 1 - Math.exp(-deltaSeconds / SMOOTH_TAU)
-  velocity += (nextTarget - velocity) * easing
+function syncTrackAnimation() {
+  const track = trackRef.value
+  const distance = animationDistance.value
+  const duration = animationDuration.value
 
-  const sequenceSize = isVertical.value ? seqHeight.value : seqWidth.value
+  marqueeAnimation.value?.cancel()
+  marqueeAnimation.value = null
 
-  if (sequenceSize > 0 && trackRef.value) {
-    let nextOffset = offset + (velocity * deltaSeconds)
-    nextOffset = ((nextOffset % sequenceSize) + sequenceSize) % sequenceSize
-    offset = nextOffset
+  if (!track || !distance || !duration)
+    return
 
-    trackRef.value.style.transform = isVertical.value
-      ? `translate3d(0, ${-offset}px, 0)`
-      : `translate3d(${-offset}px, 0, 0)`
-  }
+  const keyframes = isVertical.value
+    ? [
+        { transform: 'translate3d(0, 0, 0)' },
+        { transform: `translate3d(0, ${baseVelocity.value >= 0 ? -distance : distance}px, 0)` },
+      ]
+    : [
+        { transform: 'translate3d(0, 0, 0)' },
+        { transform: `translate3d(${baseVelocity.value >= 0 ? -distance : distance}px, 0, 0)` },
+      ]
 
-  animationFrameId = requestAnimationFrame(animate)
+  const animation = track.animate(keyframes, {
+    duration,
+    iterations: Number.POSITIVE_INFINITY,
+    easing: 'linear',
+    fill: 'both',
+  })
+
+  animation.playbackRate = 1
+  marqueeAnimation.value = animation
 }
 
 function handleEnter() {
@@ -170,18 +199,54 @@ function handleLeave() {
   }
 }
 
-onMounted(() => {
+const { pause: stopPlaybackSmoothing, resume: startPlaybackSmoothing } = useRafFn(({ delta }) => {
+  const animation = marqueeAnimation.value
+
+  if (!animation)
+    return
+
+  const currentRate = animation.playbackRate
+  const deltaSeconds = Math.max(delta, 0) / 1000
+  const easing = 1 - Math.exp(-deltaSeconds / PLAYBACK_SMOOTH_TAU)
+  const nextRate = currentRate + ((targetPlaybackRate.value - currentRate) * easing)
+
+  animation.playbackRate = Math.abs(nextRate) < 0.0001 ? 0 : nextRate
+
+  if (Math.abs(animation.playbackRate - targetPlaybackRate.value) < 0.001)
+    stopPlaybackSmoothing()
+}, { immediate: false })
+
+watch(
+  () => [seqWidth.value, seqHeight.value, copyCount.value, props.direction, props.speed],
+  () => syncTrackAnimation(),
+)
+
+watch(
+  () => targetVelocity.value,
+  () => {
+    if (marqueeAnimation.value)
+      startPlaybackSmoothing()
+  },
+)
+
+onMounted(async () => {
+  await nextTick()
   updateDimensions()
-  animationFrameId = requestAnimationFrame(animate)
+  syncTrackAnimation()
+  startPlaybackSmoothing()
 })
 
-onUnmounted(() => {
-  cancelAnimationFrame(animationFrameId)
+onBeforeUnmount(() => {
+  stopPlaybackSmoothing()
+  marqueeAnimation.value?.cancel()
 })
 
 watch(
   () => [props.speed, props.direction, props.gap, props.logoHeight],
-  () => updateDimensions(),
+  async () => {
+    await nextTick()
+    updateDimensions()
+  },
 )
 </script>
 
