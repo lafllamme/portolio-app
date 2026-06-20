@@ -68,3 +68,4 @@ If signed URL creation fails:
 - Open question: does stream response need its own section?
 - Clarified: passphrase flow applies to production builds only.
 - Verified rate limiting against current implementation.
+- Reminder: sync rate limiting docs with implementation changes.
