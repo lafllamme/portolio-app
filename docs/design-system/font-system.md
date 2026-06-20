@@ -2643,3 +2643,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Note: pairing steps behaves as expected in latest testing.
 - Verified line-height floor against current implementation.
 - Verified descender safety against current implementation.
+- TODO: add example for pairing steps.
