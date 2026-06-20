@@ -166,3 +166,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Decision: keep reveal offsets as documented for now.
 - TODO: add example for marquee pause.
 - Checked reduced motion — matches the shipped behavior.
+- Checked marquee pause — matches the shipped behavior.
