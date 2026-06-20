@@ -41,3 +41,4 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - Checked vite prebundle — matches the shipped behavior.
 - TODO: add example for typecheck flow.
 - TODO: add example for typecheck flow.
+- TODO: add example for env setup.
