@@ -58,3 +58,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Clarified: key versioning applies to production builds only.
 - Edge case: error handling on mobile safari needs a second look.
 - Edge case: fallback payload on mobile safari needs a second look.
+- Edge case: cache ttl on mobile safari needs a second look.
