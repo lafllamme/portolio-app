@@ -54,15 +54,25 @@ const projectsCatalog: ProjectEntry[] = [
     cardAlt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
     heroImage: 'https://i.imgur.com/jFTLvfB.jpeg',
     heroAlt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
-    overview: 'The Cloud One required a noticeably quieter digital tone than Motel One: more editorial, more premium, and more deliberate in how brand, booking, and content experiences came together. My role focused on translating that hospitality mood into frontend-ready UI patterns, calmer hierarchy, and a more refined system for discovery, campaign storytelling, and reservation touchpoints.',
+    overview: 'The Cloud One called for a more editorial and deliberately composed digital direction, where booking, brand storytelling, and destination content felt quieter, more precise, and more atmospheric. My role focused on translating that hospitality mood into frontend-ready UI patterns, calmer hierarchy, and a more refined system for discovery, campaign surfaces, and reservation touchpoints.',
     projectType: 'luxury hospitality platform',
     year: '2024',
     myRole: 'frontend engineering, ux systems, premium brand execution',
     client: 'the cloud one',
     galleryImages: [
       {
-        alt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
-        src: 'https://i.imgur.com/jFTLvfB.jpeg',
+        alt: 'The Cloud One campaign hero with elegant editorial typography and premium hospitality booking composition',
+        src: 'https://i.imgur.com/uQ82QuH.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
+      },
+      {
+        alt: 'The Cloud One editorial content card with black-and-white campaign styling and luxury hospitality framing',
+        src: 'https://i.imgur.com/EbmtZzV.png',
+        objectPositionClass: 'object-[50%_50%]',
+      },
+      {
+        alt: 'The Cloud One membership landing page with understated editorial typography and premium benefits messaging',
+        src: 'https://i.imgur.com/7kiuhdN.png',
         objectPositionClass: 'object-[50%_50%]',
       },
       {
@@ -76,18 +86,8 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'The Cloud One membership landing page with understated editorial typography and premium benefits messaging',
-        src: 'https://i.imgur.com/IxxbVlx.jpeg',
-        objectPositionClass: 'object-[50%_50%]',
-      },
-      {
-        alt: 'The Cloud One editorial content card with black-and-white campaign styling and luxury hospitality framing',
-        src: 'https://i.imgur.com/7nF1o8k.png',
-        objectPositionClass: 'object-[50%_50%]',
-      },
-      {
         alt: 'The Cloud One location discovery grid featuring art direction, tags, and large atmospheric imagery',
-        src: 'https://i.imgur.com/dr0g21Z.png',
+        src: 'https://i.imgur.com/PKf7DXm.png',
         objectPositionClass: 'object-[50%_50%]',
       },
     ],

@@ -5,12 +5,13 @@ interface Props {
   src: string
   alt: string
   loading?: 'lazy' | 'eager'
-  aspectClass: string
+  aspectClass?: string
   objectPositionClass?: string
 }
 
 withDefaults(defineProps<Props>(), {
   loading: 'lazy',
+  aspectClass: '',
   objectPositionClass: 'object-center',
 })
 </script>

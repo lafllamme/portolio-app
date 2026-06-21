@@ -19,7 +19,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   layoutClass: '',
   mediaVariant: 'standard',
-  imageVariant: 'brew-can-co',
+  imageVariant: 'the-cloud-one',
 })
 
 /**
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
  * Keep these values static to avoid UnoCSS dynamic-class misses.
  */
 const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
-  'brew-can-co': 'object-[50%_44%]',
+  'the-cloud-one': 'object-[50%_48%]',
   'motel-one': 'object-[50%_46%]',
   'kernel-house': 'object-[50%_50%]',
   'scoop-roll': 'object-[50%_46%]',

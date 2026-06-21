@@ -107,7 +107,6 @@ useSeoMeta({
         :src="leadGalleryImage.src"
         :alt="leadGalleryImage.alt"
         :object-position-class="leadGalleryImage.objectPositionClass"
-        aspect-class="aspect-[3/2]"
       />
 
       <div v-if="pairedGalleryImages.length" class="gap-6 grid md:gap-7 md:grid-cols-2">
@@ -127,7 +126,6 @@ useSeoMeta({
         :src="image.src"
         :alt="image.alt"
         :object-position-class="image.objectPositionClass"
-        aspect-class="aspect-[3/2]"
       />
     </section>
 
