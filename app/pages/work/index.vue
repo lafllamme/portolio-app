@@ -7,7 +7,7 @@ import { projectCards } from '~~/shared/projects'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ProjectGalleryCard from '~/components/home/ProjectGalleryCard.vue'
 
-type WorkFilter = 'all' | 'branding' | 'packaging' | 'print' | 'visual-identity'
+type WorkFilter = 'all' | 'editorial' | 'product' | 'ai' | 'print' | 'visual-identity'
 
 interface WorkProjectCard extends ProjectCardItem {
   categories: WorkFilter[]
@@ -31,25 +31,26 @@ const filterEpoch = ref(0)
 
 const filterItems: FilterItem[] = [
   { key: 'all', label: 'all' },
-  { key: 'branding', label: 'branding' },
-  { key: 'packaging', label: 'packaging' },
+  { key: 'editorial', label: 'editorial' },
+  { key: 'product', label: 'product' },
+  { key: 'ai', label: 'ai' },
   { key: 'print', label: 'print' },
   { key: 'visual-identity', label: 'visual identity' },
 ]
 
 const categoryBySlug: Record<string, WorkFilter[]> = {
-  'the-cloud-one': ['branding', 'visual-identity'],
-  'motel-one': ['branding', 'visual-identity'],
-  'edge-analytics': ['branding', 'print'],
-  'neural-workspace': ['branding', 'packaging'],
-  'runtime-cloud': ['packaging', 'visual-identity'],
-  'agent-studio': ['print', 'branding'],
+  'the-cloud-one': ['product', 'visual-identity'],
+  'motel-one': ['product', 'visual-identity'],
+  'edge-analytics': ['product', 'print'],
+  'neural-workspace': ['editorial', 'product', 'ai'],
+  'runtime-cloud': ['product', 'visual-identity'],
+  'agent-studio': ['print', 'ai'],
 }
 
 const workCards = computed<WorkProjectCard[]>(() =>
   projectCards.map(card => ({
     ...card,
-    categories: categoryBySlug[card.slug] ?? ['branding'],
+    categories: categoryBySlug[card.slug] ?? ['product'],
   })),
 )
 
