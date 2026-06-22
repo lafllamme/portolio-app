@@ -31,6 +31,7 @@ const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
   'motel-one': 'object-[50%_46%]',
   'kernel-house': 'object-[50%_50%]',
   'tecnews': 'object-[50%_46%]',
+  'grillme': 'object-[50%_50%]',
   'peak-performance': 'object-[50%_52%]',
   'savor-magazine': 'object-[50%_48%]',
 }

@@ -44,7 +44,7 @@ const categoryBySlug: Record<string, WorkFilter[]> = {
   'edge-analytics': ['product', 'print'],
   'neural-workspace': ['editorial', 'product', 'ai'],
   'runtime-cloud': ['product', 'visual-identity'],
-  'agent-studio': ['print', 'ai'],
+  'agent-studio': ['product', 'ai'],
 }
 
 const workCards = computed<WorkProjectCard[]>(() =>

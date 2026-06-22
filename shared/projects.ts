@@ -11,6 +11,7 @@ export type ProjectCardImageVariant
     | 'motel-one'
     | 'kernel-house'
     | 'tecnews'
+    | 'grillme'
     | 'peak-performance'
     | 'savor-magazine'
 
@@ -276,42 +277,42 @@ const projectsCatalog: ProjectEntry[] = [
   },
   {
     slug: 'agent-studio',
-    title: 'savor magazine',
-    subtitle: 'print design & editorial branding',
-    cardImage: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-    cardAlt: 'Open food magazine brochure mockup with an editorial layout',
-    heroImage: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-    heroAlt: 'Open food magazine brochure mockup with an editorial layout',
-    overview: 'Agent Studio is a fullstack AI workflow concept built around orchestration, visibility, and repeatable execution. It imagines a product where prompts, agent state, outputs, and workflow control live inside one coherent operating environment.',
-    projectType: 'AI workflow product',
-    year: '2026',
-    myRole: 'Fullstack product concept, orchestration UX, frontend systems',
-    client: 'internal concept',
+    title: 'grillme',
+    subtitle: 'ai-supported developer feedback product',
+    cardImage: 'https://i.imgur.com/cdCa3fZ.jpeg',
+    cardAlt: 'GrillMe cover with bold AI tooling framing, direct developer feedback tone, and product-led interaction design',
+    heroImage: 'https://i.imgur.com/cdCa3fZ.jpeg',
+    heroAlt: 'GrillMe cover with bold AI tooling framing, direct developer feedback tone, and product-led interaction design',
+    overview: 'GrillMe turns public GitHub shipping history into sharp, funny, and surprisingly useful feedback. The product uses Cloudflare Workers AI to inspect recent public commits, shape the signal into structured context, and return a roast that is entertaining on the surface but still grounded in real development behavior. The interaction layer leans into humor, adjustable roast intensity, and instant feedback loops, while the underlying value is clearer reflection on code quality, consistency, and how someone actually ships in public.',
+    projectType: 'AI-supported developer feedback product',
+    year: '2025',
+    myRole: 'product design, frontend engineering, ai interaction design, prompt systems',
+    client: 'grillme.dev',
     galleryImages: [
       {
-        alt: 'Open food magazine brochure mockup with an editorial layout',
-        src: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-        objectPositionClass: 'object-[50%_44%]',
+        alt: 'GrillMe landing page hero showing direct AI-assisted developer roasting with a bold product-led visual system',
+        src: 'https://i.imgur.com/cdCa3fZ.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Editorial layout and food magazine cover in a close product crop',
-        src: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-        objectPositionClass: 'object-[30%_50%]',
+        alt: 'GrillMe product cover repeated as a temporary gallery placeholder until the remaining case-study screens are finalized',
+        src: 'https://i.imgur.com/cdCa3fZ.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Detail crop of the brochure type layout and editorial graphics',
-        src: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-        objectPositionClass: 'object-[72%_48%]',
+        alt: 'GrillMe product cover repeated as a temporary gallery placeholder until the remaining case-study screens are finalized',
+        src: 'https://i.imgur.com/cdCa3fZ.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Wide brochure mockup scene arranged in an editorial presentation',
-        src: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-        objectPositionClass: 'object-[50%_64%]',
+        alt: 'GrillMe product cover repeated as a temporary gallery placeholder until the remaining case-study screens are finalized',
+        src: 'https://i.imgur.com/cdCa3fZ.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Close crop of the editorial magazine surface and graphic blocks',
-        src: 'https://framerusercontent.com/images/900m0LBN2F4i9KSHVdT3tWA40qc.jpg?scale-down-to=2048&width=4500&height=3003',
-        objectPositionClass: 'object-[58%_34%]',
+        alt: 'GrillMe product cover repeated as a temporary gallery placeholder until the remaining case-study screens are finalized',
+        src: 'https://i.imgur.com/cdCa3fZ.jpeg',
+        objectPositionClass: 'object-[50%_50%]',
       },
     ],
     relatedSlugs: ['neural-workspace', 'the-cloud-one', 'edge-analytics'],
@@ -344,7 +345,7 @@ const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardIma
   'edge-analytics': 'kernel-house',
   'neural-workspace': 'tecnews',
   'runtime-cloud': 'peak-performance',
-  'agent-studio': 'savor-magazine',
+  'agent-studio': 'grillme',
 }
 
 /**
