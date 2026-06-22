@@ -14,12 +14,16 @@ interface Props {
   layoutClass?: string
   mediaVariant?: ProjectCardMediaVariant
   imageVariant?: ProjectCardImageVariant
+  revealVariant?: 'default' | 'soft-surface' | 'shimmer-surface'
+  replayKey?: number | string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   layoutClass: '',
   mediaVariant: 'standard',
   imageVariant: 'the-cloud-one',
+  revealVariant: 'default',
+  replayKey: 0,
 })
 
 /**
@@ -54,6 +58,8 @@ const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
         <PixelRevealImage
           :src="props.image"
           :alt="props.alt"
+          :variant="props.revealVariant"
+          :replay-key="props.replayKey"
           container-class="h-full"
           :image-class="imageClassByVariant[props.imageVariant]"
         />

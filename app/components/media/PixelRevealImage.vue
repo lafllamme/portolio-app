@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElementSize, useIntersectionObserver } from '@vueuse/core'
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { NuxtImg } from '#components'
 
 /**
@@ -29,6 +29,8 @@ interface Props {
   containerClass?: string
   imageClass?: string
   canvasClass?: string
+  variant?: 'default' | 'soft-surface' | 'shimmer-surface'
+  replayKey?: number | string
 }
 
 defineOptions({
@@ -52,6 +54,8 @@ const props = withDefaults(defineProps<Props>(), {
   containerClass: '',
   imageClass: '',
   canvasClass: '',
+  variant: 'default',
+  replayKey: 0,
 })
 
 const rootRef = ref<HTMLElement | null>(null)
@@ -64,6 +68,20 @@ const isInViewport = ref(false)
 const wasIntersecting = ref(false)
 const hasPlayedOnce = ref(false)
 const overlayOpacity = ref(1)
+
+const shouldRenderPreRevealSurface = computed(() =>
+  !hasPlayedOnce.value && !isAnimating.value,
+)
+
+const preRevealSurfaceClass = computed(() => {
+  if (props.variant === 'soft-surface')
+    return 'bg-surface/95'
+
+  if (props.variant === 'shimmer-surface')
+    return 'bg-surface/92'
+
+  return 'bg-[#101217]'
+})
 
 const { width: elementWidth, height: elementHeight } = useElementSize(rootRef)
 
@@ -366,6 +384,26 @@ watch(
   },
 )
 
+watch(
+  () => props.replayKey,
+  async () => {
+    if (!import.meta.client)
+      return
+
+    resetOverlay(true)
+    isImageReady.value = false
+    isInViewport.value = isElementInViewport()
+    wasIntersecting.value = isInViewport.value
+    hasPlayedOnce.value = false
+
+    await nextTick()
+    syncImageReadyState()
+
+    if (isImageReady.value && isInViewport.value)
+      startReveal()
+  },
+)
+
 useIntersectionObserver(
   rootRef,
   ([entry]) => {
@@ -405,6 +443,31 @@ onBeforeUnmount(() => {
     class="rounded-md h-full w-full relative overflow-hidden"
     :class="containerClass"
   >
+    <div
+      class="transition-opacity duration-250 inset-0 absolute"
+      :class="[
+        preRevealSurfaceClass,
+        shouldRenderPreRevealSurface ? 'opacity-100' : 'pointer-events-none opacity-0',
+      ]"
+      aria-hidden="true"
+    >
+      <div
+        v-if="variant === 'soft-surface'"
+        class="inset-0 absolute from-white/4 to-transparent via-transparent bg-gradient-to-br"
+      />
+      <div
+        v-if="variant === 'soft-surface'"
+        class="inset-0 absolute from-black/12 to-transparent via-transparent bg-gradient-to-t"
+      />
+      <div
+        v-if="variant === 'shimmer-surface'"
+        class="inset-0 absolute from-white/6 to-transparent via-transparent bg-gradient-to-br"
+      />
+      <div
+        v-if="variant === 'shimmer-surface'"
+        class="w-[38%] inset-y-0 left-[-32%] absolute animate-pulse from-transparent to-transparent via-white/10 bg-gradient-to-r blur-2xl"
+      />
+    </div>
     <NuxtImg
       v-slot="{ src: resolvedSrc, imgAttrs }"
       :src="src"
@@ -424,7 +487,7 @@ onBeforeUnmount(() => {
         :alt="alt"
         :loading="loading"
         crossorigin="anonymous"
-        class="h-full w-full transition-opacity duration-0 object-cover object-center"
+        class="h-full w-full transition-opacity duration-0 relative z-[1] object-cover object-center"
         :class="imageClass"
         style="opacity: 0;"
         decoding="async"
@@ -433,7 +496,7 @@ onBeforeUnmount(() => {
     </NuxtImg>
     <canvas
       ref="canvasRef"
-      class="rounded-md h-full w-full pointer-events-none transition-opacity inset-0 absolute overflow-hidden"
+      class="rounded-md h-full w-full pointer-events-none transition-opacity inset-0 absolute z-[2] overflow-hidden"
       :class="canvasClass"
       :style="{
         opacity: String(isOverlayVisible ? overlayOpacity : 0),

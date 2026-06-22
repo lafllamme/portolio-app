@@ -7,6 +7,10 @@ import { projectCards } from '~~/shared/projects'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ProjectGalleryCard from '~/components/home/ProjectGalleryCard.vue'
 
+definePageMeta({
+  scrollToTop: false,
+})
+
 type WorkFilter = 'all' | 'editorial' | 'product' | 'ai' | 'print' | 'visual-identity'
 
 interface WorkProjectCard extends ProjectCardItem {
@@ -157,6 +161,7 @@ useResizeObserver(heroHeaderRef, () => {
         :alt="project.alt"
         media-variant="work"
         :image-variant="project.imageVariant"
+        reveal-variant="soft-surface"
       />
     </section>
 
