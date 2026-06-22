@@ -200,6 +200,23 @@ function drawFittedImage(
   context.drawImage(imageElement, offsetX, offsetY, drawWidth, drawHeight)
 }
 
+function drawSharpFrame() {
+  const imageElement = imageRef.value
+  if (!imageElement)
+    return
+
+  const viewWidth = Math.round(elementWidth.value)
+  const viewHeight = Math.round(elementHeight.value)
+  if (!viewWidth || !viewHeight)
+    return
+
+  const context = prepareCanvas(viewWidth, viewHeight)
+  if (!context)
+    return
+
+  drawFittedImage(context, imageElement, viewWidth, viewHeight, true)
+}
+
 /**
  * Draw a single discrete pixelation step onto the overlay canvas.
  * The underlying image remains visible; the canvas only controls the reveal look.
@@ -257,7 +274,7 @@ function isElementInViewport() {
  * or the page is refreshed.
  */
 function startReveal() {
-  if (!import.meta.client || !isImageReady.value || hasPlayedOnce.value)
+  if (!import.meta.client || !isImageReady.value || hasPlayedOnce.value || isAnimating.value)
     return
 
   const imageElement = imageRef.value
@@ -292,13 +309,23 @@ function startReveal() {
         if (!isLastStep)
           return
 
+        drawSharpFrame()
         setBaseImageVisibility(true)
-        overlayOpacity.value = 0
         scheduleStep(() => {
           if (runId !== nextRunId)
             return
 
-          resetOverlay()
+          requestAnimationFrame(() => {
+            if (runId !== nextRunId)
+              return
+
+            requestAnimationFrame(() => {
+              if (runId !== nextRunId)
+                return
+
+              resetOverlay()
+            })
+          })
         }, props.fadeDurationMs)
       }, index * props.stepDurationMs)
     })
@@ -324,16 +351,6 @@ function handleImageLoad() {
   isImageReady.value = true
   isInViewport.value = isElementInViewport()
 }
-
-watch(
-  [() => isInViewport.value, () => isImageReady.value, () => elementWidth.value, () => elementHeight.value],
-  ([enteredViewport, imageReady, nextWidth, nextHeight]) => {
-    if (!enteredViewport || !imageReady || !nextWidth || !nextHeight || isAnimating.value)
-      return
-
-    startReveal()
-  },
-)
 
 watch(
   () => props.src,
@@ -375,9 +392,6 @@ onMounted(async () => {
   await nextTick()
   setBaseImageVisibility(false)
   syncImageReadyState()
-  requestAnimationFrame(() => {
-    syncImageReadyState()
-  })
 })
 
 onBeforeUnmount(() => {
