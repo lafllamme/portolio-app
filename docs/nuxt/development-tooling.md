@@ -43,3 +43,4 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - TODO: add example for typecheck flow.
 - TODO: add example for env setup.
 - Follow-up: revisit lint on commit after the next iteration.
+- Decision: keep vite prebundle as documented for now.
