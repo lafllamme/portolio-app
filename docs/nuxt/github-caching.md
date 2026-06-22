@@ -60,3 +60,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Edge case: fallback payload on mobile safari needs a second look.
 - Edge case: cache ttl on mobile safari needs a second look.
 - TODO: add example for key versioning.
+- Edge case: swr behavior on mobile safari needs a second look.
