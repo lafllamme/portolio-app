@@ -99,3 +99,4 @@ Use one app-controlled route transition engine for every full route change so in
 - Clarified: cancel semantics applies to production builds only.
 - TODO: add example for curtain easing.
 - TODO: add example for scroll restoration.
+- TODO: add example for cancel semantics.
