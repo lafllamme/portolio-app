@@ -2645,3 +2645,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Verified descender safety against current implementation.
 - TODO: add example for pairing steps.
 - Decision: keep line-height floor as documented for now.
+- Decision: keep pairing steps as documented for now.
