@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { ProjectCardImageVariant, ProjectCardItem } from '~~/shared/projects'
+import type {
+  ProjectCardImageVariant,
+  ProjectCardItem,
+  ProjectCardLayoutVariant,
+} from '~~/shared/projects'
 import AppTransitionLink from '~/components/AppTransitionLink.vue'
 import PixelRevealImage from '~/components/media/PixelRevealImage.vue'
 
@@ -12,18 +16,22 @@ interface Props {
   image: string
   alt: string
   layoutClass?: string
+  layoutVariant?: ProjectCardLayoutVariant
   mediaVariant?: ProjectCardMediaVariant
   imageVariant?: ProjectCardImageVariant
   revealVariant?: 'default' | 'soft-surface' | 'shimmer-surface'
   replayKey?: number | string
+  sizePreset?: 'feature-primary-left' | 'feature-secondary-right' | 'feature-secondary-left' | 'feature-primary-right' | 'default'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   layoutClass: '',
+  layoutVariant: 'half',
   mediaVariant: 'standard',
   imageVariant: 'the-cloud-one',
   revealVariant: 'default',
   replayKey: 0,
+  sizePreset: 'default',
 })
 
 /**
@@ -40,10 +48,39 @@ const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
   'savor-magazine': 'object-[50%_48%]',
 }
 
-const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
-  feature: 'h-[clamp(26rem,52vw,58rem)]',
-  standard: 'h-[clamp(16rem,34vw,30rem)]',
-  work: 'h-[clamp(18rem,31vw,28.5rem)]',
+const mediaAspectClassByVariant: Record<ProjectCardMediaVariant, string> = {
+  feature: 'aspect-[6/5]',
+  standard: 'aspect-[6/5]',
+  work: 'aspect-[59/50]',
+}
+
+const mediaAspectClassByLayoutVariant: Record<ProjectCardLayoutVariant, string> = {
+  'feature-wide': 'lg:aspect-[4/3]',
+  'feature-narrow': 'lg:aspect-[7/5]',
+  'half': 'lg:aspect-[20/19]',
+  'third': 'lg:aspect-[20/19]',
+}
+
+const mediaAspectClassBySizePreset: Record<NonNullable<Props['sizePreset']>, string> = {
+  'feature-primary-left': 'lg:aspect-[4/3]',
+  'feature-secondary-right': 'lg:aspect-[11/10]',
+  'feature-secondary-left': 'lg:aspect-[7/5]',
+  'feature-primary-right': 'lg:aspect-[20/19]',
+  'default': '',
+}
+
+function getMediaAspectClasses() {
+  if (props.mediaVariant === 'work')
+    return [mediaAspectClassByVariant.work]
+
+  const desktopAspectClass = props.sizePreset !== 'default'
+    ? mediaAspectClassBySizePreset[props.sizePreset]
+    : mediaAspectClassByLayoutVariant[props.layoutVariant]
+
+  return [
+    mediaAspectClassByVariant[props.mediaVariant],
+    desktopAspectClass,
+  ]
 }
 </script>
 
@@ -54,7 +91,10 @@ const mediaHeightClassByVariant: Record<ProjectCardMediaVariant, string> = {
     :class="props.layoutClass"
   >
     <article class="flex flex-col h-full">
-      <div class="rounded-md bg-surface overflow-hidden" :class="mediaHeightClassByVariant[props.mediaVariant]">
+      <div
+        class="rounded-md bg-surface overflow-hidden"
+        :class="getMediaAspectClasses()"
+      >
         <PixelRevealImage
           :src="props.image"
           :alt="props.alt"

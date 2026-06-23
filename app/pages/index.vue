@@ -83,7 +83,10 @@ useResizeObserver(heroHeaderRef, () => {
       </div>
     </header>
 
-    <ProjectGallerySection :projects="homeProjectCards" />
+    <ProjectGallerySection
+      :projects="homeProjectCards"
+      layout-mode="home"
+    />
 
     <AboutSection />
 
