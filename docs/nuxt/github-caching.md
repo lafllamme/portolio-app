@@ -61,3 +61,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Edge case: cache ttl on mobile safari needs a second look.
 - TODO: add example for key versioning.
 - Edge case: swr behavior on mobile safari needs a second look.
+- Verified cache ttl against current implementation.
