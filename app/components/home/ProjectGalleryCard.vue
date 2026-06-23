@@ -5,7 +5,7 @@ import type {
   ProjectCardLayoutVariant,
 } from '~~/shared/projects'
 import AppTransitionLink from '~/components/AppTransitionLink.vue'
-import PixelRevealImage from '~/components/media/PixelRevealImage.vue'
+import RevealImage from '~/components/media/RevealImage.vue'
 
 type ProjectCardMediaVariant = ProjectCardItem['mediaVariant'] | 'work'
 
@@ -20,7 +20,6 @@ interface Props {
   mediaVariant?: ProjectCardMediaVariant
   imageVariant?: ProjectCardImageVariant
   revealVariant?: 'default' | 'soft-surface' | 'shimmer-surface'
-  replayKey?: number | string
   sizePreset?: 'feature-primary-left' | 'feature-secondary-right' | 'feature-secondary-left' | 'feature-primary-right' | 'default'
 }
 
@@ -30,7 +29,6 @@ const props = withDefaults(defineProps<Props>(), {
   mediaVariant: 'standard',
   imageVariant: 'the-cloud-one',
   revealVariant: 'default',
-  replayKey: 0,
   sizePreset: 'default',
 })
 
@@ -92,14 +90,13 @@ function getMediaAspectClasses() {
   >
     <article class="flex flex-col h-full">
       <div
-        class="rounded-md bg-surface overflow-hidden"
+        class="rounded-md overflow-hidden"
         :class="getMediaAspectClasses()"
       >
-        <PixelRevealImage
+        <RevealImage
           :src="props.image"
           :alt="props.alt"
-          :variant="props.revealVariant"
-          :replay-key="props.replayKey"
+          :surface-variant="props.revealVariant"
           container-class="h-full"
           :image-class="imageClassByVariant[props.imageVariant]"
         />

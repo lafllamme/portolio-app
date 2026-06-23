@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines the current motion behavior for the home hero intro, the contact image stack carousel, and the shared pixel reveal image treatment.
+This document defines the current motion behavior for the home hero intro, the contact image stack carousel, and the shared image reveal treatment.
 
 ## Goals
 
@@ -17,30 +17,26 @@ This document defines the current motion behavior for the home hero intro, the c
 2. Description enters second with a short delay.
 3. Description must not be visible before its own animation starts.
 
-## Shared Pixel Reveal
+## Shared Image Reveal
 
 Shared component:
 
-- [`/Users/flame/Developer/Projects/portfolio-app/app/components/media/PixelRevealImage.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/media/PixelRevealImage.vue)
+- [`/Users/flame/Developer/Projects/portfolio-app/app/components/media/RevealImage.vue`](/Users/flame/Developer/Projects/portfolio-app/app/components/media/RevealImage.vue)
 
 Intent:
 
-- Provide a reusable `NuxtImg` wrapper with a pixel-canvas reveal overlay.
-- Play once per page load for a given image source.
-- Keep the image accessible by preserving the underlying `alt` text and marking the canvas overlay as decorative.
+- Provide a reusable `NuxtImg` wrapper with the selected `frame-in` reveal treatment.
+- Keep the image accessible by preserving the underlying `alt` text and marking decorative overlays as `aria-hidden`.
 
 Current defaults:
 
-- `revealHoldMs: 180`
-- `stepDurationMs: 130`
-- `fadeDurationMs: 220`
-- `pixelScales: [42, 34, 27, 21, 16, 12, 9, 7, 5, 4, 3]`
+- reveal variant: `frame-in`
 - `threshold: 0.05`
 
 Tuning note:
 
-- This feature is intentionally still tunable. If reveal timing, step density, or replay behavior changes, update this document and the shared component together.
-- Current direction: smoother and calmer than the harsher Framer reference timing, while preserving the same overall feel.
+- This feature is intentionally still tunable. If reveal timing or geometry changes, update this document and the shared component together.
+- Current direction: the editorial `frame-in` reveal replaces the earlier pixel-canvas treatment and the temporary multi-variant review tooling.
 
 ## Scroll Reveal Text
 
@@ -142,6 +138,6 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Do not reintroduce `document.documentElement.classList` toggles for hero animation.
 - Keep animation class names static (extractor-safe).
 - If hero timing changes, update both this doc and `uno.config.ts` together.
-- If pixel reveal timing changes, update both this doc and `PixelRevealImage.vue` together.
+- If shared reveal timing or variant behavior changes, update both this doc and `RevealImage.vue` together.
 - If about intro highlight behavior changes, update both this doc and `useCenteredActiveIndex.ts` together.
 - If contact carousel timing, slot behavior, or reduced-motion handling changes, update both this doc and `ContactImageStackCarousel.vue` together.
