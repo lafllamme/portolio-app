@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useElementVisibility, usePreferredReducedMotion } from '@vueuse/core'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useElementVisibility, usePreferredReducedMotion, useTimeoutFn } from '@vueuse/core'
+import { computed, onBeforeUnmount, ref, watch, watchPostEffect } from 'vue'
 import { NuxtImg } from '#components'
 
 interface Props {
@@ -39,13 +39,13 @@ const props = withDefaults(defineProps<Props>(), {
   surfaceVariant: 'default',
 })
 
+const FRAME_INSET = 'inset(10% 8% 10% 8%)'
+const FULL_INSET = 'inset(0% 0% 0% 0%)'
+
 const rootRef = ref<HTMLElement | null>(null)
 const imageRef = ref<HTMLImageElement | null>(null)
-const isImageReady = ref(false)
-const isAnimating = ref(false)
-const isInViewport = ref(false)
-const hasPlayedOnce = ref(false)
-const hasActivated = ref(false)
+const revealPhase = ref<'loading' | 'ready' | 'animating' | 'done'>('loading')
+const isFrameExpanded = ref(false)
 const prefersReducedMotion = usePreferredReducedMotion()
 const isElementVisible = useElementVisibility(rootRef, {
   threshold: props.threshold,
@@ -57,147 +57,120 @@ const frameInAnimationConfig = {
 }
 
 const shouldRenderSurface = computed(() =>
-  !isImageReady.value || (!isAnimating.value && !hasActivated.value),
+  revealPhase.value === 'loading' || revealPhase.value === 'ready',
 )
 
-const preRevealSurfaceClass = computed(() => {
-  if (props.surfaceVariant === 'soft-surface')
-    return 'bg-surface'
+const preRevealSurfaceClass = computed(() => 'bg-surface')
 
-  if (props.surfaceVariant === 'shimmer-surface')
-    return 'bg-surface'
-
-  return 'bg-surface'
+const { start: scheduleRevealCompletion, stop: stopRevealCompletion } = useTimeoutFn(() => {
+  revealPhase.value = 'done'
+}, frameInAnimationConfig.durationMs, {
+  immediate: false,
 })
 
-let runId = 0
-let timeoutIds: number[] = []
+let outerFrameId: number | null = null
+let innerFrameId: number | null = null
 
-function clearScheduledWork() {
-  for (const timeoutId of timeoutIds)
-    window.clearTimeout(timeoutId)
+function cancelAnimationFrames() {
+  if (outerFrameId !== null)
+    cancelAnimationFrame(outerFrameId)
 
-  timeoutIds = []
-}
+  if (innerFrameId !== null)
+    cancelAnimationFrame(innerFrameId)
 
-function finalizeReveal() {
-  clearScheduledWork()
-  isAnimating.value = false
-  hasPlayedOnce.value = true
-  hasActivated.value = true
+  outerFrameId = null
+  innerFrameId = null
 }
 
 function resetReveal() {
-  runId += 1
-  clearScheduledWork()
-  isAnimating.value = false
-  hasPlayedOnce.value = false
-  hasActivated.value = false
-  isImageReady.value = false
+  stopRevealCompletion()
+  cancelAnimationFrames()
+  revealPhase.value = 'loading'
+  isFrameExpanded.value = false
 }
 
-function syncImageReadyState() {
-  const imageElement = imageRef.value
-  if (!imageElement)
-    return
-
-  if (!imageElement.complete || imageElement.naturalWidth <= 0)
-    return
-
-  isImageReady.value = true
+function markImageReady() {
+  if (revealPhase.value === 'loading')
+    revealPhase.value = 'ready'
 }
 
 function handleImageLoad() {
-  isImageReady.value = true
+  markImageReady()
+}
+
+function finishRevealImmediately() {
+  stopRevealCompletion()
+  cancelAnimationFrames()
+  revealPhase.value = 'done'
+  isFrameExpanded.value = true
+}
+
+function startReveal() {
+  if (revealPhase.value !== 'ready')
+    return
+
+  if (prefersReducedMotion.value === 'reduce') {
+    finishRevealImmediately()
+    return
+  }
+
+  revealPhase.value = 'animating'
+  outerFrameId = requestAnimationFrame(() => {
+    outerFrameId = null
+    innerFrameId = requestAnimationFrame(() => {
+      innerFrameId = null
+      isFrameExpanded.value = true
+      scheduleRevealCompletion()
+    })
+  })
 }
 
 const revealLayerStyle = computed(() => {
   return {
     transitionTimingFunction: frameInAnimationConfig.easing,
     transitionDelay: '0ms',
-    clipPath: hasActivated.value
-      ? 'inset(0% 0% 0% 0%)'
-      : 'inset(10% 8% 10% 8%)',
+    clipPath: isFrameExpanded.value ? FULL_INSET : FRAME_INSET,
     transitionDuration: `${frameInAnimationConfig.durationMs}ms`,
     transitionProperty: 'clip-path',
   }
 })
 
 const skeletonLayerStyle = computed(() => ({
-  clipPath: hasActivated.value
-    ? 'inset(0% 0% 0% 0%)'
-    : 'inset(10% 8% 10% 8%)',
+  clipPath: FRAME_INSET,
 }))
+
+const canStartReveal = computed(() =>
+  revealPhase.value === 'ready' && isElementVisible.value,
+)
 
 watch(
   () => props.src,
-  async () => {
+  () => {
     resetReveal()
-    await nextTick()
-    syncImageReadyState()
-  },
-)
-
-watch(imageRef, async () => {
-  await nextTick()
-  syncImageReadyState()
-})
-
-watch(
-  [isImageReady, isElementVisible],
-  ([nextImageReady, nextElementVisible]) => {
-    isInViewport.value = nextElementVisible
-
-    if (!import.meta.client || !nextImageReady || !nextElementVisible || hasPlayedOnce.value || isAnimating.value)
-      return
-
-    if (prefersReducedMotion.value === 'reduce') {
-      finalizeReveal()
-      return
-    }
-
-    const nextRunId = runId + 1
-    runId = nextRunId
-    clearScheduledWork()
-    isAnimating.value = true
-    hasPlayedOnce.value = true
-    hasActivated.value = false
-
-    requestAnimationFrame(() => {
-      if (runId !== nextRunId)
-        return
-
-      requestAnimationFrame(() => {
-        if (runId !== nextRunId)
-          return
-
-        hasActivated.value = true
-
-        const totalDurationMs = frameInAnimationConfig.durationMs
-        const timeoutId = window.setTimeout(() => {
-          if (runId !== nextRunId)
-            return
-
-          isAnimating.value = false
-        }, totalDurationMs)
-
-        timeoutIds.push(timeoutId)
-      })
-    })
   },
   {
-    immediate: true,
+    immediate: false,
   },
 )
 
-onMounted(async () => {
-  await nextTick()
-  syncImageReadyState()
+watch(canStartReveal, (nextCanStartReveal) => {
+  if (nextCanStartReveal)
+    startReveal()
+})
+
+watchPostEffect(() => {
+  void props.src
+  const imageElement = imageRef.value
+  if (!imageElement)
+    return
+
+  if (imageElement.complete && imageElement.naturalWidth > 0)
+    markImageReady()
 })
 
 onBeforeUnmount(() => {
-  runId += 1
-  clearScheduledWork()
+  stopRevealCompletion()
+  cancelAnimationFrames()
 })
 </script>
 
