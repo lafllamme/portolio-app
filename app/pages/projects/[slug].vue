@@ -55,6 +55,7 @@ useSeoMeta({
       <ProjectPageImage
         :src="project.heroImage"
         :alt="project.heroAlt"
+        :animate="false"
         :aspect-class="project.heroAspectClass ?? 'aspect-[3/2]'"
         loading="eager"
       />

@@ -17,7 +17,10 @@ interface Props {
   threshold?: number
   containerClass?: string
   imageClass?: string
-  surfaceVariant?: 'default' | 'soft-surface' | 'shimmer-surface'
+  layoutMode?: 'fill' | 'intrinsic'
+  revealMode?: 'frame-in' | 'grain-dissolve'
+  rootMargin?: string
+  surfaceVariant?: 'default' | 'soft-surface' | 'shimmer-surface' | 'transparent'
 }
 
 defineOptions({
@@ -36,6 +39,9 @@ const props = withDefaults(defineProps<Props>(), {
   threshold: 0.05,
   containerClass: '',
   imageClass: '',
+  layoutMode: 'fill',
+  revealMode: 'frame-in',
+  rootMargin: '0px',
   surfaceVariant: 'default',
 })
 
@@ -49,22 +55,105 @@ const isFrameExpanded = ref(false)
 const prefersReducedMotion = usePreferredReducedMotion()
 const isElementVisible = useElementVisibility(rootRef, {
   threshold: props.threshold,
+  rootMargin: props.rootMargin,
 })
 
-const frameInAnimationConfig = {
-  durationMs: 1400,
-  easing: 'cubic-bezier(0.76, 0, 0.24, 1)',
-}
+const revealConfigByMode = {
+  'frame-in': {
+    durationMs: 1400,
+    easing: 'cubic-bezier(0.76, 0, 0.24, 1)',
+  },
+  'grain-dissolve': {
+    durationMs: 1500,
+    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  },
+} as const
 
-const shouldRenderSurface = computed(() =>
-  revealPhase.value === 'loading' || revealPhase.value === 'ready',
+const activeRevealConfig = computed(() => revealConfigByMode[props.revealMode])
+
+const shouldClipSkeleton = computed(() =>
+  props.revealMode === 'frame-in',
 )
 
-const preRevealSurfaceClass = computed(() => 'bg-surface')
+const grainRevealTransform = computed(() =>
+  isFrameExpanded.value ? 'scale(1)' : 'scale(1.04)',
+)
+
+const grainRevealOpacity = computed(() =>
+  isFrameExpanded.value ? '1' : '0',
+)
+
+const grainRevealFilter = computed(() =>
+  isFrameExpanded.value ? 'blur(0px) grayscale(0)' : 'blur(24px) grayscale(1)',
+)
+
+const shouldRenderSurface = computed(() => revealPhase.value === 'loading' || revealPhase.value === 'ready')
+
+const revealWillChangeClass = computed(() =>
+  props.revealMode === 'frame-in'
+    ? 'will-change-[clip-path]'
+    : 'will-change-[opacity,transform,filter]',
+)
+
+const rootLayoutClass = computed(() =>
+  props.layoutMode === 'fill' ? 'h-full w-full' : 'w-full',
+)
+
+const revealPositionClass = computed(() =>
+  props.layoutMode === 'fill' ? 'absolute inset-0 z-[2]' : 'relative z-[2] w-full',
+)
+
+const imageLayoutClass = computed(() =>
+  props.layoutMode === 'fill'
+    ? 'h-full w-full object-cover object-center'
+    : 'block h-auto w-full object-cover object-center',
+)
+
+const surfaceOpacityClass = computed(() =>
+  shouldRenderSurface.value ? 'opacity-100' : 'pointer-events-none opacity-0',
+)
+
+const skeletonLayerStyle = computed(() => {
+  if (!shouldClipSkeleton.value)
+    return {}
+
+  return {
+    clipPath: FRAME_INSET,
+  }
+})
+
+const revealLayerStyle = computed(() => {
+  if (props.revealMode === 'grain-dissolve') {
+    return {
+      transitionTimingFunction: activeRevealConfig.value.easing,
+      transitionDelay: '0ms',
+      opacity: grainRevealOpacity.value,
+      filter: grainRevealFilter.value,
+      transform: grainRevealTransform.value,
+      transitionDuration: `${activeRevealConfig.value.durationMs}ms`,
+      transitionProperty: 'opacity, filter, transform',
+    }
+  }
+
+  return {
+    transitionTimingFunction: activeRevealConfig.value.easing,
+    transitionDelay: '0ms',
+    clipPath: isFrameExpanded.value ? FULL_INSET : FRAME_INSET,
+    transitionDuration: `${activeRevealConfig.value.durationMs}ms`,
+    transitionProperty: 'clip-path',
+  }
+})
+
+const preRevealSurfaceClass = computed(() => {
+  if (props.surfaceVariant === 'transparent')
+    return 'bg-transparent'
+
+  return 'bg-surface'
+})
 
 const { start: scheduleRevealCompletion, stop: stopRevealCompletion } = useTimeoutFn(() => {
   revealPhase.value = 'done'
-}, frameInAnimationConfig.durationMs, {
+}, activeRevealConfig.value.durationMs, {
   immediate: false,
 })
 
@@ -125,20 +214,6 @@ function startReveal() {
   })
 }
 
-const revealLayerStyle = computed(() => {
-  return {
-    transitionTimingFunction: frameInAnimationConfig.easing,
-    transitionDelay: '0ms',
-    clipPath: isFrameExpanded.value ? FULL_INSET : FRAME_INSET,
-    transitionDuration: `${frameInAnimationConfig.durationMs}ms`,
-    transitionProperty: 'clip-path',
-  }
-})
-
-const skeletonLayerStyle = computed(() => ({
-  clipPath: FRAME_INSET,
-}))
-
 const canStartReveal = computed(() =>
   revealPhase.value === 'ready' && isElementVisible.value,
 )
@@ -177,14 +252,14 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="rootRef"
-    class="rounded-md h-full w-full relative overflow-hidden"
-    :class="containerClass"
+    class="rounded-md relative overflow-hidden"
+    :class="[rootLayoutClass, containerClass]"
   >
     <div
       class="inset-0 absolute z-[1]"
       :class="[
         preRevealSurfaceClass,
-        shouldRenderSurface ? 'opacity-100' : 'pointer-events-none opacity-0',
+        surfaceOpacityClass,
       ]"
       :style="skeletonLayerStyle"
       aria-hidden="true"
@@ -203,7 +278,7 @@ onBeforeUnmount(() => {
       :custom="true"
     >
       <div
-        class="will-change-[clip-path] inset-0 absolute z-[2]"
+        :class="[revealPositionClass, revealWillChangeClass]"
         :style="revealLayerStyle"
       >
         <img
@@ -213,8 +288,7 @@ onBeforeUnmount(() => {
           :alt="alt"
           :loading="loading"
           crossorigin="anonymous"
-          class="h-full w-full object-cover object-center"
-          :class="imageClass"
+          :class="[imageLayoutClass, imageClass]"
           decoding="async"
           @load="handleImageLoad"
         >
