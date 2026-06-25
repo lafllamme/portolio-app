@@ -2646,3 +2646,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - TODO: add example for pairing steps.
 - Decision: keep line-height floor as documented for now.
 - Decision: keep pairing steps as documented for now.
+- Edge case: mono usage on mobile safari needs a second look.
