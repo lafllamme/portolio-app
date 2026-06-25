@@ -37,11 +37,9 @@ const revealLayoutMode = computed(() =>
       :loading="props.loading"
       :threshold="0.15"
       :layout-mode="revealLayoutMode"
-      preview-mode="none"
       reveal-mode="grain-dissolve"
       root-margin="240px 0px"
-      :surface-delay-ms="180"
-      surface-variant="cinematic-stage"
+      surface-variant="transparent"
       :image-class="showcaseImageClass"
     />
     <NuxtImg
