@@ -49,15 +49,19 @@ const props = withDefaults(defineProps<Props>(), {
 
 const FRAME_INSET = 'inset(10% 8% 10% 8%)'
 const FULL_INSET = 'inset(0% 0% 0% 0%)'
-const SCALE_REVEAL_START_DELAY_MS = 80
+const SHELL_BAR_HEIGHT_PX = 80
+const SHELL_HOLD_DURATION_MS = 180
+const SHELL_GROW_DURATION_MS = 260
 const SCALE_REVEAL_DURATION_MS = 650
 
 const rootRef = ref<HTMLElement | null>(null)
 const imageRef = ref<HTMLImageElement | null>(null)
-const revealPhase = ref<'loading' | 'ready' | 'animating' | 'image-reveal' | 'done'>('loading')
+const revealPhase = ref<'shell' | 'ready' | 'shell-grow' | 'image-reveal' | 'final-grow' | 'animating' | 'done'>('shell')
 const isFrameExpanded = ref(false)
 const isImageVisible = ref(false)
 const isImageRevealActive = ref(false)
+const isImageReady = ref(false)
+const hasShellGrowCompleted = ref(false)
 const prefersReducedMotion = usePreferredReducedMotion()
 const isElementVisible = useElementVisibility(rootRef, {
   threshold: props.threshold,
@@ -98,10 +102,18 @@ const grainRevealFilter = computed(() =>
 
 const shouldRenderSurface = computed(() => {
   if (shouldUseScaleRevealEntrance.value)
-    return revealPhase.value === 'loading' || revealPhase.value === 'ready'
+    return revealPhase.value !== 'done' && revealPhase.value !== 'final-grow'
 
-  return revealPhase.value === 'loading' || revealPhase.value === 'ready'
+  return revealPhase.value === 'shell' || revealPhase.value === 'ready'
 })
+
+const shouldRenderShellOuter = computed(() =>
+  shouldUseScaleRevealEntrance.value
+  && (revealPhase.value === 'shell'
+    || revealPhase.value === 'shell-grow'
+    || revealPhase.value === 'ready'
+    || revealPhase.value === 'image-reveal'),
+)
 
 const revealWillChangeClass = computed(() =>
   props.revealMode === 'frame-in'
@@ -127,6 +139,12 @@ const surfaceOpacityClass = computed(() =>
   shouldRenderSurface.value ? 'opacity-100' : 'pointer-events-none opacity-0',
 )
 
+const shellOpacityClass = computed(() =>
+  revealPhase.value === 'image-reveal'
+    ? 'pointer-events-none opacity-0'
+    : 'opacity-100',
+)
+
 const skeletonLayerStyle = computed(() => {
   if (!shouldClipSkeleton.value)
     return {}
@@ -141,8 +159,34 @@ const surfaceRevealStyle = computed(() => {
     return skeletonLayerStyle.value
 
   return {
-    clipPath: FRAME_INSET,
     transition: 'opacity 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+  }
+})
+
+const scaleRevealStageStyle = computed(() => {
+  if (!shouldUseScaleRevealEntrance.value)
+    return {}
+
+  return {
+    clipPath: FRAME_INSET,
+  }
+})
+
+const shellGrowStyle = computed(() => {
+  if (!shouldUseScaleRevealEntrance.value)
+    return {}
+
+  const height = revealPhase.value === 'shell'
+    ? `${SHELL_BAR_HEIGHT_PX}px`
+    : '100%'
+
+  const transition = revealPhase.value === 'shell-grow'
+    ? `height ${SHELL_GROW_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`
+    : 'none'
+
+  return {
+    height,
+    transition,
   }
 })
 
@@ -156,6 +200,21 @@ const revealLayerStyle = computed(() => {
       transform: grainRevealTransform.value,
       transitionDuration: `${activeRevealConfig.value.durationMs}ms`,
       transitionProperty: 'opacity, filter, transform',
+    }
+  }
+
+  if (shouldUseScaleRevealEntrance.value) {
+    return {
+      transitionTimingFunction: activeRevealConfig.value.easing,
+      transitionDelay: '0ms',
+      clipPath: isFrameExpanded.value ? FULL_INSET : FRAME_INSET,
+      opacity: revealPhase.value === 'image-reveal' || revealPhase.value === 'final-grow' || revealPhase.value === 'done' ? '1' : '0',
+      transitionDuration: revealPhase.value === 'final-grow' || revealPhase.value === 'done'
+        ? `${activeRevealConfig.value.durationMs}ms`
+        : '180ms',
+      transitionProperty: revealPhase.value === 'final-grow' || revealPhase.value === 'done'
+        ? 'clip-path, opacity'
+        : 'opacity',
     }
   }
 
@@ -180,13 +239,6 @@ const imageRevealStyle = computed(() => {
     transform: isImageRevealActive.value ? 'scale(1)' : 'scale(1.06)',
     transition: `clip-path ${SCALE_REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1), transform ${SCALE_REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1), opacity 320ms ease`,
   }
-})
-
-const preRevealSurfaceClass = computed(() => {
-  if (props.surfaceVariant === 'transparent')
-    return 'bg-transparent'
-
-  return 'bg-surface'
 })
 
 const { start: scheduleRevealCompletion, stop: stopRevealCompletion } = useTimeoutFn(() => {
@@ -226,14 +278,27 @@ function resetReveal() {
   stopRevealCompletion()
   cancelAnimationFrames()
   cancelRevealTimers()
-  revealPhase.value = 'loading'
+  revealPhase.value = 'shell'
   isFrameExpanded.value = false
   isImageVisible.value = false
   isImageRevealActive.value = false
+  isImageReady.value = false
+  hasShellGrowCompleted.value = false
 }
 
 function markImageReady() {
-  if (revealPhase.value === 'loading')
+  if (shouldUseScaleRevealEntrance.value) {
+    isImageReady.value = true
+    if (prefersReducedMotion.value === 'reduce' && isElementVisible.value) {
+      finishRevealImmediately()
+      return
+    }
+
+    maybeStartScaleReveal()
+    return
+  }
+
+  if (revealPhase.value === 'shell')
     revealPhase.value = 'ready'
 }
 
@@ -249,9 +314,64 @@ function finishRevealImmediately() {
   isFrameExpanded.value = true
   isImageVisible.value = true
   isImageRevealActive.value = true
+  isImageReady.value = true
+  hasShellGrowCompleted.value = true
+}
+
+function maybeStartScaleReveal() {
+  if (!shouldUseScaleRevealEntrance.value)
+    return
+
+  if (!isImageReady.value || !hasShellGrowCompleted.value)
+    return
+
+  if (revealPhase.value === 'image-reveal' || revealPhase.value === 'final-grow' || revealPhase.value === 'done')
+    return
+
+  revealPhase.value = 'image-reveal'
+  isImageVisible.value = true
+  imageRevealFrameId = requestAnimationFrame(() => {
+    imageRevealFrameId = null
+    isImageRevealActive.value = true
+  })
+  imageRevealTimeoutId = setTimeout(() => {
+    imageRevealTimeoutId = null
+    revealPhase.value = 'final-grow'
+    isFrameExpanded.value = true
+    scheduleRevealCompletion()
+  }, SCALE_REVEAL_DURATION_MS)
 }
 
 function startReveal() {
+  if (shouldUseScaleRevealEntrance.value) {
+    if (revealPhase.value !== 'shell')
+      return
+
+    if (prefersReducedMotion.value === 'reduce') {
+      if (isImageReady.value)
+        finishRevealImmediately()
+      return
+    }
+
+    imageRevealTimeoutId = setTimeout(() => {
+      imageRevealTimeoutId = null
+      revealPhase.value = 'shell-grow'
+      outerFrameId = requestAnimationFrame(() => {
+        outerFrameId = null
+        innerFrameId = requestAnimationFrame(() => {
+          innerFrameId = null
+          imageRevealTimeoutId = setTimeout(() => {
+            imageRevealTimeoutId = null
+            hasShellGrowCompleted.value = true
+            revealPhase.value = isImageReady.value ? 'shell-grow' : 'ready'
+            maybeStartScaleReveal()
+          }, SHELL_GROW_DURATION_MS)
+        })
+      })
+    }, SHELL_HOLD_DURATION_MS)
+    return
+  }
+
   if (revealPhase.value !== 'ready')
     return
 
@@ -260,26 +380,11 @@ function startReveal() {
     return
   }
 
-  revealPhase.value = shouldUseScaleRevealEntrance.value ? 'image-reveal' : 'animating'
+  revealPhase.value = 'animating'
   outerFrameId = requestAnimationFrame(() => {
     outerFrameId = null
     innerFrameId = requestAnimationFrame(() => {
       innerFrameId = null
-
-      if (shouldUseScaleRevealEntrance.value) {
-        isImageVisible.value = true
-        imageRevealFrameId = requestAnimationFrame(() => {
-          imageRevealFrameId = null
-          isImageRevealActive.value = true
-        })
-        imageRevealTimeoutId = setTimeout(() => {
-          imageRevealTimeoutId = null
-          revealPhase.value = 'animating'
-          isFrameExpanded.value = true
-          scheduleRevealCompletion()
-        }, SCALE_REVEAL_START_DELAY_MS)
-        return
-      }
 
       isFrameExpanded.value = true
       scheduleRevealCompletion()
@@ -288,7 +393,9 @@ function startReveal() {
 }
 
 const canStartReveal = computed(() =>
-  revealPhase.value === 'ready' && isElementVisible.value,
+  shouldUseScaleRevealEntrance.value
+    ? revealPhase.value === 'shell' && isElementVisible.value
+    : revealPhase.value === 'ready' && isElementVisible.value,
 )
 
 watch(
@@ -332,16 +439,27 @@ onBeforeUnmount(() => {
     <div
       class="inset-0 absolute z-[1]"
       :class="[
-        preRevealSurfaceClass,
         surfaceOpacityClass,
+        shouldUseScaleRevealEntrance ? shellOpacityClass : '',
       ]"
       :style="surfaceRevealStyle"
       aria-hidden="true"
     >
       <div
-        v-if="shouldUseScaleRevealEntrance"
-        class="bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_45%,rgba(255,255,255,0)_100%)] inset-0 absolute animate-pulse"
-      />
+        v-if="shouldRenderShellOuter"
+        class="inset-0 absolute overflow-hidden"
+        :style="scaleRevealStageStyle"
+      >
+        <div class="flex h-full items-center">
+          <div
+            class="rounded-md w-full relative overflow-hidden"
+            :style="shellGrowStyle"
+          >
+            <div class="bg-surface inset-0 absolute" />
+            <div class="surface-shimmer inset-0 absolute" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <NuxtImg
@@ -366,7 +484,6 @@ onBeforeUnmount(() => {
           :src="resolvedSrc"
           :alt="alt"
           :loading="loading"
-          crossorigin="anonymous"
           :class="[imageLayoutClass, imageClass]"
           :style="imageRevealStyle"
           decoding="async"
@@ -376,3 +493,28 @@ onBeforeUnmount(() => {
     </NuxtImg>
   </div>
 </template>
+
+<style>
+@keyframes reveal-surface-shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.surface-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 28%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.03) 72%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: reveal-surface-shimmer 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  will-change: transform;
+}
+</style>
