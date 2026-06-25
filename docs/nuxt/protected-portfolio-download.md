@@ -71,3 +71,4 @@ If signed URL creation fails:
 - Reminder: sync rate limiting docs with implementation changes.
 - Edge case: passphrase flow on mobile safari needs a second look.
 - Verified rate limiting against current implementation.
+- Reminder: sync passphrase flow docs with implementation changes.
