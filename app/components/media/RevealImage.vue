@@ -19,8 +19,10 @@ interface Props {
   imageClass?: string
   layoutMode?: 'fill' | 'intrinsic'
   revealMode?: 'frame-in' | 'grain-dissolve'
+  previewMode?: 'none' | 'blurred'
   rootMargin?: string
-  surfaceVariant?: 'default' | 'soft-surface' | 'shimmer-surface' | 'transparent'
+  surfaceDelayMs?: number
+  surfaceVariant?: 'default' | 'soft-surface' | 'shimmer-surface' | 'transparent' | 'cinematic-stage'
 }
 
 defineOptions({
@@ -41,7 +43,9 @@ const props = withDefaults(defineProps<Props>(), {
   imageClass: '',
   layoutMode: 'fill',
   revealMode: 'frame-in',
+  previewMode: 'none',
   rootMargin: '0px',
+  surfaceDelayMs: 0,
   surfaceVariant: 'default',
 })
 
@@ -50,8 +54,12 @@ const FULL_INSET = 'inset(0% 0% 0% 0%)'
 
 const rootRef = ref<HTMLElement | null>(null)
 const imageRef = ref<HTMLImageElement | null>(null)
+const previewImageRef = ref<HTMLImageElement | null>(null)
 const revealPhase = ref<'loading' | 'ready' | 'animating' | 'done'>('loading')
 const isFrameExpanded = ref(false)
+const isFullImageReady = ref(false)
+const isPreviewImageReady = ref(false)
+const isSurfaceVisible = ref(props.surfaceDelayMs === 0)
 const prefersReducedMotion = usePreferredReducedMotion()
 const isElementVisible = useElementVisibility(rootRef, {
   threshold: props.threshold,
@@ -87,8 +95,6 @@ const grainRevealFilter = computed(() =>
   isFrameExpanded.value ? 'blur(0px) grayscale(0)' : 'blur(24px) grayscale(1)',
 )
 
-const shouldRenderSurface = computed(() => revealPhase.value === 'loading' || revealPhase.value === 'ready')
-
 const revealWillChangeClass = computed(() =>
   props.revealMode === 'frame-in'
     ? 'will-change-[clip-path]'
@@ -109,17 +115,57 @@ const imageLayoutClass = computed(() =>
     : 'block h-auto w-full object-cover object-center',
 )
 
-const surfaceOpacityClass = computed(() =>
-  shouldRenderSurface.value ? 'opacity-100' : 'pointer-events-none opacity-0',
+const shouldRenderPreview = computed(() =>
+  props.previewMode === 'blurred',
 )
 
-const skeletonLayerStyle = computed(() => {
-  if (!shouldClipSkeleton.value)
-    return {}
+const previewImageClass = computed(() =>
+  [
+    imageLayoutClass.value,
+    imageLayoutClass.value.includes('object-cover object-center') ? '' : 'object-cover object-center',
+    props.imageClass,
+    isPreviewImageReady.value
+      ? (isFullImageReady.value ? 'opacity-0' : 'opacity-100')
+      : 'opacity-0',
+  ].filter(Boolean).join(' '),
+)
 
-  return {
-    clipPath: FRAME_INSET,
+const fullImageClass = computed(() =>
+  [
+    imageLayoutClass.value,
+    props.imageClass,
+    isFullImageReady.value ? 'opacity-100' : 'opacity-0',
+  ].filter(Boolean).join(' '),
+)
+
+const surfaceOpacityClass = computed(() => {
+  if (!isSurfaceVisible.value)
+    return 'pointer-events-none opacity-0'
+
+  if (isFullImageReady.value)
+    return 'pointer-events-none opacity-0'
+
+  if (isPreviewImageReady.value)
+    return 'opacity-18'
+
+  return 'opacity-100'
+})
+
+const surfaceLayerStyle = computed(() => {
+  const style: Record<string, string> = {}
+
+  if (shouldClipSkeleton.value)
+    style.clipPath = FRAME_INSET
+
+  if (props.surfaceVariant === 'cinematic-stage') {
+    style.background = [
+      'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 24%)',
+      'radial-gradient(circle at 50% 34%, rgba(63,70,80,0.7) 0%, rgba(30,34,41,0.92) 48%, rgba(9,10,14,1) 100%)',
+    ].join(', ')
+    style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -48px 80px rgba(0,0,0,0.22)'
   }
+
+  return style
 })
 
 const revealLayerStyle = computed(() => {
@@ -145,10 +191,23 @@ const revealLayerStyle = computed(() => {
 })
 
 const preRevealSurfaceClass = computed(() => {
+  if (props.surfaceVariant === 'soft-surface')
+    return 'bg-surface/88'
+
+  if (props.surfaceVariant === 'cinematic-stage')
+    return 'bg-surface'
+
   if (props.surfaceVariant === 'transparent')
     return 'bg-transparent'
 
   return 'bg-surface'
+})
+
+const { start: scheduleSurfaceReveal, stop: stopSurfaceReveal } = useTimeoutFn(() => {
+  if (!isFullImageReady.value && !isPreviewImageReady.value)
+    isSurfaceVisible.value = true
+}, props.surfaceDelayMs, {
+  immediate: false,
 })
 
 const { start: scheduleRevealCompletion, stop: stopRevealCompletion } = useTimeoutFn(() => {
@@ -172,19 +231,42 @@ function cancelAnimationFrames() {
 }
 
 function resetReveal() {
+  stopSurfaceReveal()
   stopRevealCompletion()
   cancelAnimationFrames()
   revealPhase.value = 'loading'
   isFrameExpanded.value = false
+  isFullImageReady.value = false
+  isPreviewImageReady.value = false
+  isSurfaceVisible.value = props.surfaceDelayMs === 0
+
+  if (props.surfaceDelayMs > 0)
+    scheduleSurfaceReveal()
 }
 
-function markImageReady() {
+function markVisualReady() {
   if (revealPhase.value === 'loading')
     revealPhase.value = 'ready'
 }
 
+function markFullImageReady() {
+  stopSurfaceReveal()
+  isFullImageReady.value = true
+  markVisualReady()
+}
+
+function markPreviewImageReady() {
+  stopSurfaceReveal()
+  isPreviewImageReady.value = true
+  markVisualReady()
+}
+
 function handleImageLoad() {
-  markImageReady()
+  markFullImageReady()
+}
+
+function handlePreviewImageLoad() {
+  markPreviewImageReady()
 }
 
 function finishRevealImmediately() {
@@ -240,10 +322,24 @@ watchPostEffect(() => {
     return
 
   if (imageElement.complete && imageElement.naturalWidth > 0)
-    markImageReady()
+    markFullImageReady()
+})
+
+watchPostEffect(() => {
+  if (!shouldRenderPreview.value)
+    return
+
+  void props.src
+  const imageElement = previewImageRef.value
+  if (!imageElement)
+    return
+
+  if (imageElement.complete && imageElement.naturalWidth > 0)
+    markPreviewImageReady()
 })
 
 onBeforeUnmount(() => {
+  stopSurfaceReveal()
   stopRevealCompletion()
   cancelAnimationFrames()
 })
@@ -256,12 +352,12 @@ onBeforeUnmount(() => {
     :class="[rootLayoutClass, containerClass]"
   >
     <div
-      class="inset-0 absolute z-[1]"
+      class="transition-opacity duration-700 ease-out inset-0 absolute z-[1]"
       :class="[
         preRevealSurfaceClass,
         surfaceOpacityClass,
       ]"
-      :style="skeletonLayerStyle"
+      :style="surfaceLayerStyle"
       aria-hidden="true"
     />
 
@@ -281,6 +377,28 @@ onBeforeUnmount(() => {
         :class="[revealPositionClass, revealWillChangeClass]"
         :style="revealLayerStyle"
       >
+        <NuxtImg
+          v-if="shouldRenderPreview"
+          v-slot="{ src: previewSrc, imgAttrs: previewImgAttrs }"
+          :src="src"
+          width="48"
+          quality="20"
+          :fit="fit"
+          :custom="true"
+        >
+          <img
+            ref="previewImageRef"
+            v-bind="previewImgAttrs"
+            :src="previewSrc"
+            :alt="alt"
+            loading="eager"
+            crossorigin="anonymous"
+            class="scale-[1.04] transition-opacity duration-700 ease-out inset-0 absolute blur-[18px] grayscale"
+            :class="previewImageClass"
+            decoding="sync"
+            @load="handlePreviewImageLoad"
+          >
+        </NuxtImg>
         <img
           ref="imageRef"
           v-bind="imgAttrs"
@@ -288,7 +406,8 @@ onBeforeUnmount(() => {
           :alt="alt"
           :loading="loading"
           crossorigin="anonymous"
-          :class="[imageLayoutClass, imageClass]"
+          class="transition-opacity duration-700 ease-out"
+          :class="fullImageClass"
           decoding="async"
           @load="handleImageLoad"
         >
