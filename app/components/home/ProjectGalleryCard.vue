@@ -96,6 +96,8 @@ function getMediaAspectClasses() {
         <RevealImage
           :src="props.image"
           :alt="props.alt"
+          entrance-mode="scale-reveal"
+          loading="eager"
           :surface-variant="props.revealVariant"
           container-class="h-full"
           :image-class="imageClassByVariant[props.imageVariant]"

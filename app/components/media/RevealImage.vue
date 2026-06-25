@@ -19,6 +19,7 @@ interface Props {
   imageClass?: string
   layoutMode?: 'fill' | 'intrinsic'
   revealMode?: 'frame-in' | 'grain-dissolve'
+  entranceMode?: 'default' | 'scale-reveal'
   rootMargin?: string
   surfaceVariant?: 'default' | 'soft-surface' | 'shimmer-surface' | 'transparent'
 }
@@ -41,17 +42,22 @@ const props = withDefaults(defineProps<Props>(), {
   imageClass: '',
   layoutMode: 'fill',
   revealMode: 'frame-in',
+  entranceMode: 'default',
   rootMargin: '0px',
   surfaceVariant: 'default',
 })
 
 const FRAME_INSET = 'inset(10% 8% 10% 8%)'
 const FULL_INSET = 'inset(0% 0% 0% 0%)'
+const SCALE_REVEAL_START_DELAY_MS = 80
+const SCALE_REVEAL_DURATION_MS = 650
 
 const rootRef = ref<HTMLElement | null>(null)
 const imageRef = ref<HTMLImageElement | null>(null)
-const revealPhase = ref<'loading' | 'ready' | 'animating' | 'done'>('loading')
+const revealPhase = ref<'loading' | 'ready' | 'animating' | 'image-reveal' | 'done'>('loading')
 const isFrameExpanded = ref(false)
+const isImageVisible = ref(false)
+const isImageRevealActive = ref(false)
 const prefersReducedMotion = usePreferredReducedMotion()
 const isElementVisible = useElementVisibility(rootRef, {
   threshold: props.threshold,
@@ -70,6 +76,9 @@ const revealConfigByMode = {
 } as const
 
 const activeRevealConfig = computed(() => revealConfigByMode[props.revealMode])
+const shouldUseScaleRevealEntrance = computed(() =>
+  props.entranceMode === 'scale-reveal' && props.revealMode === 'frame-in',
+)
 
 const shouldClipSkeleton = computed(() =>
   props.revealMode === 'frame-in',
@@ -87,7 +96,12 @@ const grainRevealFilter = computed(() =>
   isFrameExpanded.value ? 'blur(0px) grayscale(0)' : 'blur(24px) grayscale(1)',
 )
 
-const shouldRenderSurface = computed(() => revealPhase.value === 'loading' || revealPhase.value === 'ready')
+const shouldRenderSurface = computed(() => {
+  if (shouldUseScaleRevealEntrance.value)
+    return revealPhase.value === 'loading' || revealPhase.value === 'ready'
+
+  return revealPhase.value === 'loading' || revealPhase.value === 'ready'
+})
 
 const revealWillChangeClass = computed(() =>
   props.revealMode === 'frame-in'
@@ -122,6 +136,16 @@ const skeletonLayerStyle = computed(() => {
   }
 })
 
+const surfaceRevealStyle = computed(() => {
+  if (!shouldUseScaleRevealEntrance.value)
+    return skeletonLayerStyle.value
+
+  return {
+    clipPath: FRAME_INSET,
+    transition: 'opacity 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+  }
+})
+
 const revealLayerStyle = computed(() => {
   if (props.revealMode === 'grain-dissolve') {
     return {
@@ -144,6 +168,20 @@ const revealLayerStyle = computed(() => {
   }
 })
 
+const imageRevealStyle = computed(() => {
+  if (!shouldUseScaleRevealEntrance.value)
+    return {}
+
+  return {
+    opacity: isImageVisible.value ? (isImageRevealActive.value ? '1' : '0.3') : '0',
+    clipPath: isImageRevealActive.value
+      ? 'inset(0% 0% 0% 0% round 8px)'
+      : 'inset(6% 6% 6% 6% round 6px)',
+    transform: isImageRevealActive.value ? 'scale(1)' : 'scale(1.06)',
+    transition: `clip-path ${SCALE_REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1), transform ${SCALE_REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1), opacity 320ms ease`,
+  }
+})
+
 const preRevealSurfaceClass = computed(() => {
   if (props.surfaceVariant === 'transparent')
     return 'bg-transparent'
@@ -159,6 +197,8 @@ const { start: scheduleRevealCompletion, stop: stopRevealCompletion } = useTimeo
 
 let outerFrameId: number | null = null
 let innerFrameId: number | null = null
+let imageRevealFrameId: number | null = null
+let imageRevealTimeoutId: ReturnType<typeof setTimeout> | null = null
 
 function cancelAnimationFrames() {
   if (outerFrameId !== null)
@@ -167,15 +207,29 @@ function cancelAnimationFrames() {
   if (innerFrameId !== null)
     cancelAnimationFrame(innerFrameId)
 
+  if (imageRevealFrameId !== null)
+    cancelAnimationFrame(imageRevealFrameId)
+
   outerFrameId = null
   innerFrameId = null
+  imageRevealFrameId = null
+}
+
+function cancelRevealTimers() {
+  if (imageRevealTimeoutId !== null)
+    clearTimeout(imageRevealTimeoutId)
+
+  imageRevealTimeoutId = null
 }
 
 function resetReveal() {
   stopRevealCompletion()
   cancelAnimationFrames()
+  cancelRevealTimers()
   revealPhase.value = 'loading'
   isFrameExpanded.value = false
+  isImageVisible.value = false
+  isImageRevealActive.value = false
 }
 
 function markImageReady() {
@@ -190,8 +244,11 @@ function handleImageLoad() {
 function finishRevealImmediately() {
   stopRevealCompletion()
   cancelAnimationFrames()
+  cancelRevealTimers()
   revealPhase.value = 'done'
   isFrameExpanded.value = true
+  isImageVisible.value = true
+  isImageRevealActive.value = true
 }
 
 function startReveal() {
@@ -203,11 +260,27 @@ function startReveal() {
     return
   }
 
-  revealPhase.value = 'animating'
+  revealPhase.value = shouldUseScaleRevealEntrance.value ? 'image-reveal' : 'animating'
   outerFrameId = requestAnimationFrame(() => {
     outerFrameId = null
     innerFrameId = requestAnimationFrame(() => {
       innerFrameId = null
+
+      if (shouldUseScaleRevealEntrance.value) {
+        isImageVisible.value = true
+        imageRevealFrameId = requestAnimationFrame(() => {
+          imageRevealFrameId = null
+          isImageRevealActive.value = true
+        })
+        imageRevealTimeoutId = setTimeout(() => {
+          imageRevealTimeoutId = null
+          revealPhase.value = 'animating'
+          isFrameExpanded.value = true
+          scheduleRevealCompletion()
+        }, SCALE_REVEAL_START_DELAY_MS)
+        return
+      }
+
       isFrameExpanded.value = true
       scheduleRevealCompletion()
     })
@@ -246,6 +319,7 @@ watchPostEffect(() => {
 onBeforeUnmount(() => {
   stopRevealCompletion()
   cancelAnimationFrames()
+  cancelRevealTimers()
 })
 </script>
 
@@ -261,9 +335,14 @@ onBeforeUnmount(() => {
         preRevealSurfaceClass,
         surfaceOpacityClass,
       ]"
-      :style="skeletonLayerStyle"
+      :style="surfaceRevealStyle"
       aria-hidden="true"
-    />
+    >
+      <div
+        v-if="shouldUseScaleRevealEntrance"
+        class="bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_45%,rgba(255,255,255,0)_100%)] inset-0 absolute animate-pulse"
+      />
+    </div>
 
     <NuxtImg
       v-slot="{ src: resolvedSrc, imgAttrs }"
@@ -289,6 +368,7 @@ onBeforeUnmount(() => {
           :loading="loading"
           crossorigin="anonymous"
           :class="[imageLayoutClass, imageClass]"
+          :style="imageRevealStyle"
           decoding="async"
           @load="handleImageLoad"
         >
