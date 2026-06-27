@@ -62,3 +62,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - TODO: add example for key versioning.
 - Edge case: swr behavior on mobile safari needs a second look.
 - Verified cache ttl against current implementation.
+- Decision: keep swr behavior as documented for now.
