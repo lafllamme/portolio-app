@@ -39,3 +39,9 @@ The About page GitHub section uses server-side stale-while-revalidate caching so
 The activity cache stores the raw `lastCommitAt` timestamp, not only the finished display string.
 
 That allows the API route to recompute `lastCommitRelative` on each response while still reusing cached source data. The visible copy can therefore stay linguistically current even when the underlying GitHub activity payload is cached.
+
+## Cache strategy
+
+- Contribution data is fetched server-side and cached for 6 hours.
+- Stale-while-revalidate: expired cache still serves while refresh runs.
+- A failed refresh keeps the last good payload — the calendar never blanks.
