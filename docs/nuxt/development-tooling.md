@@ -45,3 +45,4 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - Follow-up: revisit lint on commit after the next iteration.
 - Decision: keep vite prebundle as documented for now.
 - Checked lint on commit — matches the shipped behavior.
+- Clarified: env setup applies to production builds only.
