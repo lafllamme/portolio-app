@@ -2624,3 +2624,9 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Clamp range runs 390px → 1440px; below and above it locks.
 - Display sizes scale steeper (1.6x) than body (1.15x) across the range.
 - Line-height compensates inversely: tighter as size grows.
+
+## Pairing notes
+
+- Display serif carries identity; grotesk handles UI and meta text.
+- Never pair both at the same size — hierarchy needs at least 1.5 steps.
+- Mono appears only in tech/stack contexts, sized one step below body.
