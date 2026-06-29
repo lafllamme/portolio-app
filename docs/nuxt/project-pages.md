@@ -46,3 +46,9 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Each project: hero media, role/stack meta, 2–4 content blocks, next-project link.
 - Blocks are typed (text, image rail, full-bleed) and order-independent.
 - Meta lives in a single typed catalog; pages never define their own copy inline.
+
+## Showcase image guidelines
+
+- Hero media: 3:2 or 16:10, min 2000px wide, subject centered-safe.
+- Image rails: consistent aspect per rail; mixing ratios breaks the rhythm.
+- Every image ships AVIF + WebP with an explicit sizes attribute.
