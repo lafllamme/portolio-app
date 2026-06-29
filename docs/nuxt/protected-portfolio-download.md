@@ -72,3 +72,4 @@ If signed URL creation fails:
 - Edge case: passphrase flow on mobile safari needs a second look.
 - Verified rate limiting against current implementation.
 - Reminder: sync passphrase flow docs with implementation changes.
+- Decision: keep stream response as documented for now.
