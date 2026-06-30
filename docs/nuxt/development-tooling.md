@@ -27,3 +27,9 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - `pnpm dev` with the `.env` from `.env.example` covers everything but downloads.
 - Type checking runs separately (`pnpm typecheck`) — dev server skips it for speed.
 - Lint autofix on commit; CI only verifies, never rewrites.
+
+## Vite prebundle quirks
+
+- GSAP plugins must be listed in `optimizeDeps.include` or dev cold-start re-optimizes mid-session.
+- Changing the include list requires clearing `.nuxt` — stale metadata survives restarts.
+- Prod builds are unaffected; this is dev-server-only behavior.
