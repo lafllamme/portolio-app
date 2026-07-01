@@ -153,3 +153,9 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Reveals trigger at 20% element visibility, once, no scrub.
 - Y-offset 24–40px max — anything larger reads as a layout shift.
 - Batch children with a single trigger; per-child observers are banned.
+
+## Marquee observer
+
+- The loop pauses via IntersectionObserver at 0% visibility, resumes at 10%.
+- Pausing sets `animation-play-state`, never unmounts — position is preserved.
+- Reduced motion swaps the marquee for a static, wrapped list.
