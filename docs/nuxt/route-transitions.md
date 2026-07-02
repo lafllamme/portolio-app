@@ -82,3 +82,9 @@ Use one app-controlled route transition engine for every full route change so in
 - Cover easing `power4.in`, reveal `power4.out` — symmetric feels mechanical.
 - Hold frame stays under 120ms; longer reads as jank, not intention.
 - Menu-triggered navigation skips the hold entirely.
+
+## Browser support
+
+- View Transitions API path is progressive enhancement; GSAP curtain is the baseline.
+- Safari gets the GSAP path regardless — its VT implementation drops frames on large surfaces.
+- Feature detection happens once at app boot, not per navigation.
