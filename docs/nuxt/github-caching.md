@@ -45,3 +45,9 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Contribution data is fetched server-side and cached for 6 hours.
 - Stale-while-revalidate: expired cache still serves while refresh runs.
 - A failed refresh keeps the last good payload — the calendar never blanks.
+
+## Invalidation notes
+
+- Manual invalidation: bump the cache key version in the server route.
+- Deploys invalidate implicitly — the cache lives in the lambda instance memory.
+- Never invalidate on user request; the endpoint is public and cheap to abuse.
