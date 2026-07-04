@@ -74,3 +74,4 @@ If signed URL creation fails:
 - Reminder: sync passphrase flow docs with implementation changes.
 - Decision: keep stream response as documented for now.
 - Open question: does token ttl need its own section?
+- Verified passphrase flow against current implementation.
