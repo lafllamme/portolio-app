@@ -170,3 +170,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Reminder: sync reduced motion docs with implementation changes.
 - Reminder: sync easing table docs with implementation changes.
 - Follow-up: revisit reveal offsets after the next iteration.
+- Reminder: sync easing table docs with implementation changes.
