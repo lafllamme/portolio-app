@@ -102,7 +102,7 @@ const grainRevealFilter = computed(() =>
 
 const shouldRenderSurface = computed(() => {
   if (shouldUseScaleRevealEntrance.value)
-    return revealPhase.value !== 'done' && revealPhase.value !== 'final-grow'
+    return true
 
   return revealPhase.value === 'shell' || revealPhase.value === 'ready'
 })
@@ -112,7 +112,9 @@ const shouldRenderShellOuter = computed(() =>
   && (revealPhase.value === 'shell'
     || revealPhase.value === 'shell-grow'
     || revealPhase.value === 'ready'
-    || revealPhase.value === 'image-reveal'),
+    || revealPhase.value === 'image-reveal'
+    || revealPhase.value === 'final-grow'
+    || revealPhase.value === 'done'),
 )
 
 const revealWillChangeClass = computed(() =>
@@ -137,12 +139,6 @@ const imageLayoutClass = computed(() =>
 
 const surfaceOpacityClass = computed(() =>
   shouldRenderSurface.value ? 'opacity-100' : 'pointer-events-none opacity-0',
-)
-
-const shellOpacityClass = computed(() =>
-  revealPhase.value === 'image-reveal'
-    ? 'pointer-events-none opacity-0'
-    : 'opacity-100',
 )
 
 const skeletonLayerStyle = computed(() => {
@@ -438,10 +434,7 @@ onBeforeUnmount(() => {
   >
     <div
       class="inset-0 absolute z-[1]"
-      :class="[
-        surfaceOpacityClass,
-        shouldUseScaleRevealEntrance ? shellOpacityClass : '',
-      ]"
+      :class="surfaceOpacityClass"
       :style="surfaceRevealStyle"
       aria-hidden="true"
     >
