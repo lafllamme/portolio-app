@@ -75,3 +75,4 @@ If signed URL creation fails:
 - Decision: keep stream response as documented for now.
 - Open question: does token ttl need its own section?
 - Verified passphrase flow against current implementation.
+- Clarified: rate limiting applies to production builds only.
