@@ -2630,3 +2630,9 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Display serif carries identity; grotesk handles UI and meta text.
 - Never pair both at the same size — hierarchy needs at least 1.5 steps.
 - Mono appears only in tech/stack contexts, sized one step below body.
+
+## Descender handling
+
+- Intro animations mask at the line box, so descenders need `overflow: visible` on the clip wrapper.
+- `line-height` below 1.1 on the display serif clips g/j/y — 1.14 is the floor.
+- Letter-level splits keep descenders intact by measuring glyph bounds, not em boxes.
