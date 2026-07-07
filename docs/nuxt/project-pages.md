@@ -52,3 +52,9 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Hero media: 3:2 or 16:10, min 2000px wide, subject centered-safe.
 - Image rails: consistent aspect per rail; mixing ratios breaks the rhythm.
 - Every image ships AVIF + WebP with an explicit sizes attribute.
+
+## Meta structure
+
+- `role`, `year`, `stack[]`, `link?` — that's the whole contract, resist additions.
+- Stack entries are display strings, not enum values; the catalog is the source of truth.
+- Optional fields render nothing when absent — no placeholder dashes.
