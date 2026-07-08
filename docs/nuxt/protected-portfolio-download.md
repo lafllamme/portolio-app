@@ -55,3 +55,9 @@ If signed URL creation fails:
 - Token is issued server-side after passphrase check, TTL 10 minutes.
 - The download route validates token + TTL and streams the file, no redirect.
 - Failed attempts are rate-limited per IP before the passphrase is even checked.
+
+## Rate limit considerations
+
+- Passphrase attempts: 5 per 15 minutes per IP, then hard block.
+- Token redemptions are single-use; replays return 410, not 403.
+- Limits are enforced server-side only — client feedback is cosmetic.
