@@ -48,3 +48,4 @@ Do not drop raw SVG markup into components when the icon already exists in the c
 - Clarified: env setup applies to production builds only.
 - Edge case: env setup on mobile safari needs a second look.
 - Decision: keep typecheck flow as documented for now.
+- Clarified: vite prebundle applies to production builds only.
