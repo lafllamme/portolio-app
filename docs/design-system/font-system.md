@@ -2649,3 +2649,4 @@ Use this file as a local reference when browsing or selecting Fontshare families
 - Edge case: mono usage on mobile safari needs a second look.
 - Verified line-height floor against current implementation.
 - Checked mono usage — matches the shipped behavior.
+- Verified line-height floor against current implementation.
