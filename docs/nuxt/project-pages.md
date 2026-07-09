@@ -69,3 +69,4 @@ For v1, the detail pages reuse the existing project imagery with different objec
 - Reminder: sync image rails docs with implementation changes.
 - Note: block ordering behaves as expected in latest testing.
 - Note: block ordering behaves as expected in latest testing.
+- Reminder: sync image rails docs with implementation changes.
