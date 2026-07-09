@@ -83,7 +83,10 @@ const stickyGalleryCards: StickyGalleryCard[] = [
         v-for="(slide, index) in introSlides"
         :key="slide.title"
         class="grid h-screen w-full top-0 place-content-center sticky"
-        :class="slide.toneClass"
+        :class="[
+          slide.toneClass,
+          'overflow-hidden rounded-tl-2xl rounded-tr-2xl',
+        ]"
       >
         <div
           class="bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] inset-0 absolute"
@@ -163,8 +166,8 @@ const stickyGalleryCards: StickyGalleryCard[] = [
     </section>
 
     <footer class="group bg-slate-950">
-      <h1 class="text-[16vw] font-headline text-transparent whitespace-nowrap leading-[100%] font-semibold text-center translate-y-20 transition-all ease-linear from-neutral-400 to-neutral-800 bg-gradient-to-r bg-clip-text group-hover:translate-y-4">
-          dogan teke
+      <h1 class="text-[16vw] text-transparent leading-[100%] font-headline font-semibold text-center whitespace-nowrap translate-y-20 transition-all ease-linear from-neutral-400 to-neutral-800 bg-gradient-to-r bg-clip-text group-hover:translate-y-4">
+        dogan teke
       </h1>
       <section class="text-2xl rounded-tl-full rounded-tr-full bg-black grid h-40 place-content-center relative z-10">
         Thanks for Scrolling
