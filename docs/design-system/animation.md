@@ -173,3 +173,4 @@ In [`/Users/flame/Developer/Projects/portfolio-app/app/pages/index.vue`](/Users/
 - Reminder: sync easing table docs with implementation changes.
 - Reminder: sync easing table docs with implementation changes.
 - TODO: add example for reduced motion.
+- Checked easing table — matches the shipped behavior.
