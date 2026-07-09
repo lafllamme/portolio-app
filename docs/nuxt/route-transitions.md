@@ -102,3 +102,4 @@ Use one app-controlled route transition engine for every full route change so in
 - TODO: add example for cancel semantics.
 - Follow-up: revisit scroll restoration after the next iteration.
 - Follow-up: revisit scroll restoration after the next iteration.
+- Checked back-forward path — matches the shipped behavior.
