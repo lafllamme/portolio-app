@@ -7,8 +7,9 @@ interface StickySlide {
 }
 
 interface GalleryCard {
+  id: string
   image: string
-  isNegativeSkew: boolean
+  offsetClass: string
 }
 
 interface StickyGalleryCard {
@@ -43,20 +44,39 @@ const introSlides: StickySlide[] = [
 
 const galleryCards: GalleryCard[] = [
   {
-    image: 'https://images.unsplash.com/photo-1718838541476-d04e71caa347?w=500&auto=format&fit=crop',
-    isNegativeSkew: true,
+    id: 'gallery-card-1',
+    image: 'https://i.imgur.com/GEiyTu5.png',
+    offsetClass: 'translate-x-6',
   },
   {
-    image: 'https://images.unsplash.com/photo-1715432362539-6ab2ab480db2?w=500&auto=format&fit=crop',
-    isNegativeSkew: false,
+    id: 'gallery-card-2',
+    image: 'https://i.imgur.com/na6XwOI.jpeg',
+    offsetClass: 'translate-x-4',
   },
   {
-    image: 'https://images.unsplash.com/photo-1718601980986-0ce75101d52d?w=500&auto=format&fit=crop',
-    isNegativeSkew: true,
+    id: 'gallery-card-3',
+    image: 'https://i.imgur.com/KVxpN0r.jpeg',
+    offsetClass: 'translate-x-2',
   },
   {
-    image: 'https://images.unsplash.com/photo-1685904042960-66242a0ac352?w=500&auto=format&fit=crop',
-    isNegativeSkew: false,
+    id: 'gallery-card-4',
+    image: 'https://i.imgur.com/V8hdIBv.jpeg',
+    offsetClass: 'translate-x-0',
+  },
+  {
+    id: 'gallery-card-5',
+    image: 'https://i.imgur.com/KGPOxFU.jpeg',
+    offsetClass: '-translate-x-2',
+  },
+  {
+    id: 'gallery-card-6',
+    image: 'https://i.imgur.com/7pInXOC.jpeg',
+    offsetClass: '-translate-x-4',
+  },
+  {
+    id: 'gallery-card-7',
+    image: 'https://i.imgur.com/wPcCS4i.jpeg',
+    offsetClass: '-translate-x-6',
   },
 ]
 
@@ -82,11 +102,8 @@ const stickyGalleryCards: StickyGalleryCard[] = [
       <section
         v-for="(slide, index) in introSlides"
         :key="slide.title"
-        class="grid h-screen w-full top-0 place-content-center sticky"
-        :class="[
-          slide.toneClass,
-          'overflow-hidden rounded-tl-2xl rounded-tr-2xl',
-        ]"
+        class="rounded-tl-2xl rounded-tr-2xl grid h-screen w-full top-0 place-content-center sticky overflow-hidden"
+        :class="slide.toneClass"
       >
         <div
           class="bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] inset-0 absolute"
@@ -110,33 +127,22 @@ const stickyGalleryCards: StickyGalleryCard[] = [
           </h1>
         </div>
 
-        <div class="py-4 gap-2 grid">
-          <template
-            v-for="card in galleryCards"
-            :key="card.image"
-          >
+        <div class="py-4 flex justify-center overflow-hidden">
+          <div class="gap-2 grid w-[min(44vw,760px)]">
             <figure
-              v-if="card.isNegativeSkew"
-              class="grid skew-x-[-12deg] place-content-center"
+              v-for="card in galleryCards"
+              :key="card.id"
+              class="w-full aspect-video [clip-path:polygon(8px_0,100%_0,calc(100%_-_8px)_100%,0_100%)] overflow-hidden"
+              :class="card.offsetClass"
             >
               <img
                 :src="card.image"
                 alt=""
-                class="align-bottom h-96 w-80 transition-all duration-300 object-cover"
+                loading="lazy"
+                class="align-bottom h-full w-full transition-all duration-300 object-cover"
               >
             </figure>
-
-            <figure
-              v-else
-              class="grid skew-x-12 place-content-center"
-            >
-              <img
-                :src="card.image"
-                alt=""
-                class="align-bottom h-96 w-80 transition-all duration-300 object-cover"
-              >
-            </figure>
-          </template>
+          </div>
         </div>
       </div>
     </section>
