@@ -64,3 +64,4 @@ That allows the API route to recompute `lastCommitRelative` on each response whi
 - Verified cache ttl against current implementation.
 - Decision: keep swr behavior as documented for now.
 - Follow-up: revisit swr behavior after the next iteration.
+- Verified swr behavior against current implementation.
