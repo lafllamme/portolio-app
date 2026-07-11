@@ -219,6 +219,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
 
 <template>
   <BorderGlow
+    class="!border-line !shadow-[0_18px_70px_rgba(0,0,0,0.18)]"
     :animated="glowSettings.animated"
     :background-color="glowSettings.backgroundColor"
     :border-radius="glowSettings.borderRadius"
@@ -230,7 +231,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
     :glow-intensity="glowSettings.glowIntensity"
     :glow-radius="effectiveGlowRadius"
   >
-    <div ref="calendarRef" class="p-4 rounded-[16px] md:p-[1.15rem]">
+    <div ref="calendarRef" class="p-4 rounded-[8px] md:p-[1.15rem]">
       <div v-if="props.isLoading" class="rounded-[12px] bg-surface/55 h-[14.5rem] animate-pulse" />
 
       <div v-else-if="props.hasError" class="p-4 border border-line rounded-[12px] bg-surface/55 space-y-3">
@@ -275,7 +276,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
         <div ref="calendarFrameRef" class="relative" @mouseleave="clearHover">
           <div
             ref="tooltipRef"
-            class="text-[13px] text-bg leading-[1] tracking-[-0.02em] px-4 py-2 will-change-transform rounded-[14px] bg-text pointer-events-none shadow-[0_16px_36px_rgba(0,0,0,0.32)] transition-opacity duration-150 ease-out left-0 top-0 absolute z-20"
+            class="text-[13px] text-bg leading-[1] tracking-[-0.02em] px-4 py-2 will-change-transform rounded-[8px] bg-text pointer-events-none shadow-[0_16px_36px_rgba(0,0,0,0.32)] transition-opacity duration-150 ease-out left-0 top-0 absolute z-20"
             :class="isTooltipVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
             :style="tooltipStyle"
           >
@@ -283,7 +284,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
             <span class="text-bg/66"> contributions on {{ hoveredDate ? formatTooltipDate(hoveredDate) : '' }}</span>
           </div>
 
-          <div data-lenis-prevent class="overflow-x-auto overflow-y-visible">
+          <div data-lenis-prevent-horizontal class="overflow-x-auto overflow-y-visible">
             <div class="min-w-full w-max relative">
               <div
                 v-if="activeVariant !== 'minimal'"
@@ -320,10 +321,9 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
                     <div
                       v-for="(day, dayIndex) in week"
                       :key="day.date"
-                      class="will-change-transform rounded-[3px] h-[1rem] w-[1rem] transition-transform duration-200 hover:scale-[1.08]"
+                      class="will-change-transform rounded-[3px] h-[1rem] w-[1rem] transition-transform duration-200 hover:scale-[1.02]"
                       :class="[
                         levelClassFor(day.contributionLevel),
-                        activeVariant === 'minimal' ? 'rounded-full hover:scale-[0.95]' : '',
                       ]"
                       :style="cellStyleFor(weekIndex, dayIndex)"
                       @mouseenter="handleCellHover(day, $event)"

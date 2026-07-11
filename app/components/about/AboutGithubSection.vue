@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { BorderGlowSettings } from '~~/shared/borderGlow'
-import { reactive } from 'vue'
 import { aboutPageContent } from '~~/shared/about'
 import { borderGlowDefaults } from '~~/shared/borderGlow'
 import GithubContributionCalendar from '~/components/about/GithubContributionCalendar.vue'
@@ -11,10 +10,16 @@ const { activity, contributions, hasError, isLoading } = useGithubActivity({
   username: github.username,
 })
 
-const borderGlowSettings = reactive<BorderGlowSettings>({
+const borderGlowSettings = {
   ...borderGlowDefaults,
-  colors: ['#68bb95', '#38bdf8', '#a78bfa'],
-})
+  backgroundColor: '#0d0f13',
+  borderRadius: 8,
+  colors: ['#68bb95', '#4d8b72', '#9f9b93'],
+  fillOpacity: 0.16,
+  glowColor: '154 42 58',
+  glowIntensity: 0.7,
+  glowRadius: 24,
+} satisfies BorderGlowSettings
 </script>
 
 <template>
