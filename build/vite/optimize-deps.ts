@@ -6,4 +6,6 @@
 export const optimizeDepsInclude = [
   'gsap',
   'gsap/ScrollTrigger',
+  'lenis',
+  'lenis/vue',
 ] as const

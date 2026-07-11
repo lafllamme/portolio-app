@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useEventListener, useTemplateRefsList } from '@vueuse/core'
+import { useEventListener, usePreferredReducedMotion, useTemplateRefsList } from '@vueuse/core'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
@@ -52,6 +52,7 @@ const WORD_REVEAL_STAGGER = 0.05
 
 const containerRef = ref<HTMLElement | null>(null)
 const wordRefs = useTemplateRefsList<HTMLElement>()
+const prefersReducedMotion = usePreferredReducedMotion()
 let animationContext: gsap.Context | null = null
 let initializationVersion = 0
 
@@ -135,6 +136,21 @@ function setInitialAnimationState(container: HTMLElement, wordElements: HTMLElem
 }
 
 /**
+ * Keeps the content fully readable when the user disables motion.
+ */
+function setReducedMotionState(container: HTMLElement, wordElements: HTMLElement[]) {
+  gsap.set(container, {
+    clearProps: 'transform,transformOrigin',
+  })
+
+  gsap.set(wordElements, {
+    filter: CLEAR_FILTER,
+    opacity: 1,
+    clearProps: 'willChange',
+  })
+}
+
+/**
  * Creates the rotation tween for the container block.
  */
 function createRotationTween(container: HTMLElement, scroller: HTMLElement | Window) {
@@ -153,34 +169,13 @@ function createRotationTween(container: HTMLElement, scroller: HTMLElement | Win
 }
 
 /**
- * Creates the word opacity tween.
+ * Creates the word opacity and optional blur tween.
  */
-function createOpacityTween(container: HTMLElement, wordElements: HTMLElement[], scroller: HTMLElement | Window) {
+function createWordRevealTween(container: HTMLElement, wordElements: HTMLElement[], scroller: HTMLElement | Window) {
   gsap.to(wordElements, {
     ease: 'none',
+    filter: props.enableBlur ? CLEAR_FILTER : undefined,
     opacity: 1,
-    stagger: WORD_REVEAL_STAGGER,
-    scrollTrigger: {
-      trigger: container,
-      scroller,
-      start: WORD_REVEAL_START,
-      end: props.wordAnimationEnd,
-      scrub: true,
-      invalidateOnRefresh: true,
-    },
-  })
-}
-
-/**
- * Creates the optional blur tween for the rendered words.
- */
-function createBlurTween(container: HTMLElement, wordElements: HTMLElement[], scroller: HTMLElement | Window) {
-  if (!props.enableBlur)
-    return
-
-  gsap.to(wordElements, {
-    ease: 'none',
-    filter: CLEAR_FILTER,
     stagger: WORD_REVEAL_STAGGER,
     scrollTrigger: {
       trigger: container,
@@ -218,10 +213,14 @@ async function initializeAnimation() {
   resetAnimation()
 
   animationContext = gsap.context(() => {
+    if (prefersReducedMotion.value === 'reduce') {
+      setReducedMotionState(container, wordElements)
+      return
+    }
+
     setInitialAnimationState(container, wordElements)
     createRotationTween(container, scroller)
-    createOpacityTween(container, wordElements, scroller)
-    createBlurTween(container, wordElements, scroller)
+    createWordRevealTween(container, wordElements, scroller)
   }, container)
 
   refreshScrollTriggers()
@@ -244,6 +243,7 @@ watch(
     () => props.blurStrength,
     () => props.rotationEnd,
     () => props.wordAnimationEnd,
+    () => prefersReducedMotion.value,
   ],
   () => {
     initializeAnimation()

@@ -283,7 +283,7 @@ const { stop: stopIntersectionObserver } = useIntersectionObserver(calendarRef, 
             <span class="text-bg/66"> contributions on {{ hoveredDate ? formatTooltipDate(hoveredDate) : '' }}</span>
           </div>
 
-          <div class="overflow-x-auto overflow-y-visible">
+          <div data-lenis-prevent class="overflow-x-auto overflow-y-visible">
             <div class="min-w-full w-max relative">
               <div
                 v-if="activeVariant !== 'minimal'"

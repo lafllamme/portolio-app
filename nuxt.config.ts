@@ -3,7 +3,7 @@ import { optimizeDepsInclude } from './build/vite/optimize-deps'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  css: ['lenis/dist/lenis.css', '~/assets/css/main.css'],
   vite: {
     css: {
       transformer: 'lightningcss',
@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@nuxtjs/color-mode',
     '@unocss/nuxt',
+    'lenis/nuxt',
   ],
   supabase: {
     redirect: false,
