@@ -20,10 +20,11 @@ const lenisOptions = computed<LenisOptions>(() => {
   return {
     anchors: shouldReduceMotion ? { immediate: true } : true,
     autoRaf: false,
-    lerp: 0.12,
+    lerp: 0.085,
     smoothWheel: !shouldReduceMotion,
     stopInertiaOnNavigate: true,
     syncTouch: false,
+    wheelMultiplier: 0.9,
   }
 })
 
