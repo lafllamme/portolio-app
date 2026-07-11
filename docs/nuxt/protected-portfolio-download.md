@@ -77,3 +77,4 @@ If signed URL creation fails:
 - Verified passphrase flow against current implementation.
 - Clarified: rate limiting applies to production builds only.
 - Follow-up: revisit replay handling after the next iteration.
+- Verified rate limiting against current implementation.
