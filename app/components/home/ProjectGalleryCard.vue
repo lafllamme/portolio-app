@@ -98,6 +98,7 @@ function getMediaAspectClasses() {
           :alt="props.alt"
           entrance-mode="scale-reveal"
           loading="eager"
+          root-margin="240px 0px"
           :surface-variant="props.revealVariant"
           container-class="h-full"
           :image-class="imageClassByVariant[props.imageVariant]"

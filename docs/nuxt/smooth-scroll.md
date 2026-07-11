@@ -4,7 +4,7 @@ The application uses one root Lenis instance for subtle wheel smoothing. Touch
 scrolling remains native (`syncTouch: false`), and reduced-motion preferences
 disable wheel smoothing and animated anchor movement.
 
-Wheel movement uses `lerp: 0.085` for a continuous trailing response across
+Wheel movement uses `lerp: 0.095` for a continuous trailing response across
 repeated inputs and direction changes. A `wheelMultiplier` of `0.9` slightly
 reduces aggressive wheel bursts without sacrificing normal responsiveness.
 This does not add another animation loop or increase per-frame work.

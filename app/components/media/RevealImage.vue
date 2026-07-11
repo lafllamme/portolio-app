@@ -52,6 +52,7 @@ const FULL_INSET = 'inset(0% 0% 0% 0%)'
 const SHELL_BAR_HEIGHT_PX = 80
 const SHELL_HOLD_DURATION_MS = 180
 const SHELL_GROW_DURATION_MS = 260
+const SHELL_IMAGE_REVEAL_DELAY_MS = 160
 const SCALE_REVEAL_DURATION_MS = 650
 
 const rootRef = ref<HTMLElement | null>(null)
@@ -180,7 +181,7 @@ const shellGrowStyle = computed(() => {
     ? `${SHELL_BAR_HEIGHT_PX}px`
     : '100%'
 
-  const transition = revealPhase.value === 'shell-grow'
+  const transition = revealPhase.value === 'shell-grow' || revealPhase.value === 'image-reveal'
     ? `height ${SHELL_GROW_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`
     : 'none'
 
@@ -363,9 +364,9 @@ function startReveal() {
           imageRevealTimeoutId = setTimeout(() => {
             imageRevealTimeoutId = null
             hasShellGrowCompleted.value = true
-            revealPhase.value = isImageReady.value ? 'shell-grow' : 'ready'
+            revealPhase.value = 'shell-grow'
             maybeStartScaleReveal()
-          }, SHELL_GROW_DURATION_MS)
+          }, SHELL_IMAGE_REVEAL_DELAY_MS)
         })
       })
     }, SHELL_HOLD_DURATION_MS)
