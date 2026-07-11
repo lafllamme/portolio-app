@@ -46,32 +46,32 @@ const galleryCards: GalleryCard[] = [
   {
     id: 'gallery-card-1',
     image: 'https://i.imgur.com/GEiyTu5.png',
-    offsetClass: 'translate-x-6',
+    offsetClass: 'translate-x-0 md:translate-x-6',
   },
   {
     id: 'gallery-card-2',
     image: 'https://i.imgur.com/na6XwOI.jpeg',
-    offsetClass: 'translate-x-4',
+    offsetClass: '-translate-x-1 md:translate-x-4',
   },
   {
     id: 'gallery-card-3',
     image: 'https://i.imgur.com/KVxpN0r.jpeg',
-    offsetClass: 'translate-x-2',
+    offsetClass: '-translate-x-2 md:translate-x-2',
   },
   {
     id: 'gallery-card-4',
     image: 'https://i.imgur.com/V8hdIBv.jpeg',
-    offsetClass: 'translate-x-0',
+    offsetClass: '-translate-x-3 md:translate-x-0',
   },
   {
     id: 'gallery-card-5',
     image: 'https://i.imgur.com/KGPOxFU.jpeg',
-    offsetClass: '-translate-x-2',
+    offsetClass: '-translate-x-4 md:-translate-x-2',
   },
   {
     id: 'gallery-card-6',
     image: 'https://i.imgur.com/7pInXOC.jpeg',
-    offsetClass: '-translate-x-4',
+    offsetClass: '-translate-x-5 md:-translate-x-4',
   },
   {
     id: 'gallery-card-7',
@@ -119,7 +119,7 @@ const stickyGalleryCards: StickyGalleryCard[] = [
     </div>
 
     <section class="text-white bg-slate-950 w-full">
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-[40%_60%] md:grid-cols-2">
         <div class="flex h-screen items-center top-0 justify-center sticky">
           <h1 class="2xl:text-7xl text-5xl leading-[120%] tracking-tight font-semibold px-8 text-center">
             Thanks To Scroll.
@@ -128,11 +128,11 @@ const stickyGalleryCards: StickyGalleryCard[] = [
         </div>
 
         <div class="py-4 flex justify-center overflow-hidden">
-          <div class="gap-2 grid w-[min(44vw,760px)]">
+          <div class="gap-2 grid w-[58vw] md:w-[min(44vw,760px)]">
             <figure
               v-for="card in galleryCards"
               :key="card.id"
-              class="w-full aspect-video [clip-path:polygon(8px_0,100%_0,calc(100%_-_8px)_100%,0_100%)] overflow-hidden"
+              class="w-full aspect-[4/3] [clip-path:polygon(4px_0,100%_0,calc(100%_-_4px)_100%,0_100%)] overflow-hidden md:aspect-video md:[clip-path:polygon(8px_0,100%_0,calc(100%_-_8px)_100%,0_100%)]"
               :class="card.offsetClass"
             >
               <img
