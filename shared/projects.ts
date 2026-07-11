@@ -2,6 +2,7 @@ export interface ProjectGalleryImage {
   src: string
   alt: string
   objectPositionClass?: string
+  fit?: 'cover' | 'contain'
 }
 
 export type ProjectCardLayoutVariant = 'feature-wide' | 'feature-narrow' | 'half' | 'third'
@@ -9,7 +10,7 @@ export type ProjectCardLayoutVariant = 'feature-wide' | 'feature-narrow' | 'half
 export type ProjectCardImageVariant
   = | 'the-cloud-one'
     | 'motel-one'
-    | 'kernel-house'
+    | 'verisk-analytics'
     | 'tecnews'
     | 'grillme'
     | 'peak-performance'
@@ -142,45 +143,45 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['the-cloud-one', 'neural-workspace', 'edge-analytics'],
+    relatedSlugs: ['the-cloud-one', 'neural-workspace', 'verisk-analytics'],
   },
   {
-    slug: 'edge-analytics',
-    title: 'kernel house',
-    subtitle: 'brand identity',
-    cardImage: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-    cardAlt: 'Stack of modern books arranged on a leather chair',
-    heroImage: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-    heroAlt: 'Stack of modern books arranged on a leather chair',
-    overview: 'Edge Analytics is a dashboard architecture study shaped around signal density, operational readability, and maintainable interface primitives. The goal is to make complex monitoring surfaces feel measured and useful instead of visually exhausting.',
-    projectType: 'Operational analytics platform',
-    year: '2026',
-    myRole: 'Dashboard architecture, information hierarchy, frontend planning',
-    client: 'internal concept',
+    slug: 'verisk-analytics',
+    title: 'verisk analytics',
+    subtitle: 'claims operations & medical review platform',
+    cardImage: 'https://i.imgur.com/NzaFVRD.jpeg',
+    cardAlt: 'Verisk Analytics operations cockpit showing claims metrics, exposure tracking, and case-management workflow modules',
+    heroImage: 'https://i.imgur.com/NzaFVRD.jpeg',
+    heroAlt: 'Verisk Analytics operations cockpit showing claims metrics, exposure tracking, and case-management workflow modules',
+    overview: 'Verisk Analytics focused on making complex personal-injury and claims workflows easier to process across medical review, liability assessment, task handling, and operational oversight. My contribution spanned frontend implementation, backend development, and product logic, including calculation-heavy workflows and interface components that helped different stakeholders work through records, case status, and review outcomes in a clearer, more dependable way.',
+    projectType: 'insurance claims operations platform',
+    year: '2023',
+    myRole: 'frontend engineering, backend development, product logic',
+    client: 'verisk',
     galleryImages: [
       {
-        alt: 'Stack of modern books arranged on a leather chair',
-        src: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
+        alt: 'Verisk Analytics operations cockpit with settlement, review, litigation, and exposure metrics for active claims oversight',
+        src: 'https://i.imgur.com/I386y7U.png',
         objectPositionClass: 'object-[50%_26%]',
       },
       {
-        alt: 'Magazine and book stack composition on a leather chair',
-        src: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[38%_56%]',
+        alt: 'Verisk Analytics claims dashboard showing active claims, review progress, and task queue management in a liability workflow',
+        src: 'https://i.imgur.com/s5YSWs8.png',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Close crop of the publication cover and chair texture',
-        src: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
-        objectPositionClass: 'object-[62%_42%]',
+        alt: 'Verisk Analytics medical review workspace with diagnosis overview, functional limitations, and peer-review submission flow',
+        src: 'https://i.imgur.com/cs2qBY5.png',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Wide crop of the leather chair and stacked books composition',
-        src: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
+        alt: 'Verisk Analytics operations dashboard in dark mode with claims volume, reserve exposure, and specialist capacity modules',
+        src: 'https://i.imgur.com/XUC4mhH.png',
         objectPositionClass: 'object-[50%_74%]',
       },
       {
-        alt: 'Detail crop of printed editorial materials on the chair',
-        src: 'https://framerusercontent.com/images/fYvQjvgH7i51arHZEPZLPlpbf8M.jpg?width=1365&height=2048',
+        alt: 'Verisk Analytics dashboard in light mode with operational analytics cards, chart panels, and reserve exposure breakdowns',
+        src: 'https://i.imgur.com/6nYQWQi.png',
         objectPositionClass: 'object-[46%_32%]',
       },
     ],
@@ -273,7 +274,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[44%_38%]',
       },
     ],
-    relatedSlugs: ['edge-analytics', 'the-cloud-one', 'neural-workspace'],
+    relatedSlugs: ['verisk-analytics', 'the-cloud-one', 'neural-workspace'],
   },
   {
     slug: 'agent-studio',
@@ -315,7 +316,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['neural-workspace', 'the-cloud-one', 'edge-analytics'],
+    relatedSlugs: ['neural-workspace', 'the-cloud-one', 'verisk-analytics'],
   },
 ]
 
@@ -324,7 +325,7 @@ export const projectCatalog = projectsCatalog
 const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant> = {
   'the-cloud-one': 'feature-wide',
   'motel-one': 'feature-narrow',
-  'edge-analytics': 'half',
+  'verisk-analytics': 'half',
   'neural-workspace': 'half',
   'runtime-cloud': 'half',
   'agent-studio': 'half',
@@ -333,7 +334,7 @@ const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant
 const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['mediaVariant']> = {
   'the-cloud-one': 'feature',
   'motel-one': 'feature',
-  'edge-analytics': 'standard',
+  'verisk-analytics': 'standard',
   'neural-workspace': 'standard',
   'runtime-cloud': 'standard',
   'agent-studio': 'standard',
@@ -342,7 +343,7 @@ const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['me
 const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardImageVariant> = {
   'the-cloud-one': 'the-cloud-one',
   'motel-one': 'motel-one',
-  'edge-analytics': 'kernel-house',
+  'verisk-analytics': 'verisk-analytics',
   'neural-workspace': 'tecnews',
   'runtime-cloud': 'peak-performance',
   'agent-studio': 'grillme',

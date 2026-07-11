@@ -107,6 +107,7 @@ useSeoMeta({
       <ProjectPageImage
         :src="leadGalleryImage.src"
         :alt="leadGalleryImage.alt"
+        :fit="leadGalleryImage.fit"
         :object-position-class="leadGalleryImage.objectPositionClass"
       />
 
@@ -116,6 +117,7 @@ useSeoMeta({
           :key="image.src"
           :src="image.src"
           :alt="image.alt"
+          :fit="image.fit"
           :object-position-class="image.objectPositionClass"
           aspect-class="aspect-square"
         />
@@ -126,6 +128,7 @@ useSeoMeta({
         :key="image.src"
         :src="image.src"
         :alt="image.alt"
+        :fit="image.fit"
         :object-position-class="image.objectPositionClass"
       />
     </section>

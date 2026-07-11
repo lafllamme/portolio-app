@@ -132,9 +132,13 @@ const revealPositionClass = computed(() =>
 )
 
 const imageLayoutClass = computed(() =>
-  props.layoutMode === 'fill'
-    ? 'h-full w-full object-cover object-center'
-    : 'block h-auto w-full object-cover object-center',
+  props.fit === 'contain'
+    ? props.layoutMode === 'fill'
+      ? 'h-full w-full object-contain object-center'
+      : 'block h-auto w-full object-contain object-center'
+    : props.layoutMode === 'fill'
+      ? 'h-full w-full object-cover object-center'
+      : 'block h-auto w-full object-cover object-center',
 )
 
 const surfaceOpacityClass = computed(() =>

@@ -10,6 +10,7 @@ interface Props {
   animate?: boolean
   aspectClass?: string
   objectPositionClass?: string
+  fit?: 'cover' | 'contain'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -17,10 +18,15 @@ const props = withDefaults(defineProps<Props>(), {
   animate: true,
   aspectClass: '',
   objectPositionClass: 'object-center',
+  fit: 'cover',
 })
 
+const imageFitClass = computed(() =>
+  props.fit === 'contain' ? 'object-contain' : 'object-cover',
+)
+
 const showcaseImageClass = computed(() =>
-  [props.objectPositionClass, 'w-full'].filter(Boolean).join(' '),
+  [props.objectPositionClass, imageFitClass.value, 'w-full'].filter(Boolean).join(' '),
 )
 
 const revealLayoutMode = computed(() =>
@@ -36,6 +42,7 @@ const revealLayoutMode = computed(() =>
       :alt="props.alt"
       :loading="props.loading"
       :threshold="0.15"
+      :fit="props.fit"
       :layout-mode="revealLayoutMode"
       reveal-mode="grain-dissolve"
       root-margin="240px 0px"
@@ -46,7 +53,7 @@ const revealLayoutMode = computed(() =>
       v-else
       v-slot="{ src: imageSrc, imgAttrs }"
       :src="props.src"
-      fit="cover"
+      :fit="props.fit"
       :custom="true"
     >
       <img
@@ -56,7 +63,7 @@ const revealLayoutMode = computed(() =>
         :loading="props.loading"
         :class="showcaseImageClass"
         crossorigin="anonymous"
-        class="h-full w-full object-cover"
+        class="h-full w-full"
         decoding="async"
       >
     </NuxtImg>

@@ -45,7 +45,7 @@ const filterItems: FilterItem[] = [
 const categoryBySlug: Record<string, WorkFilter[]> = {
   'the-cloud-one': ['product', 'visual-identity'],
   'motel-one': ['product', 'visual-identity'],
-  'edge-analytics': ['product', 'print'],
+  'verisk-analytics': ['product', 'print'],
   'neural-workspace': ['editorial', 'product', 'ai'],
   'runtime-cloud': ['product', 'visual-identity'],
   'agent-studio': ['product', 'ai'],

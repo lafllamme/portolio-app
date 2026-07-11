@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
 const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
   'the-cloud-one': 'object-[50%_48%]',
   'motel-one': 'object-[50%_46%]',
-  'kernel-house': 'object-[50%_50%]',
+  'verisk-analytics': 'object-[50%_50%]',
   'tecnews': 'object-[50%_46%]',
   'grillme': 'object-[50%_50%]',
   'peak-performance': 'object-[50%_52%]',
