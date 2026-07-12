@@ -13,6 +13,7 @@ export interface AboutExperienceItem {
   role: string
   summary: string
   period: string
+  years: string[]
 }
 
 export interface AboutContactVisual {
@@ -74,18 +75,12 @@ export const aboutPageContent: AboutPageContent = {
   experienceTitle: 'my experience',
   experienceItems: [
     {
-      company: 'Freelance',
-      role: 'senior fullstack developer',
-      summary:
-        'Leading end-to-end product work for startups and teams that need strong execution without sacrificing architecture. That includes frontend systems, fullstack delivery, technical decision-making, design system work, AI-assisted feature workflows, and shipping product ideas from concept to rollout.',
-      period: '2022 - now',
-    },
-    {
       company: 'denkwerk GmbH',
       role: 'fullstack developer',
       summary:
         'Building complex client applications with Vue.js, Nuxt.js, and TypeScript across SPAs, multi-step flows, streaming features, secure token-based access, payment integrations, and Apple Wallet. The role also includes design systems, Storybook component libraries, internal npm packages, code reviews, onboarding, performance and accessibility work, and close delivery with cross-functional teams of up to 12 to 15 people.',
       period: '2022 - now',
+      years: ['2026', '2025', '2024', '2023', '2022'],
     },
     {
       company: 'Actineo GmbH',
@@ -93,6 +88,7 @@ export const aboutPageContent: AboutPageContent = {
       summary:
         'Fullstack development for a B2B platform digitizing claims management for international insurance companies. Worked across React-based frontend implementation, REST APIs, business logic in Node.js and PHP, database administration and MongoDB migrations, GDPR-conscious infrastructure, and automated delivery with GitLab CI and Docker.',
       period: '2019 - 2022',
+      years: ['2021', '2020', '2019'],
     },
     {
       company: 'IMV GmbH & Co. KG',
@@ -100,13 +96,7 @@ export const aboutPageContent: AboutPageContent = {
       summary:
         'Worked on B2B enterprise software through frontend customization, styling, account configuration, rollout support, and onboarding within a custom Drupal-based business platform. The role also included consulting around internal software processes and hands-on support during implementation.',
       period: '2018 - 2019',
-    },
-    {
-      company: 'Selected product work',
-      role: 'design systems, ai & product engineering',
-      summary:
-        'Built and maintained independent product work spanning typed Nuxt design systems, AI-powered tooling, CMS-backed fullstack apps, and Cloudflare-based experiments. Typical stack includes Nuxt, TypeScript, Storybook, Payload CMS, FastAPI, Workers AI, PostgreSQL, and modern monorepo tooling.',
-      period: 'ongoing',
+      years: ['2018'],
     },
   ],
   github: {

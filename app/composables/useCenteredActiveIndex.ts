@@ -1,7 +1,11 @@
 import type { ComponentPublicInstance } from 'vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-export function useCenteredActiveIndex(itemCount: number) {
+interface CenteredActiveIndexOptions {
+  rootMargin?: string
+}
+
+export function useCenteredActiveIndex(itemCount: number, options: CenteredActiveIndexOptions = {}) {
   const activeIndex = ref(0)
   const itemElements = ref<Array<HTMLElement | null>>(Array.from({ length: itemCount }).fill(null) as Array<HTMLElement | null>)
   let observer: IntersectionObserver | null = null
@@ -34,7 +38,7 @@ export function useCenteredActiveIndex(itemCount: number) {
 
     observer = new IntersectionObserver(resolveActiveEntry, {
       root: null,
-      rootMargin: '-45% 0px -45% 0px',
+      rootMargin: options.rootMargin ?? '-45% 0px -45% 0px',
       threshold: [0, 0.25, 0.5, 0.75, 1],
     })
 
