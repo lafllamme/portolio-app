@@ -183,18 +183,18 @@ const stickyGalleryCards: StickyGalleryCard[] = [
             :key="card.image"
             class="grid h-screen top-0 place-content-center sticky"
           >
-            <figure class="bg-surface h-[42vw] w-[42vw] [clip-path:url(#test-another4-clip)] relative overflow-hidden md:h-96 md:w-96">
+            <figure class="bg-surface h-[42vw] w-[42vw] [clip-path:url(#test-another4-clip)] relative overflow-hidden md:h-[min(44vw,35rem)] md:w-[min(44vw,35rem)]">
               <img
                 :src="card.image"
                 :alt="card.alt"
                 class="align-bottom h-full w-full transition-transform duration-500 object-cover hover:scale-[1.025]"
                 :class="card.objectPositionClass"
               >
-              <figcaption class="px-3 py-2 border-t border-line bg-bg/72 inset-x-0 bottom-0 absolute backdrop-blur-md md:px-5 md:py-4">
-                <h2 class="text-[clamp(0.82rem,2.3vw,1.55rem)] leading-none tracking-[-0.04em] font-600 font-headline lowercase">
+              <figcaption class="px-3 py-2 border-t border-line bg-bg/72 inset-x-0 bottom-0 absolute backdrop-blur-md md:px-6 md:py-5">
+                <h2 class="text-[clamp(0.82rem,2.3vw,1.85rem)] leading-none tracking-[-0.04em] font-600 font-headline lowercase">
                   {{ card.title }}
                 </h2>
-                <p class="text-[12px] text-muted leading-[1.45] tracking-[-0.02em] mt-3 hidden md:block">
+                <p class="text-[clamp(0.875rem,1.05vw,1rem)] text-muted leading-[1.45] tracking-[-0.02em] mt-3 max-w-[30rem] hidden md:block">
                   {{ card.description }}
                 </p>
               </figcaption>
