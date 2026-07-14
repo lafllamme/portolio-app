@@ -42,7 +42,7 @@ const imageClassByVariant: Record<ProjectCardImageVariant, string> = {
   'verisk-analytics': 'object-[50%_50%]',
   'tecnews': 'object-[50%_46%]',
   'grillme': 'object-[50%_50%]',
-  'peak-performance': 'object-[50%_52%]',
+  'storck': 'object-[50%_48%]',
   'savor-magazine': 'object-[50%_48%]',
 }
 

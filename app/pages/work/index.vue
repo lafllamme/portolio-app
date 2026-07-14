@@ -47,7 +47,7 @@ const categoryBySlug: Record<string, WorkFilter[]> = {
   'motel-one': ['product', 'visual-identity'],
   'verisk-analytics': ['product', 'print'],
   'neural-workspace': ['editorial', 'product', 'ai'],
-  'runtime-cloud': ['product', 'visual-identity'],
+  'storck': ['product', 'visual-identity'],
   'agent-studio': ['product', 'ai'],
 }
 

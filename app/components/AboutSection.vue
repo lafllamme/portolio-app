@@ -22,7 +22,7 @@ const {
       :base-rotation="3"
       container-class-name="font-headline text-[clamp(3.1rem,5.625vw,4.5rem)] leading-[1.1] tracking-[-0.05em] font-500 mb-16 text-text"
       text-class-name="block"
-      rotation-end="bottom 78%"
+      rotation-end="bottom 62%"
       word-animation-end="bottom 62%"
     />
     <div class="gap-12 grid grid-cols-1 antialiased lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">

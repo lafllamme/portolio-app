@@ -13,7 +13,7 @@ export type ProjectCardImageVariant
     | 'verisk-analytics'
     | 'tecnews'
     | 'grillme'
-    | 'peak-performance'
+    | 'storck'
     | 'savor-magazine'
 
 export interface ProjectEntry {
@@ -93,7 +93,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['motel-one', 'runtime-cloud', 'agent-studio'],
+    relatedSlugs: ['motel-one', 'storck', 'agent-studio'],
   },
   {
     slug: 'motel-one',
@@ -185,7 +185,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[46%_32%]',
       },
     ],
-    relatedSlugs: ['runtime-cloud', 'motel-one', 'agent-studio'],
+    relatedSlugs: ['storck', 'motel-one', 'agent-studio'],
   },
   {
     slug: 'neural-workspace',
@@ -232,46 +232,47 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['motel-one', 'agent-studio', 'runtime-cloud'],
+    relatedSlugs: ['motel-one', 'agent-studio', 'storck'],
   },
   {
-    slug: 'runtime-cloud',
-    title: 'peak performance',
-    subtitle: 'packaging design & brand identity',
-    cardImage: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-    cardAlt: 'Sports supplement tubes shown in a clean product packaging layout',
-    heroImage: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-    heroAlt: 'Sports supplement tubes shown in a clean product packaging layout',
-    overview: 'Runtime Cloud is a platform frontend concept focused on navigation clarity, composable operations, and robust system communication. The direction aims to make infrastructure-heavy products feel modern, readable, and dependable.',
-    projectType: 'Platform frontend',
-    year: '2026',
-    myRole: 'Frontend architecture, product UX, systems planning',
-    client: 'internal concept',
+    slug: 'storck',
+    title: 'storck',
+    subtitle: 'multi-brand product experiences',
+    cardImage: 'https://i.imgur.com/4pJFDN1.png',
+    cardAlt: 'Storck brand overview presenting Toffifee, merci, nimm2, Knoppers, RIESEN, and Mamba as distinct product worlds',
+    heroImage: 'https://i.imgur.com/4pJFDN1.png',
+    heroAlt: 'Storck brand overview presenting its confectionery portfolio through a grid of distinct visual brand worlds',
+    heroAspectClass: 'aspect-[16/9]',
+    overview: 'Storck brings a portfolio of familiar confectionery brands into one digital ecosystem while giving each product world its own visual identity. My contribution focused on frontend implementation across the corporate and brand pages: building TYPO3-ready content modules, translating distinct brand systems into reusable interface patterns, and supporting product showcases that remain expressive, consistent, and maintainable across merci, nimm2, Knoppers, and other Storck brands.',
+    projectType: 'multi-brand corporate & product platform',
+    year: '2025',
+    myRole: 'frontend engineering, ui implementation, cms integration',
+    client: 'storck',
     galleryImages: [
       {
-        alt: 'Sports supplement tubes shown in a clean product packaging layout',
-        src: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-        objectPositionClass: 'object-center',
+        alt: 'Storck brands overview combining shared corporate navigation with individually art-directed confectionery brand cards',
+        src: '/images/projects/storck/storck-brands.jpg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Product packaging tubes arranged horizontally in a clean still life',
-        src: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-        objectPositionClass: 'object-[34%_54%]',
+        alt: 'merci brand page with warm campaign imagery, dedicated navigation, and a product-led editorial introduction',
+        src: '/images/projects/storck/storck-merci.jpg',
+        objectPositionClass: 'object-[50%_40%]',
       },
       {
-        alt: 'Close crop of supplement packaging tubes and branding details',
-        src: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-        objectPositionClass: 'object-[70%_48%]',
+        alt: 'Knoppers brand page with saturated campaign photography, product navigation, and its own visual identity',
+        src: '/images/projects/storck/storck-knoppers.jpg',
+        objectPositionClass: 'object-[50%_40%]',
       },
       {
-        alt: 'Wide studio packaging composition in a minimal platform-inspired scene',
-        src: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-        objectPositionClass: 'object-[50%_62%]',
+        alt: 'nimm2 brand page using bright outdoor campaign imagery within the shared Storck platform structure',
+        src: '/images/projects/storck/storck-nimm2.jpg',
+        objectPositionClass: 'object-[50%_50%]',
       },
       {
-        alt: 'Detail crop of the supplement packaging surfaces and shadows',
-        src: 'https://framerusercontent.com/images/orUVxfxWedv09ke2YHn9uGVoYnM.jpg?scale-down-to=2048&width=4000&height=2669',
-        objectPositionClass: 'object-[44%_38%]',
+        alt: 'Toffifee brand page pairing warm family-focused campaign imagery with a dedicated product world',
+        src: '/images/projects/storck/storck-toffifee.jpg',
+        objectPositionClass: 'object-[50%_50%]',
       },
     ],
     relatedSlugs: ['verisk-analytics', 'the-cloud-one', 'neural-workspace'],
@@ -327,7 +328,7 @@ const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant
   'motel-one': 'feature-narrow',
   'verisk-analytics': 'half',
   'neural-workspace': 'half',
-  'runtime-cloud': 'half',
+  'storck': 'half',
   'agent-studio': 'half',
 }
 
@@ -336,7 +337,7 @@ const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['me
   'motel-one': 'feature',
   'verisk-analytics': 'standard',
   'neural-workspace': 'standard',
-  'runtime-cloud': 'standard',
+  'storck': 'standard',
   'agent-studio': 'standard',
 }
 
@@ -345,7 +346,7 @@ const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardIma
   'motel-one': 'motel-one',
   'verisk-analytics': 'verisk-analytics',
   'neural-workspace': 'tecnews',
-  'runtime-cloud': 'peak-performance',
+  'storck': 'storck',
   'agent-studio': 'grillme',
 }
 

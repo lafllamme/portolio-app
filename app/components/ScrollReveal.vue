@@ -49,6 +49,7 @@ const ROTATION_ORIGIN = '0% 50%'
 const ROTATION_START = 'top bottom'
 const WORD_REVEAL_START = 'top bottom-=20%'
 const WORD_REVEAL_STAGGER = 0.05
+const SCRUB_SMOOTHING = 0.18
 
 const containerRef = ref<HTMLElement | null>(null)
 const wordRefs = useTemplateRefsList<HTMLElement>()
@@ -162,7 +163,7 @@ function createRotationTween(container: HTMLElement, scroller: HTMLElement | Win
       scroller,
       start: ROTATION_START,
       end: props.rotationEnd,
-      scrub: true,
+      scrub: SCRUB_SMOOTHING,
       invalidateOnRefresh: true,
     },
   })
@@ -182,7 +183,7 @@ function createWordRevealTween(container: HTMLElement, wordElements: HTMLElement
       scroller,
       start: WORD_REVEAL_START,
       end: props.wordAnimationEnd,
-      scrub: true,
+      scrub: SCRUB_SMOOTHING,
       invalidateOnRefresh: true,
     },
   })
