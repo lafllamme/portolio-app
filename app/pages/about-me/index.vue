@@ -10,7 +10,31 @@ import AboutWorkedWithLogoLoop from '~/components/about/AboutWorkedWithLogoLoop.
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ResumeDownloadModal from '~/components/media/ResumeDownloadModal.vue'
 import { useCenteredActiveIndex } from '~/composables/useCenteredActiveIndex'
+import { usePageSeo } from '~/composables/usePageSeo'
 import { useResumeDownload } from '~/composables/useResumeDownload'
+import { absoluteSiteUrl, personStructuredData, websiteStructuredData } from '~/utils/seo'
+
+const ABOUT_DESCRIPTION = 'Learn how Dogan Teke builds Vue, Nuxt, and TypeScript products, scalable design systems, complex workflows, and practical AI features for international teams.'
+
+usePageSeo({
+  title: 'About Dogan Teke | Fullstack Developer',
+  description: ABOUT_DESCRIPTION,
+  imageWidth: 1200,
+  imageHeight: 630,
+  structuredData: [
+    websiteStructuredData,
+    personStructuredData,
+    {
+      '@type': 'ProfilePage',
+      '@id': `${absoluteSiteUrl('/about-me')}#profile`,
+      'url': absoluteSiteUrl('/about-me'),
+      'name': 'About Dogan Teke',
+      'description': ABOUT_DESCRIPTION,
+      'isPartOf': { '@id': `${absoluteSiteUrl('/')}#website` },
+      'mainEntity': { '@id': `${absoluteSiteUrl('/')}#person` },
+    },
+  ],
+})
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
 const heroTitleRef = ref<HTMLElement | null>(null)

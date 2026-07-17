@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>Dogan Teke social card</title>
+  <defs>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#1a1d22" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#0b0c10" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+  <rect x="64" y="64" width="168" height="168" rx="32" fill="#ece8df" />
+  <path
+    fill="#0b0c10"
+    d="M85 85h94.5c17.4 0 31.5 14.1 31.5 31.5V127h-21c-11.6 0-21 9.4-21 21v63h-42v-84H85V85Z"
+  />
+  <text
+    x="64"
+    y="415"
+    fill="#ece8df"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="104"
+    font-weight="700"
+    letter-spacing="-6"
+  >dogan teke</text>
+  <text
+    x="68"
+    y="485"
+    fill="#9f9b93"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="34"
+    font-weight="400"
+    letter-spacing="-1"
+  >fullstack developer · frontend engineer</text>
+  <line x1="64" y1="548" x2="1136" y2="548" stroke="#36383d" stroke-width="1" />
+  <text
+    x="64"
+    y="588"
+    fill="#9f9b93"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    letter-spacing="2"
+  >VUE · NUXT · TYPESCRIPT · PRODUCT SYSTEMS · PRACTICAL AI</text>
+  <text
+    x="1136"
+    y="105"
+    fill="#9f9b93"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    text-anchor="end"
+    letter-spacing="1"
+  >teke.studio</text>
+</svg>

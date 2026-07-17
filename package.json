@@ -18,6 +18,7 @@
     "@nuxt/icon": "2.2.2",
     "@nuxt/image": "2.0.0",
     "@nuxtjs/color-mode": "4.0.0",
+    "@nuxtjs/sitemap": "8.2.2",
     "@nuxtjs/supabase": "^2.0.8",
     "@vueuse/core": "^14.3.0",
     "gsap": "^3.15.0",

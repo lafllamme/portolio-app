@@ -20,6 +20,8 @@ export interface ProjectEntry {
   slug: string
   title: string
   subtitle: string
+  seoTitle: string
+  seoDescription: string
   cardImage: string
   cardAlt: string
   homeCardImage?: string
@@ -52,6 +54,8 @@ const projectsCatalog: ProjectEntry[] = [
     slug: 'the-cloud-one',
     title: 'the cloud one',
     subtitle: 'luxury hospitality brand experience',
+    seoTitle: 'The Cloud One Hospitality Platform | Dogan Teke',
+    seoDescription: 'A frontend case study for The Cloud One, combining premium hospitality storytelling, destination discovery, campaigns, and refined booking touchpoints.',
     cardImage: 'https://i.imgur.com/Hrw4fLQ.jpeg',
     cardAlt: 'The Cloud One editorial cover with quiet monochrome luxury styling and premium hospitality framing',
     heroImage: 'https://i.imgur.com/Hrw4fLQ.jpeg',
@@ -93,12 +97,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['motel-one', 'storck', 'agent-studio'],
+    relatedSlugs: ['motel-one', 'storck', 'grillme'],
   },
   {
     slug: 'motel-one',
     title: 'motel one',
     subtitle: 'booking experience & campaign surfaces',
+    seoTitle: 'Motel One Booking Experience | Dogan Teke',
+    seoDescription: 'A Motel One frontend case study spanning booking flows, destination discovery, campaigns, membership experiences, and scalable Vue interface systems.',
     cardImage: 'https://i.imgur.com/4MtgH8k.png',
     cardAlt: 'Motel One campaign visual in a tall editorial crop used as the project cover image',
     homeCardImage: 'https://i.imgur.com/4MtgH8k.png',
@@ -143,12 +149,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['the-cloud-one', 'neural-workspace', 'verisk-analytics'],
+    relatedSlugs: ['the-cloud-one', 'tecnews', 'verisk-analytics'],
   },
   {
     slug: 'verisk-analytics',
     title: 'verisk analytics',
     subtitle: 'claims operations & medical review platform',
+    seoTitle: 'Verisk Claims Platform | Dogan Teke',
+    seoDescription: 'A fullstack case study for Verisk, simplifying insurance claims, medical review, operational dashboards, and calculation-heavy workflows.',
     cardImage: 'https://i.imgur.com/NzaFVRD.jpeg',
     cardAlt: 'Verisk Analytics operations cockpit showing claims metrics, exposure tracking, and case-management workflow modules',
     heroImage: 'https://i.imgur.com/NzaFVRD.jpeg',
@@ -185,12 +193,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[46%_32%]',
       },
     ],
-    relatedSlugs: ['storck', 'motel-one', 'agent-studio'],
+    relatedSlugs: ['storck', 'motel-one', 'grillme'],
   },
   {
-    slug: 'neural-workspace',
+    slug: 'tecnews',
     title: 'tecnews',
     subtitle: 'ai-supported editorial product',
+    seoTitle: 'Tecnews AI Editorial Product | Dogan Teke',
+    seoDescription: 'An AI-supported editorial product for developers, combining verified-source aggregation, issue-based discovery, calm reading flows, and thoughtful motion.',
     cardImage: 'https://i.imgur.com/4VxABq0.png',
     cardAlt: 'Tecnews cover with editorial typography, calm hierarchy, and a modern issue-based developer newspaper direction',
     heroImage: 'https://i.imgur.com/4VxABq0.png',
@@ -232,12 +242,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['motel-one', 'agent-studio', 'storck'],
+    relatedSlugs: ['motel-one', 'grillme', 'storck'],
   },
   {
     slug: 'storck',
     title: 'storck',
     subtitle: 'multi-brand product experiences',
+    seoTitle: 'Storck Multi-Brand Platform | Dogan Teke',
+    seoDescription: 'A frontend case study for Storck\'s multi-brand platform, translating distinct confectionery identities into reusable TYPO3 content modules and product pages.',
     cardImage: 'https://i.imgur.com/4pJFDN1.png',
     cardAlt: 'Storck brand overview presenting Toffifee, merci, nimm2, Knoppers, RIESEN, and Mamba as distinct product worlds',
     heroImage: 'https://i.imgur.com/4pJFDN1.png',
@@ -275,12 +287,14 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['verisk-analytics', 'the-cloud-one', 'neural-workspace'],
+    relatedSlugs: ['verisk-analytics', 'the-cloud-one', 'tecnews'],
   },
   {
-    slug: 'agent-studio',
+    slug: 'grillme',
     title: 'grillme',
     subtitle: 'ai-supported developer feedback product',
+    seoTitle: 'GrillMe AI Developer Tool | Dogan Teke',
+    seoDescription: 'An AI developer tool that turns public GitHub activity into sharp, structured feedback through Cloudflare Workers AI and a playful product experience.',
     cardImage: 'https://i.imgur.com/jiwLLfl.jpeg',
     cardAlt: 'GrillMe cover with bold AI tooling framing, direct developer feedback tone, and product-led interaction design',
     heroImage: 'https://i.imgur.com/jiwLLfl.jpeg',
@@ -317,7 +331,7 @@ const projectsCatalog: ProjectEntry[] = [
         objectPositionClass: 'object-[50%_50%]',
       },
     ],
-    relatedSlugs: ['neural-workspace', 'the-cloud-one', 'verisk-analytics'],
+    relatedSlugs: ['tecnews', 'the-cloud-one', 'verisk-analytics'],
   },
 ]
 
@@ -327,27 +341,27 @@ const projectLayoutBySlug: Record<ProjectEntry['slug'], ProjectCardLayoutVariant
   'the-cloud-one': 'feature-wide',
   'motel-one': 'feature-narrow',
   'verisk-analytics': 'half',
-  'neural-workspace': 'half',
+  'tecnews': 'half',
   'storck': 'half',
-  'agent-studio': 'half',
+  'grillme': 'half',
 }
 
 const projectCardVariantBySlug: Record<ProjectEntry['slug'], ProjectCardItem['mediaVariant']> = {
   'the-cloud-one': 'feature',
   'motel-one': 'feature',
   'verisk-analytics': 'standard',
-  'neural-workspace': 'standard',
+  'tecnews': 'standard',
   'storck': 'standard',
-  'agent-studio': 'standard',
+  'grillme': 'standard',
 }
 
 const projectCardImageVariantBySlug: Record<ProjectEntry['slug'], ProjectCardImageVariant> = {
   'the-cloud-one': 'the-cloud-one',
   'motel-one': 'motel-one',
   'verisk-analytics': 'verisk-analytics',
-  'neural-workspace': 'tecnews',
+  'tecnews': 'tecnews',
   'storck': 'storck',
-  'agent-studio': 'grillme',
+  'grillme': 'grillme',
 }
 
 /**

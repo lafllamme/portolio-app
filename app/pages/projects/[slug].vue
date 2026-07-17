@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { getProjectBySlug, getProjectsBySlugs, toProjectCardItem } from '~~/shared/projects'
-import { createError, useRoute, useSeoMeta } from '#imports'
+import { createError, useRoute } from '#imports'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 import ProjectPageImage from '~/components/projects/ProjectPageImage.vue'
+import { usePageSeo } from '~/composables/usePageSeo'
+import { absoluteSiteUrl, personStructuredData, websiteStructuredData } from '~/utils/seo'
 
 definePageMeta({
   scrollToTop: false,
@@ -31,13 +33,54 @@ const leadGalleryImage = computed(() => project.galleryImages[0] ?? null)
 const pairedGalleryImages = computed(() => project.galleryImages.slice(1, 3))
 const trailingGalleryImages = computed(() => project.galleryImages.slice(3))
 
-useSeoMeta({
-  title: `${project.title} · Dogan Teke`,
-  description: project.overview,
-  ogTitle: `${project.title} · Dogan Teke`,
-  ogDescription: project.overview,
-  ogImage: project.heroImage,
-  twitterCard: 'summary_large_image',
+const projectUrl = absoluteSiteUrl(`/projects/${project.slug}`)
+
+usePageSeo({
+  title: project.seoTitle,
+  description: project.seoDescription,
+  type: 'article',
+  image: project.heroImage,
+  imageAlt: project.heroAlt,
+  structuredData: [
+    websiteStructuredData,
+    personStructuredData,
+    {
+      '@type': 'CreativeWork',
+      '@id': `${projectUrl}#project`,
+      'url': projectUrl,
+      'name': project.title,
+      'headline': project.seoTitle,
+      'description': project.seoDescription,
+      'image': absoluteSiteUrl(project.heroImage),
+      'genre': project.projectType,
+      'creator': { '@id': `${absoluteSiteUrl('/')}#person` },
+      'isPartOf': { '@id': `${absoluteSiteUrl('/')}#website` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${projectUrl}#breadcrumb`,
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': absoluteSiteUrl('/'),
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Work',
+          'item': absoluteSiteUrl('/work'),
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': project.title,
+          'item': projectUrl,
+        },
+      ],
+    },
+  ],
 })
 </script>
 

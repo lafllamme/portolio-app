@@ -3,12 +3,45 @@ import type { Ref } from 'vue'
 import type { ProjectCardItem } from '~~/shared/projects'
 import { useResizeObserver } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
-import { projectCards } from '~~/shared/projects'
+import { projectCards, projectCatalog } from '~~/shared/projects'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import ProjectGalleryCard from '~/components/home/ProjectGalleryCard.vue'
+import { usePageSeo } from '~/composables/usePageSeo'
+import { absoluteSiteUrl, personStructuredData, websiteStructuredData } from '~/utils/seo'
 
 definePageMeta({
   scrollToTop: false,
+})
+
+const WORK_DESCRIPTION = 'Explore selected work by Dogan Teke across Vue and Nuxt platforms, design systems, hospitality experiences, editorial products, and practical AI tools.'
+
+usePageSeo({
+  title: 'Selected Work | Dogan Teke',
+  description: WORK_DESCRIPTION,
+  imageWidth: 1200,
+  imageHeight: 630,
+  structuredData: [
+    websiteStructuredData,
+    personStructuredData,
+    {
+      '@type': 'CollectionPage',
+      '@id': `${absoluteSiteUrl('/work')}#collection`,
+      'url': absoluteSiteUrl('/work'),
+      'name': 'Selected Work by Dogan Teke',
+      'description': WORK_DESCRIPTION,
+      'isPartOf': { '@id': `${absoluteSiteUrl('/')}#website` },
+      'mainEntity': {
+        '@type': 'ItemList',
+        'itemListElement': projectCatalog.map((project, index) => ({
+          '@type': 'ListItem',
+          'position': index + 1,
+          'url': absoluteSiteUrl(`/projects/${project.slug}`),
+          'name': project.title,
+          'description': project.seoDescription,
+        })),
+      },
+    },
+  ],
 })
 
 type WorkFilter = 'all' | 'editorial' | 'product' | 'ai' | 'print' | 'visual-identity'
@@ -46,9 +79,9 @@ const categoryBySlug: Record<string, WorkFilter[]> = {
   'the-cloud-one': ['product', 'visual-identity'],
   'motel-one': ['product', 'visual-identity'],
   'verisk-analytics': ['product', 'print'],
-  'neural-workspace': ['editorial', 'product', 'ai'],
+  'tecnews': ['editorial', 'product', 'ai'],
   'storck': ['product', 'visual-identity'],
-  'agent-studio': ['product', 'ai'],
+  'grillme': ['product', 'ai'],
 }
 
 const workCards = computed<WorkProjectCard[]>(() =>
@@ -132,6 +165,12 @@ useResizeObserver(heroHeaderRef, () => {
         </h1>
       </div>
     </header>
+
+    <div class="mt-3 flex justify-end md:mt-4">
+      <p class="text-[24px] text-muted leading-[28.8px] tracking-[-0.96px] max-w-[640px] md:max-w-[620px]">
+        Selected frontend and fullstack work across hospitality platforms, product systems, editorial experiences, and practical AI tools.
+      </p>
+    </div>
 
     <div class="mt-5 pb-4 border-b border-line">
       <div class="flex flex-wrap gap-x-7 gap-y-3">

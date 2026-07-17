@@ -7,9 +7,27 @@ import AboutSection from '~/components/AboutSection.vue'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
 import HomeClosingSequence from '~/components/home/closing/HomeClosingSequence.vue'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
+import { usePageSeo } from '~/composables/usePageSeo'
+import { personStructuredData, websiteStructuredData } from '~/utils/seo'
 
 definePageMeta({
   scrollToTop: false,
+})
+
+const HOME_DESCRIPTION = 'Dogan Teke is a fullstack developer building Vue, Nuxt, and TypeScript products, scalable frontend systems, thoughtful UX, and practical AI integrations.'
+
+usePageSeo({
+  title: 'Dogan Teke | Fullstack Developer & Frontend Engineer',
+  description: HOME_DESCRIPTION,
+  imageWidth: 1200,
+  imageHeight: 630,
+  structuredData: [
+    {
+      ...websiteStructuredData,
+      description: HOME_DESCRIPTION,
+    },
+    personStructuredData,
+  ],
 })
 
 const heroHeaderRef = ref<HTMLElement | null>(null)
