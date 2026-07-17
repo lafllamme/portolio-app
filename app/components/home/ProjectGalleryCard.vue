@@ -90,7 +90,7 @@ function getMediaAspectClasses() {
   >
     <article class="flex flex-col h-full">
       <div
-        class="rounded-md overflow-hidden"
+        class="group rounded-md media-pull-frame"
         :class="getMediaAspectClasses()"
       >
         <RevealImage

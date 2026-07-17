@@ -434,7 +434,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="rootRef"
-    class="rounded-md relative overflow-hidden"
+    class="group rounded-md relative media-pull-frame"
     :class="[rootLayoutClass, containerClass]"
   >
     <div
@@ -476,17 +476,19 @@ onBeforeUnmount(() => {
         :class="[revealPositionClass, revealWillChangeClass]"
         :style="revealLayerStyle"
       >
-        <img
-          ref="imageRef"
-          v-bind="imgAttrs"
-          :src="resolvedSrc"
-          :alt="alt"
-          :loading="loading"
-          :class="[imageLayoutClass, imageClass]"
-          :style="imageRevealStyle"
-          decoding="async"
-          @load="handleImageLoad"
-        >
+        <div class="h-full w-full media-pull-target">
+          <img
+            ref="imageRef"
+            v-bind="imgAttrs"
+            :src="resolvedSrc"
+            :alt="alt"
+            :loading="loading"
+            :class="[imageLayoutClass, imageClass]"
+            :style="imageRevealStyle"
+            decoding="async"
+            @load="handleImageLoad"
+          >
+        </div>
       </div>
     </NuxtImg>
   </div>

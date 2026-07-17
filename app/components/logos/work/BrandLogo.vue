@@ -46,11 +46,11 @@ const svgMarkup = computed(() => {
 
 <template>
   <div
-    class="flex shrink-0 h-full items-center justify-center"
+    class="group flex shrink-0 h-full items-center justify-center media-pull-frame"
     :class="wrapperClass"
   >
     <div
-      class="flex h-full w-full items-center justify-center"
+      class="flex h-full w-full media-pull-target items-center justify-center"
       :class="imgClass"
       v-html="svgMarkup"
     />

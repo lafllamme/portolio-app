@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue'
 import { homeProjectCards } from '~~/shared/projects'
 import AboutSection from '~/components/AboutSection.vue'
 import ContactShowcaseSection from '~/components/ContactShowcaseSection.vue'
+import HomeClosingSequence from '~/components/home/closing/HomeClosingSequence.vue'
 import ProjectGallerySection from '~/components/home/ProjectGallerySection.vue'
 
 definePageMeta({
@@ -90,6 +91,8 @@ useResizeObserver(heroHeaderRef, () => {
 
     <AboutSection />
 
-    <ContactShowcaseSection />
+    <HomeClosingSequence />
+
+    <ContactShowcaseSection spacing-class="mt-[9rem] md:mt-[11rem]" />
   </section>
 </template>

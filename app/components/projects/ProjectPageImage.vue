@@ -35,7 +35,7 @@ const revealLayoutMode = computed(() =>
 </script>
 
 <template>
-  <div class="rounded-md overflow-hidden" :class="props.aspectClass">
+  <div class="group rounded-md media-pull-frame" :class="props.aspectClass">
     <RevealImage
       v-if="props.animate"
       :src="props.src"
@@ -63,7 +63,7 @@ const revealLayoutMode = computed(() =>
         :loading="props.loading"
         :class="showcaseImageClass"
         crossorigin="anonymous"
-        class="h-full w-full"
+        class="h-full w-full media-pull-target"
         decoding="async"
       >
     </NuxtImg>

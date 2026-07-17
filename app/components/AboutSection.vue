@@ -26,11 +26,13 @@ const {
       word-animation-end="bottom 62%"
     />
     <div class="gap-12 grid grid-cols-1 antialiased lg:gap-10 lg:grid-cols-[1fr_1fr_1fr]">
-      <img
-        src="https://i.imgur.com/OAs7adG.png"
-        alt="Portrait of Dogan Teke"
-        class="rounded-[8px] w-full object-cover"
-      >
+      <figure class="group rounded-[8px] media-pull-frame">
+        <img
+          src="https://i.imgur.com/OAs7adG.png"
+          alt="Portrait of Dogan Teke"
+          class="w-full media-pull-target object-cover"
+        >
+      </figure>
       <div>
         <p class="text-[16px] text-muted leading-[19.2px] tracking-[-0.32px]">
           why work with me

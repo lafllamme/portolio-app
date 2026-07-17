@@ -114,11 +114,13 @@ useResizeObserver(heroHeaderRef, () => {
         </div>
 
         <div class="w-full lg:col-span-5 lg:col-start-8 lg:self-start">
-          <img
-            :src="intro.portrait.src"
-            :alt="intro.portrait.alt"
-            class="rounded-[8px] w-full aspect-[0.878] block object-cover"
-          >
+          <figure class="group rounded-[8px] w-full aspect-[0.878] media-pull-frame">
+            <img
+              :src="intro.portrait.src"
+              :alt="intro.portrait.alt"
+              class="h-full w-full block media-pull-target object-cover"
+            >
+          </figure>
         </div>
       </div>
     </section>

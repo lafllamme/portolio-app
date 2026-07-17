@@ -2,6 +2,19 @@ import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [presetWind4()],
+  variants: [
+    (matcher) => {
+      const prefix = 'motion-hover:'
+
+      if (!matcher.startsWith(prefix))
+        return matcher
+
+      return {
+        matcher: matcher.slice(prefix.length),
+        parent: '@media (hover: hover) and (prefers-reduced-motion: no-preference)',
+      }
+    },
+  ],
   rules: [
     ['hero-reveal-ready', {
       'animation': 'hero-reveal 1080ms cubic-bezier(0.2,0.95,0.34,1) both',
@@ -87,5 +100,7 @@ export default defineConfig({
       'mt-4 text-cardTitle leading-none font-600 tracking-tight text-text',
     'card-meta': 'mt-2 text-cardMeta leading-none text-muted',
     'footer-link': 'text-footer leading-[1.15] text-text',
+    'media-pull-frame': 'overflow-hidden',
+    'media-pull-target': 'origin-center transition-transform duration-[320ms] ease-[cubic-bezier(0,0,0.2,1)] motion-hover:group-hover:scale-[1.18] motion-reduce:transition-none',
   },
 })

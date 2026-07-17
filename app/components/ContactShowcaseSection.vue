@@ -4,12 +4,20 @@ import { aboutPageContent } from '~~/shared/about'
 import ContactImageStackCarousel from '~/components/contact/ContactImageStackCarousel.vue'
 import { useContactMailto } from '~/composables/useContactMailto'
 
+interface Props {
+  spacingClass?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  spacingClass: 'mt-[13rem] md:mt-[15rem]',
+})
+
 const contact = computed(() => aboutPageContent.contact)
 const mailToHref = useContactMailto(computed(() => contact.value.email))
 </script>
 
 <template>
-  <section id="contact" class="mt-[13rem] md:mt-[15rem]">
+  <section id="contact" :class="props.spacingClass">
     <a
       :href="mailToHref"
       :aria-label="`Email ${contact.email}`"
