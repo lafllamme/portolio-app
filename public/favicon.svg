@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Teke</title>
+  <style>
+    #dark-theme-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-theme-icon {
+        display: none;
+      }
+
+      #dark-theme-icon {
+        display: inline;
+      }
+    }
+  </style>
+  <g id="light-theme-icon">
+    <rect width="256" height="256" rx="48" fill="#0b0c10" />
+    <path
+      fill="#ece8df"
+      d="M32 32h144c26.51 0 48 21.49 48 48v16h-32c-17.67 0-32 14.33-32 32v96H96V96H32V32Z"
+    />
+  </g>
+  <g id="dark-theme-icon">
+    <rect width="256" height="256" rx="48" fill="#ece8df" />
+    <path
+      fill="#0b0c10"
+      d="M32 32h144c26.51 0 48 21.49 48 48v16h-32c-17.67 0-32 14.33-32 32v96H96V96H32V32Z"
+    />
+  </g>
+</svg>

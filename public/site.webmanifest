@@ -1,0 +1,23 @@
+{
+  "name": "teke.studio",
+  "short_name": "teke",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png?v=20260717",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png?v=20260717",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#0b0c10",
+  "background_color": "#0b0c10",
+  "display": "standalone"
+}
