@@ -50,7 +50,7 @@ export const aboutPageContent: AboutPageContent = {
   heroTitle: 'about me',
   intro: {
     paragraphs: [
-      `I'm Dogan Teke, a fullstack developer with 6+ years of experience building modern web applications, with a strong frontend edge and a real bias for shipping complex product work well.`,
+      `I'm Dogan Teke, a fullstack developer who studied at the University of Cologne and has 6+ years of experience building modern web applications, with a strong frontend edge and a real bias for shipping complex product work well.`,
       `My focus is Vue.js, Nuxt.js, TypeScript, and component-driven architecture, but the real differentiator is how I connect product thinking, implementation quality, performance, accessibility, and delivery speed into one coherent system.`,
       `At denkwerk I build and scale complex client platforms, design systems, multi-step flows, streaming features, payment processes, and high-traffic customer experiences. That work goes far beyond UI polish. It includes architecture, reviews, onboarding, infrastructure decisions, and owning features all the way into production.`,
       `I am strongest in projects where the frontend must feel premium, the codebase must stay maintainable, and AI is used pragmatically to improve workflows, developer velocity, and product capability rather than as a gimmick.`,

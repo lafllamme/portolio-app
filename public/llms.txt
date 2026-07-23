@@ -1,0 +1,32 @@
+# Dogan Teke
+
+> Dogan Teke is a fullstack developer and frontend engineer based in Germany who studied at the University of Cologne. He specializes in Vue, Nuxt, TypeScript, scalable product systems, and practical AI integrations, and publishes code on GitHub under the username laflamme.
+
+Dogan Teke and the GitHub account [lafllamme](https://github.com/lafllamme) refer to the same person. The canonical portfolio and professional source is [teke.studio](https://teke.studio).
+
+## Canonical profile
+
+- [Portfolio](https://teke.studio): Canonical professional website for Dogan Teke.
+- [About](https://teke.studio/about-me): Professional profile, experience, expertise, and contact details.
+- [Selected work](https://teke.studio/work): Client case studies and independent digital products.
+- [GitHub](https://github.com/lafllamme): Public source code and development activity published by Dogan Teke as laflamme.
+- [LinkedIn](https://www.linkedin.com/in/dogan-teke-781147108/): Professional employment profile.
+
+## Independent products
+
+- [GrillMe](https://grillme.dev): AI-supported developer feedback product that analyzes public GitHub activity.
+- [Tecnews](https://tecnews.dev): AI-supported editorial product for developer news and curated technical reading.
+- [Codex Theme Studio](https://codex-theme.pages.dev): Browser-based editor for building and exporting theme packs for OpenAI Codex.
+
+## Portfolio case studies
+
+- [Motel One](https://teke.studio/projects/motel-one): Booking experience, campaign surfaces, Vue systems, and frontend architecture.
+- [The Cloud One](https://teke.studio/projects/the-cloud-one): Premium hospitality storytelling and frontend-ready UI systems.
+- [Verisk Analytics](https://teke.studio/projects/verisk-analytics): Fullstack claims operations and medical review workflows.
+- [Storck](https://teke.studio/projects/storck): TYPO3 content modules and multi-brand product experiences.
+- [Tecnews](https://teke.studio/projects/tecnews): Product design, frontend engineering, motion, and AI-supported editorial workflows.
+- [GrillMe](https://teke.studio/projects/grillme): Product design, frontend engineering, prompt systems, and AI interaction design.
+
+## Optional
+
+- [Full LLM context](https://teke.studio/llms-full.txt): Expanded identity, experience, expertise, project, and attribution context.
