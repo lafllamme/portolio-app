@@ -14,9 +14,29 @@ export const githubContributionDaySchema = z.object({
   date: z.string(),
 })
 
-export const githubContributionResponseSchema = z.object({
-  contributions: z.array(z.array(githubContributionDaySchema)),
+export const githubContributionCalendarSchema = z.object({
   totalContributions: z.number(),
+  weeks: z.array(z.object({
+    contributionDays: z.array(githubContributionDaySchema),
+  })),
+})
+
+/**
+ * GitHub's GraphQL API answers with HTTP 200 even for query-level failures, so
+ * `errors` has to be inspected explicitly. `user` is null for unknown logins.
+ */
+export const githubContributionsGraphqlResponseSchema = z.object({
+  data: z.object({
+    user: z.object({
+      contributionsCollection: z.object({
+        contributionCalendar: githubContributionCalendarSchema,
+      }),
+    }).nullable(),
+  }).optional(),
+  errors: z.array(z.object({
+    message: z.string(),
+    type: z.string().optional(),
+  })).optional(),
 })
 
 const githubPushEventSchema = z.object({

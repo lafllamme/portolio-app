@@ -1,18 +1,50 @@
 import type { GithubContributionData } from '~~/shared/github'
 import { consola } from 'consola'
 import { createError, defineEventHandler, getRouterParam } from 'h3'
-import { githubContributionResponseSchema } from '../../utils/github'
+import { useRuntimeConfig } from '#imports'
+import { githubContributionsGraphqlResponseSchema } from '../../utils/github'
 import { getCachedWithSWR } from '../../utils/swr-cache'
 
-const GITHUB_CONTRIBUTIONS_API_BASE = 'https://github-contributions-api.deno.dev'
+const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql'
 const CONTRIBUTIONS_FRESH_TTL_MS = 1000 * 60 * 60 * 2
 const CONTRIBUTIONS_STALE_TTL_MS = 1000 * 60 * 60 * 2
+const UNCONFIGURED_MESSAGE = 'GitHub contributions are not configured.'
+
+/**
+ * `contributionsCollection` defaults to the trailing year, which is exactly the
+ * window the calendar renders. Weeks arrive pre-grouped and the levels already
+ * match `GithubContributionLevel`, so no remapping is needed.
+ */
+const CONTRIBUTIONS_QUERY = `
+query($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            contributionCount
+            contributionLevel
+            date
+          }
+        }
+      }
+    }
+  }
+}`
 
 export default defineEventHandler(async (event): Promise<GithubContributionData> => {
   const username = getRouterParam(event, 'username')?.trim()
 
   if (!username)
     throw createError({ statusCode: 400, statusMessage: 'GitHub username is required.' })
+
+  const { githubToken } = useRuntimeConfig(event)
+
+  if (!githubToken) {
+    consola.warn('[github-contributions] config:missing-token')
+    throw createError({ statusCode: 500, statusMessage: UNCONFIGURED_MESSAGE })
+  }
 
   try {
     return await getCachedWithSWR({
@@ -21,35 +53,53 @@ export default defineEventHandler(async (event): Promise<GithubContributionData>
       staleTtlMs: CONTRIBUTIONS_STALE_TTL_MS,
       debugScope: 'github-contributions',
       fetcher: async () => {
-        const requestUrl = `${GITHUB_CONTRIBUTIONS_API_BASE}/${username}.json`
-        const requestHeaders = {
-          'User-Agent': 'portfolio-app',
-        }
-
         consola.info('[github-contributions] upstream:request', {
-          headers: requestHeaders,
-          url: requestUrl,
+          login: username,
+          url: GITHUB_GRAPHQL_API,
         })
 
-        const response = await $fetch.raw<unknown>(requestUrl, {
-          headers: requestHeaders,
+        const response = await $fetch.raw<unknown>(GITHUB_GRAPHQL_API, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${githubToken}`,
+            'Content-Type': 'application/json',
+            'User-Agent': 'portfolio-app',
+          },
+          body: {
+            query: CONTRIBUTIONS_QUERY,
+            variables: { login: username },
+          },
         })
 
         consola.info('[github-contributions] upstream:response', {
           headers: {
-            age: response.headers.get('age'),
-            cacheControl: response.headers.get('cache-control'),
-            cfCacheStatus: response.headers.get('cf-cache-status'),
-            contentType: response.headers.get('content-type'),
             date: response.headers.get('date'),
-            etag: response.headers.get('etag'),
-            xCache: response.headers.get('x-cache'),
+            rateLimitLimit: response.headers.get('x-ratelimit-limit'),
+            rateLimitRemaining: response.headers.get('x-ratelimit-remaining'),
+            rateLimitReset: response.headers.get('x-ratelimit-reset'),
           },
           status: response.status,
-          url: requestUrl,
+          url: GITHUB_GRAPHQL_API,
         })
 
-        return githubContributionResponseSchema.parse(response._data)
+        const payload = githubContributionsGraphqlResponseSchema.parse(response._data)
+
+        if (payload.errors?.length) {
+          throw new Error(`GitHub GraphQL error: ${payload.errors.map(error => error.message).join('; ')}`)
+        }
+
+        const user = payload.data?.user
+
+        if (!user) {
+          throw new Error(`GitHub user @${username} was not found.`)
+        }
+
+        const calendar = user.contributionsCollection.contributionCalendar
+
+        return {
+          contributions: calendar.weeks.map(week => week.contributionDays),
+          totalContributions: calendar.totalContributions,
+        }
       },
     })
   }

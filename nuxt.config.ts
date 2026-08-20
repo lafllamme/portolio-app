@@ -77,6 +77,7 @@ export default defineNuxtConfig({
     domains: ['framerusercontent.com'],
   },
   runtimeConfig: {
+    githubToken: '',
     resumeDownload: {
       bucket: 'resume',
       fileEn: 'latest.pdf',
