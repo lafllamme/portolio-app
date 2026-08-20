@@ -32,7 +32,7 @@ const {
 <template>
   <div>
     <div aria-hidden="true" class="h-[4.25rem] md:hidden" />
-    <div class="py-4 border-y border-line bg-bg top-[4.25rem] sticky z-20 isolate md:hidden">
+    <div class="pt-4 border-t border-line bg-bg top-[4.25rem] sticky z-20 isolate md:hidden">
       <div aria-hidden="true" class="bg-bg h-[4.25rem] inset-x-0 bottom-full absolute" />
       <div class="flex items-end justify-between">
         <div class="grid overflow-hidden">
@@ -65,11 +65,14 @@ const {
           class="py-14 grid grid-cols-[minmax(0,1fr)_1px] min-h-[120vh] items-start md:py-0 md:min-h-[140vh]"
         >
           <div class="self-stretch">
-            <article class="top-[11rem] sticky md:py-[4vh] md:top-[10vh]">
+            <article class="top-[10rem] sticky md:py-[4vh] md:top-[10vh]">
               <div class="max-w-[56rem]">
-                <div class="mb-8 md:mb-12">
+                <div class="mb-8 flex items-center justify-between md:mb-12">
                   <p class="text-[12px] text-muted/60 leading-none tracking-[0.08em] font-500 uppercase tabular-nums">
                     chapter {{ (groupIndex + 1).toString().padStart(2, '0') }}
+                  </p>
+                  <p class="text-[12px] text-muted/60 leading-none tracking-[0.08em] font-500 uppercase tabular-nums md:hidden">
+                    {{ group.item.period }}
                   </p>
                 </div>
 

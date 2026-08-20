@@ -5,65 +5,114 @@ interface CenteredActiveIndexOptions {
   rootMargin?: string
 }
 
+/**
+ * Tracks which of the observed elements sits closest to the viewport centre.
+ *
+ * Two details keep the result stable while scrolling:
+ *
+ * The observer is created once and elements are observed individually, because
+ * reconnecting it inside the template ref callback would re-fire an initial
+ * batch on every re-render and feed the index back into itself.
+ *
+ * The winner is resolved across every currently intersecting element using live
+ * geometry, because an observer callback only reports the entries that changed.
+ * Judging by the batch alone makes the index jump to whichever element happened
+ * to fire last instead of the one actually centred.
+ */
 export function useCenteredActiveIndex(itemCount: number, options: CenteredActiveIndexOptions = {}) {
   const activeIndex = ref(0)
-  const itemElements = ref<Array<HTMLElement | null>>(Array.from({ length: itemCount }).fill(null) as Array<HTMLElement | null>)
+  const itemElements: Array<HTMLElement | null> = Array.from({ length: itemCount }).fill(null) as Array<HTMLElement | null>
+  const intersectingIndices = new Set<number>()
+  const indexByElement = new WeakMap<HTMLElement, number>()
+  const observedElements = new Set<HTMLElement>()
   let observer: IntersectionObserver | null = null
 
-  const resolveActiveEntry = (entries: IntersectionObserverEntry[]) => {
-    const intersectingEntries = entries.filter(entry => entry.isIntersecting)
-    if (!intersectingEntries.length)
-      return
+  const resolveCentredIndex = () => {
+    const viewportCentre = window.innerHeight / 2
+    let centredIndex = -1
+    let centredDistance = Number.POSITIVE_INFINITY
 
-    const viewportCenter = window.innerHeight / 2
-    const nextEntry = intersectingEntries.reduce((closestEntry, entry) => {
-      const entryCenter = entry.boundingClientRect.top + (entry.boundingClientRect.height / 2)
-      const closestCenter = closestEntry.boundingClientRect.top + (closestEntry.boundingClientRect.height / 2)
-
-      return Math.abs(entryCenter - viewportCenter) < Math.abs(closestCenter - viewportCenter)
-        ? entry
-        : closestEntry
-    })
-
-    const nextIndex = Number(nextEntry.target.getAttribute('data-active-index'))
-    if (Number.isFinite(nextIndex))
-      activeIndex.value = nextIndex
-  }
-
-  const connectObserver = () => {
-    observer?.disconnect()
-
-    if (!import.meta.client)
-      return
-
-    observer = new IntersectionObserver(resolveActiveEntry, {
-      root: null,
-      rootMargin: options.rootMargin ?? '-45% 0px -45% 0px',
-      threshold: [0, 0.25, 0.5, 0.75, 1],
-    })
-
-    itemElements.value.forEach((element, index) => {
+    intersectingIndices.forEach((index) => {
+      const element = itemElements[index]
       if (!element)
         return
 
-      element.setAttribute('data-active-index', String(index))
-      observer?.observe(element)
+      const rect = element.getBoundingClientRect()
+      const distance = Math.abs(rect.top + (rect.height / 2) - viewportCentre)
+
+      if (distance < centredDistance) {
+        centredDistance = distance
+        centredIndex = index
+      }
     })
+
+    return centredIndex
+  }
+
+  const handleEntries = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      const index = indexByElement.get(entry.target as HTMLElement)
+      if (index === undefined)
+        return
+
+      if (entry.isIntersecting)
+        intersectingIndices.add(index)
+      else
+        intersectingIndices.delete(index)
+    })
+
+    const nextIndex = resolveCentredIndex()
+
+    if (nextIndex !== -1 && nextIndex !== activeIndex.value)
+      activeIndex.value = nextIndex
+  }
+
+  const observeElement = (element: HTMLElement) => {
+    if (!observer || observedElements.has(element))
+      return
+
+    observedElements.add(element)
+    observer.observe(element)
   }
 
   const setItemRef = (index: number) => (element: Element | ComponentPublicInstance | null) => {
-    itemElements.value[index] = element instanceof HTMLElement ? element : null
-    if (observer && itemElements.value[index])
-      connectObserver()
+    const nextElement = element instanceof HTMLElement ? element : null
+    const previousElement = itemElements[index]
+
+    if (previousElement && previousElement !== nextElement) {
+      observer?.unobserve(previousElement)
+      observedElements.delete(previousElement)
+      indexByElement.delete(previousElement)
+      intersectingIndices.delete(index)
+    }
+
+    itemElements[index] = nextElement
+
+    if (!nextElement)
+      return
+
+    indexByElement.set(nextElement, index)
+    observeElement(nextElement)
   }
 
   onMounted(() => {
-    connectObserver()
+    observer = new IntersectionObserver(handleEntries, {
+      root: null,
+      rootMargin: options.rootMargin ?? '-45% 0px -45% 0px',
+      threshold: 0,
+    })
+
+    itemElements.forEach((element) => {
+      if (element)
+        observeElement(element)
+    })
   })
 
   onBeforeUnmount(() => {
     observer?.disconnect()
     observer = null
+    observedElements.clear()
+    intersectingIndices.clear()
   })
 
   return {
